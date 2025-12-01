@@ -28,6 +28,20 @@
 
 .footer-section-collapsed .footer-section-title {
   @apply mb-2 md:mb-4;
+  transition: margin-bottom 0.3s ease-in-out;
+}
+
+.footer-section-content {
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.footer-section-collapsed .footer-section-content {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
 }
 
 .footer-section-toggle {
