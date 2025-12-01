@@ -46,9 +46,9 @@ export function EducationCard({ education }: EducationCardProps) {
           />
           <EducationMeta period={education.period} location={education.location} />
           
-          {isContentVisible && (
+          <div className={isContentVisible ? 'education-highlights-wrapper' : 'education-highlights-wrapper collapsed'}>
             <EducationHighlights highlights={education.highlights} />
-          )}
+          </div>
           
           {shouldShowToggle && (
             <EducationToggle

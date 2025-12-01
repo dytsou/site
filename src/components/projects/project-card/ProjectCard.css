@@ -39,10 +39,15 @@
 
 .project-description {
   @apply text-base text-gray-700 dark:text-gray-300 leading-relaxed;
+  transition: all 0.3s ease-in-out;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .project-description-collapsed {
   @apply line-clamp-5;
+  -webkit-line-clamp: 5;
 }
 
 .project-description-toggle {

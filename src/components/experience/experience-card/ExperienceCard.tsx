@@ -51,14 +51,12 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
               {experience.title}
             </div>
             <ExperienceMeta period={experience.period} location={experience.location} />
-            
-            {isContentVisible && (
-              <>
-                <ExperienceDescription description={experience.description} color={experience.color} />
-                {experience.posts && <ExperiencePosts posts={experience.posts} />}
-              </>
-            )}
-            
+
+            <div className={isContentVisible ? 'experience-card-content-wrapper' : 'experience-card-content-wrapper collapsed'}>
+              <ExperienceDescription description={experience.description} color={experience.color} />
+              {experience.posts && <ExperiencePosts posts={experience.posts} />}
+            </div>
+
             {shouldShowToggle && (
               <ExperienceCardToggle
                 isExpanded={isContentExpanded}

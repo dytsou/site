@@ -61,6 +61,19 @@
   @apply text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm mt-2 transition-colors md:hidden;
 }
 
+.education-highlights-wrapper {
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.education-highlights-wrapper.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+}
+
 .education-highlights {
   @apply space-y-2;
 }
@@ -239,6 +252,19 @@
 
 .experience-card-content-toggle {
   @apply text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm mt-2 transition-colors md:hidden;
+}
+
+.experience-card-content-wrapper {
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.experience-card-content-wrapper.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
 }
 
 .experience-card-description {
