@@ -39,7 +39,9 @@ export function LanguageGrid() {
           isExpanded={isExpanded}
           onToggle={() => setIsExpanded(!isExpanded)}
         />
-        {isContentVisible && <LanguageGridList languages={LANGUAGES} />}
+        <div className="language-grid-list-wrapper">
+          <LanguageGridList languages={LANGUAGES} />
+        </div>
       </div>
     </div>
   );
