@@ -107,20 +107,19 @@ jobs:
           GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
 
       - name: Deploy to dytsou.github.io
-        uses: JamesIves/github-pages-deploy-action@v4.7.4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          token: ${{ secrets.GH_PAGES_TOKEN }}
-          repository-name: dytsou/dytsou.github.io
-          branch: gh-pages
-          folder: dist
-          clean: true
-          clean-exclude: |
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
+          external_repository: dytsou/dytsou.github.io
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          user_name: dytsou
+          user_email: d.y.tsou@gmail.com
+          keep_files: true
+          exclude_assets: |
             error.html
             no-ref-page.html
             README.md
             safe-browsing-warning.html
             home-redirect-page.html
-            CNAME
-          git-config-name: dytsou
-          git-config-email: d.y.tsou@gmail.com
-          silent: false
+          cname: dy.tsou.me
