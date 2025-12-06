@@ -112,14 +112,8 @@ jobs:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
           external_repository: dytsou/dytsou.github.io
           publish_dir: ./dist
-          publish_branch: gh-pages
+          publish_branch: main
           user_name: dytsou
           user_email: d.y.tsou@gmail.com
           keep_files: true
-          exclude_assets: |
-            error.html
-            no-ref-page.html
-            README.md
-            safe-browsing-warning.html
-            home-redirect-page.html
           cname: dy.tsou.me
