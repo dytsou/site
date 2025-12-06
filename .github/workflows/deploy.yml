@@ -102,7 +102,7 @@ jobs:
         with:
           token: ${{ secrets.GH_PAGES_TOKEN }}
           repository-name: dytsou/dytsou.github.io
-          branch: main
+          branch: gh-pages
           folder: dist
           clean: true
           clean-exclude: |
