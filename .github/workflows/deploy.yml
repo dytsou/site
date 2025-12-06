@@ -87,6 +87,15 @@ jobs:
       - name: Build site
         run: pnpm build
 
+      - name: Verify build output
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "::error::dist folder not found after build"
+            exit 1
+          fi
+          echo "✓ Build output verified"
+          ls -la dist/ | head -20
+
       - name: Verify deployment token
         run: |
           if [ -z "$GH_PAGES_TOKEN" ]; then
@@ -112,6 +121,6 @@ jobs:
             safe-browsing-warning.html
             home-redirect-page.html
             CNAME
-          single-commit: true
           git-config-name: dytsou
           git-config-email: d.y.tsou@gmail.com
+          silent: false
