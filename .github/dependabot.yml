@@ -14,8 +14,6 @@ updates:
       - "dependencies"
     assignees:
       - "dytsou"
-    reviewers:
-      - "dytsou"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -30,6 +28,4 @@ updates:
     labels:
       - "dependencies"
     assignees:
-      - "dytsou"
-    reviewers:
       - "dytsou"
