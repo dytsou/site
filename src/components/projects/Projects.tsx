@@ -1,4 +1,4 @@
-import { useGitHub } from '../../hooks/useGitHub';
+import { useAppSelector } from '../../store/hooks';
 import { ProjectCarousel } from './carousel/ProjectCarousel';
 import { GitHubActivity } from './github-activity/GitHubActivity';
 import { PROJECTS_CONTENTS } from '../contents/Projects';
@@ -6,7 +6,8 @@ import { Section } from '../layout/Section';
 import { SectionHeader } from '../layout/SectionHeader';
 
 export function Projects() {
-  const { repos, loading: reposLoading } = useGitHub();
+  const repos = useAppSelector((state) => state.github.repos);
+  const reposLoading = useAppSelector((state) => state.github.loading);
 
   // Merge all projects with featured projects first, then others
   const allProjects = [
