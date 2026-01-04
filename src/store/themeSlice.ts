@@ -8,7 +8,9 @@ interface ThemeState {
 const getInitialTheme = (): Theme => {
   const stored = localStorage.getItem('theme') as Theme;
   if (stored) return stored;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
 };
 
 const initialState: ThemeState = {
@@ -30,4 +32,3 @@ const themeSlice = createSlice({
 
 export const { toggleTheme, setTheme } = themeSlice.actions;
 export default themeSlice.reducer;
-

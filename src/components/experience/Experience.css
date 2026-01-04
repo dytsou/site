@@ -64,7 +64,10 @@
 .education-highlights-wrapper {
   max-height: 2000px;
   overflow: hidden;
-  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+  transition:
+    max-height 0.4s ease-in-out,
+    opacity 0.3s ease-in-out,
+    margin-top 0.3s ease-in-out;
   opacity: 1;
 }
 
@@ -257,7 +260,10 @@
 .experience-card-content-wrapper {
   max-height: 2000px;
   overflow: hidden;
-  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+  transition:
+    max-height 0.4s ease-in-out,
+    opacity 0.3s ease-in-out,
+    margin-top 0.3s ease-in-out;
   opacity: 1;
 }
 

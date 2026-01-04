@@ -5,13 +5,18 @@ interface GitHubReposToggleProps {
   onToggle: () => void;
 }
 
-export function GitHubReposToggle({ isExpanded, onToggle }: GitHubReposToggleProps) {
+export function GitHubReposToggle({
+  isExpanded,
+  onToggle,
+}: GitHubReposToggleProps) {
   return (
     <div className="github-repos-toggle-container">
       <button
         onClick={onToggle}
         className="github-repos-toggle-button"
-        aria-label={isExpanded ? 'Collapse repositories' : 'Expand repositories'}
+        aria-label={
+          isExpanded ? 'Collapse repositories' : 'Expand repositories'
+        }
       >
         {isExpanded ? (
           <ChevronUp className="github-repos-toggle-icon" />
@@ -22,4 +27,3 @@ export function GitHubReposToggle({ isExpanded, onToggle }: GitHubReposTogglePro
     </div>
   );
 }
-

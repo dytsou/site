@@ -19,4 +19,3 @@ export function ExperienceMeta({ period, location }: ExperienceMetaProps) {
     </div>
   );
 }
-

@@ -18,4 +18,3 @@ export function LanguageGridList({ languages }: LanguageGridListProps) {
     </div>
   );
 }
-

@@ -6,7 +6,10 @@ interface MobileMenuToggleButtonProps {
   onClick: () => void;
 }
 
-export function MobileMenuToggleButton({ isOpen, onClick }: MobileMenuToggleButtonProps) {
+export function MobileMenuToggleButton({
+  isOpen,
+  onClick,
+}: MobileMenuToggleButtonProps) {
   return (
     <button
       onClick={onClick}
@@ -21,5 +24,3 @@ export function MobileMenuToggleButton({ isOpen, onClick }: MobileMenuToggleButt
     </button>
   );
 }
-
-

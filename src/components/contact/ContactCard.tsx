@@ -10,7 +10,13 @@ interface ContactCardProps {
   icon: LucideIcon;
 }
 
-export function ContactCard({ platform, title, subtitle, url, icon: Icon }: ContactCardProps) {
+export function ContactCard({
+  platform,
+  title,
+  subtitle,
+  url,
+  icon: Icon,
+}: ContactCardProps) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -35,9 +41,7 @@ export function ContactCard({ platform, title, subtitle, url, icon: Icon }: Cont
           <Icon className="contact-card-icon-svg" />
         </a>
         <div className="contact-card-content">
-          <div className="contact-card-title">
-            {title}
-          </div>
+          <div className="contact-card-title">{title}</div>
         </div>
       </div>
     );
@@ -54,10 +58,10 @@ export function ContactCard({ platform, title, subtitle, url, icon: Icon }: Cont
         <Icon className="contact-card-icon-svg" />
       </div>
       <div className="contact-card-content">
-        <div className="contact-card-title">
-          {title}
-        </div>
-        <div className={`contact-card-subtitle contact-card-subtitle-${platform}`}>
+        <div className="contact-card-title">{title}</div>
+        <div
+          className={`contact-card-subtitle contact-card-subtitle-${platform}`}
+        >
           {subtitle}
         </div>
       </div>

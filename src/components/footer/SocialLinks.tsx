@@ -7,7 +7,9 @@ interface SocialLinksComponentProps {
   isMobile?: boolean;
 }
 
-export function SocialLinksComponent({ isMobile = false }: SocialLinksComponentProps) {
+export function SocialLinksComponent({
+  isMobile = false,
+}: SocialLinksComponentProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldShowToggle = isMobile;
   const isContentVisible = !isMobile || isExpanded;
@@ -52,5 +54,3 @@ export function SocialLinksComponent({ isMobile = false }: SocialLinksComponentP
     </div>
   );
 }
-
-

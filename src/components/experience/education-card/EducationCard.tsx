@@ -44,12 +44,21 @@ export function EducationCard({ education }: EducationCardProps) {
             institution={education.institution}
             degree={education.degree}
           />
-          <EducationMeta period={education.period} location={education.location} />
-          
-          <div className={isContentVisible ? 'education-highlights-wrapper' : 'education-highlights-wrapper collapsed'}>
+          <EducationMeta
+            period={education.period}
+            location={education.location}
+          />
+
+          <div
+            className={
+              isContentVisible
+                ? 'education-highlights-wrapper'
+                : 'education-highlights-wrapper collapsed'
+            }
+          >
             <EducationHighlights highlights={education.highlights} />
           </div>
-          
+
           {shouldShowToggle && (
             <EducationToggle
               isExpanded={isExpanded}

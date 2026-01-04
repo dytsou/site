@@ -20,4 +20,3 @@ export interface Experience {
   icon: LucideIcon;
   color: string;
 }
-

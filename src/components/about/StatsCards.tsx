@@ -11,15 +11,15 @@ const STATS_CARDS = [
     icon: Code2,
     color: 'blue',
     label: 'Public Repos',
-    getValue: (publicRepos?: number) => publicRepos
+    getValue: (publicRepos?: number) => publicRepos,
   },
   {
     id: 'labs',
     icon: BookOpen,
     color: 'cyan',
     label: 'Research Labs',
-    getValue: () => '2'
-  }
+    getValue: () => '2',
+  },
 ];
 
 export function StatsCards({ publicRepos }: StatsCardsProps) {
@@ -28,7 +28,9 @@ export function StatsCards({ publicRepos }: StatsCardsProps) {
       {STATS_CARDS.map((card) => (
         <div key={card.id} className={`stats-card stats-card-${card.color}`}>
           <div className="stats-card-header">
-            <card.icon className={`stats-card-icon stats-card-icon-${card.color}`} />
+            <card.icon
+              className={`stats-card-icon stats-card-icon-${card.color}`}
+            />
             <div className={`stats-card-value stats-card-value-${card.color}`}>
               {card.getValue(publicRepos)}
             </div>

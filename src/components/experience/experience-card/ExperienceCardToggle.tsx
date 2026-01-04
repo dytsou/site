@@ -3,7 +3,10 @@ interface ExperienceCardToggleProps {
   onToggle: () => void;
 }
 
-export function ExperienceCardToggle({ isExpanded, onToggle }: ExperienceCardToggleProps) {
+export function ExperienceCardToggle({
+  isExpanded,
+  onToggle,
+}: ExperienceCardToggleProps) {
   return (
     <button
       onClick={onToggle}
@@ -14,4 +17,3 @@ export function ExperienceCardToggle({ isExpanded, onToggle }: ExperienceCardTog
     </button>
   );
 }
-

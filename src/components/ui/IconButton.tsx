@@ -18,26 +18,26 @@ export function IconButton({
   size = 'md',
   className = '',
   disabled = false,
-  'aria-label': ariaLabel
+  'aria-label': ariaLabel,
 }: IconButtonProps) {
   const variantClasses = {
     primary: 'icon-btn-primary',
     secondary: 'icon-btn-secondary',
     tertiary: 'icon-btn-tertiary',
     outline: 'icon-btn-outline',
-    ghost: 'icon-btn-ghost'
+    ghost: 'icon-btn-ghost',
   };
 
   const sizeClasses = {
     sm: 'icon-btn-sm',
     md: 'icon-btn-md',
-    lg: 'icon-btn-lg'
+    lg: 'icon-btn-lg',
   };
 
   const iconSizeClasses = {
     sm: 'icon-btn-icon-sm',
     md: 'icon-btn-icon-md',
-    lg: 'icon-btn-icon-lg'
+    lg: 'icon-btn-icon-lg',
   };
 
   return (

@@ -9,7 +9,9 @@ interface MobileMenuProps {
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   return (
-    <div className={`nav-mobile-menu ${isOpen ? 'nav-mobile-menu-open' : 'nav-mobile-menu-closed'}`}>
+    <div
+      className={`nav-mobile-menu ${isOpen ? 'nav-mobile-menu-open' : 'nav-mobile-menu-closed'}`}
+    >
       <div className="nav-mobile-content">
         {navLinks.map((link) => (
           <div
@@ -27,5 +29,3 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     </div>
   );
 }
-
-

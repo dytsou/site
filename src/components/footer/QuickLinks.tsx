@@ -8,7 +8,9 @@ interface QuickLinksComponentProps {
   isMobile?: boolean;
 }
 
-export function QuickLinksComponent({ isMobile = false }: QuickLinksComponentProps) {
+export function QuickLinksComponent({
+  isMobile = false,
+}: QuickLinksComponentProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldShowToggle = isMobile;
   const isContentVisible = !isMobile || isExpanded;
@@ -43,5 +45,3 @@ export function QuickLinksComponent({ isMobile = false }: QuickLinksComponentPro
     </div>
   );
 }
-
-

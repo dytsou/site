@@ -6,9 +6,5 @@ interface TechTagProps {
 }
 
 export function TechTag({ technology, className = '' }: TechTagProps) {
-  return (
-    <span className={`tech-tag ${className}`}>
-      {technology}
-    </span>
-  );
+  return <span className={`tech-tag ${className}`}>{technology}</span>;
 }

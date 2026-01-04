@@ -16,4 +16,3 @@ export function EducationHighlights({ highlights }: EducationHighlightsProps) {
     </ul>
   );
 }
-

@@ -11,8 +11,8 @@ export function Projects() {
 
   // Merge all projects with featured projects first, then others
   const allProjects = [
-    ...PROJECTS_CONTENTS.filter(p => p.featured),
-    ...PROJECTS_CONTENTS.filter(p => !p.featured)
+    ...PROJECTS_CONTENTS.filter((p) => p.featured),
+    ...PROJECTS_CONTENTS.filter((p) => !p.featured),
   ];
 
   return (
@@ -32,4 +32,3 @@ export function Projects() {
     </Section>
   );
 }
-

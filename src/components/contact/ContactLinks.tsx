@@ -14,22 +14,22 @@ export const CONTACT_CARDS: ContactCard[] = [
     title: 'LinkedIn',
     subtitle: 'linkedin.com/in/dytsou/',
     url: 'https://www.linkedin.com/in/dytsou/',
-    icon: Linkedin
+    icon: Linkedin,
   },
   {
     platform: 'github' as const,
     title: 'GitHub',
     subtitle: '@dytsou',
     url: 'https://github.com/dytsou',
-    icon: Github
+    icon: Github,
   },
   {
     platform: 'email' as const,
     title: 'Email Me',
     subtitle: 'contact@dy.tsou.me',
     url: 'mailto:contact@dy.tsou.me',
-    icon: Mail
-  }
+    icon: Mail,
+  },
 ];
 
 export interface Opportunity {
@@ -41,6 +41,5 @@ export const OPPORTUNITIES: Opportunity[] = [
   { label: 'Backend Development Roles', color: 'blue' },
   { label: 'Full-Stack Engineering Positions', color: 'cyan' },
   { label: 'Research Collaborations', color: 'green' },
-  { label: 'Quality Assurance Engineering Positions', color: 'purple' }
+  { label: 'Quality Assurance Engineering Positions', color: 'purple' },
 ];
-

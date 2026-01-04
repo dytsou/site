@@ -21,7 +21,11 @@ interface ProjectCarouselProps {
   featured?: boolean;
 }
 
-const CARD_STYLES = ['card-style-primary', 'card-style-secondary', 'card-style-tertiary'];
+const CARD_STYLES = [
+  'card-style-primary',
+  'card-style-secondary',
+  'card-style-tertiary',
+];
 
 const getCardsPerSlideForWidth = (width: number) => {
   if (width >= 1440) return 4;
@@ -61,16 +65,19 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
 
   if (slideCount === 0) return null;
 
-  const currentSlideClamped = Math.min(currentSlide, Math.max(slideCount - 1, 0));
+  const currentSlideClamped = Math.min(
+    currentSlide,
+    Math.max(slideCount - 1, 0)
+  );
 
   const nextSlide = () => {
     if (slideCount === 0) return;
-    setCurrentSlide(prev => (prev + 1) % slideCount);
+    setCurrentSlide((prev) => (prev + 1) % slideCount);
   };
 
   const prevSlide = () => {
     if (slideCount === 0) return;
-    setCurrentSlide(prev => (prev - 1 + slideCount) % slideCount);
+    setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
   };
 
   const goToSlide = (index: number) => {
@@ -93,12 +100,15 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                   style={
                     isSingleColumn
                       ? undefined
-                      : { gridTemplateColumns: `repeat(${Math.min(cardsPerSlide, slideProjects.length)}, minmax(0, 1fr))` }
+                      : {
+                          gridTemplateColumns: `repeat(${Math.min(cardsPerSlide, slideProjects.length)}, minmax(0, 1fr))`,
+                        }
                   }
                 >
                   {slideProjects.map((project, projectIdx) => {
                     const globalIndex = slideIndex * cardsPerSlide + projectIdx;
-                    const cardStyle = CARD_STYLES[globalIndex % CARD_STYLES.length];
+                    const cardStyle =
+                      CARD_STYLES[globalIndex % CARD_STYLES.length];
                     return (
                       <ProjectCard
                         key={project.id}

@@ -5,7 +5,6 @@ import { ExperienceTimeline } from './ExperienceTimeline';
 import { experiences, education } from '../contents/Experience';
 
 export function Experience() {
-
   return (
     <Section id="experience" background="gray">
       <SectionHeader title="Experience & Education" />

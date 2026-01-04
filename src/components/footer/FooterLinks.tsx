@@ -8,10 +8,7 @@ interface FooterLinkProps {
 export function FooterLinkComponent({ link }: FooterLinkProps) {
   if (link.internal) {
     return (
-      <Link
-        to={link.href}
-        className="footer-link"
-      >
+      <Link to={link.href} className="footer-link">
         {link.label}
       </Link>
     );
@@ -27,7 +24,3 @@ export function FooterLinkComponent({ link }: FooterLinkProps) {
     </a>
   );
 }
-
-
-
-

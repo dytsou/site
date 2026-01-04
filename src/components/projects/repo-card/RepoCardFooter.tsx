@@ -5,7 +5,10 @@ interface RepoCardFooterProps {
   stargazersCount: number;
 }
 
-export function RepoCardFooter({ language, stargazersCount }: RepoCardFooterProps) {
+export function RepoCardFooter({
+  language,
+  stargazersCount,
+}: RepoCardFooterProps) {
   return (
     <div className="repo-card-footer">
       {language && (
@@ -21,4 +24,3 @@ export function RepoCardFooter({ language, stargazersCount }: RepoCardFooterProp
     </div>
   );
 }
-

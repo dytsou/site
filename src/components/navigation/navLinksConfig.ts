@@ -9,6 +9,5 @@ export const navLinks: NavLink[] = [
   { path: '/experiences', label: 'Experiences' },
   { path: '/projects', label: 'Projects' },
   { path: '/contact', label: 'Contact' },
-  { path: 'https://dy.tsou.me/resume', label: 'Resume', external: true }
+  { path: 'https://dy.tsou.me/resume', label: 'Resume', external: true },
 ];
-

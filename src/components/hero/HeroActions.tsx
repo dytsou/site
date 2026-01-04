@@ -22,7 +22,7 @@ const RESUME_ACTION: HeroActionType = {
   variant: 'secondary',
   icon: ExternalLink,
   iconPosition: 'right',
-  external: true
+  external: true,
 };
 
 export function HeroActions({ onViewWork, onGetInTouch }: HeroActionsProps) {

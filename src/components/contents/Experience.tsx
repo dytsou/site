@@ -41,44 +41,46 @@ export const experiences: Experience[] = [
       'Leading a community of 100+ student developers',
       'Organizing technical workshops and hackathons',
       'Managing club operations and strategic planning',
-      'Mentoring students in software development'
+      'Mentoring students in software development',
     ],
     posts: [
       {
         title: 'From Behind-the-Scenes to Driving the Community | LinkedIn',
-        subtitle: 'Reflecting on my journey as Administration Committee of NYCU Software Development Club',
+        subtitle:
+          'Reflecting on my journey as Administration Committee of NYCU Software Development Club',
         url: 'https://tsou.me/SDC-post',
         orgUrl: 'https://www.sdc.nycu.club',
-        date: 'Aug 2025'
-      }
+        date: 'Aug 2025',
+      },
     ],
     icon: Briefcase,
-    color: 'blue'
+    color: 'blue',
   },
   {
     type: 'leadership',
     title: 'Agenda Committee Member',
-    organization: 'SITCON, Students\' Information Technology Conference',
+    organization: "SITCON, Students' Information Technology Conference",
     orgUrl: 'https://sitcon.org/2025',
     period: 'Oct 2024 - Mar 2025',
     location: 'Taiwan',
     description: [
-      'Curating technical content for Taiwan\'s largest student tech conference',
+      "Curating technical content for Taiwan's largest student tech conference",
       'Reviewing and selecting speaker proposals',
       'Coordinating with speakers and organizing sessions',
-      'Contributing to conference planning and execution'
+      'Contributing to conference planning and execution',
     ],
     posts: [
       {
         title: 'A Journey from Participation to Creation | LinkedIn',
-        subtitle: 'My experience curating content for Taiwan\'s largest student tech conference as an Agenda Committee member',
+        subtitle:
+          "My experience curating content for Taiwan's largest student tech conference as an Agenda Committee member",
         url: 'https://tsou.me/SITCON-post',
         orgUrl: 'https://sitcon.org/2025',
-        date: 'May 2025'
-      }
+        date: 'May 2025',
+      },
     ],
     icon: Briefcase,
-    color: 'cyan'
+    color: 'cyan',
   },
   {
     type: 'research',
@@ -91,10 +93,10 @@ export const experiences: Experience[] = [
       'Researching impact of AI-generated testing on software quality',
       'Analyzing test coverage and effectiveness metrics',
       'Collaborating with senior members on research methodology',
-      'Contributing to research projects'
+      'Contributing to research projects',
     ],
     icon: GraduationCap,
-    color: 'green'
+    color: 'green',
   },
   {
     type: 'research',
@@ -107,11 +109,11 @@ export const experiences: Experience[] = [
       'Working on video-based 3D object detection',
       'Implementing computer vision algorithms',
       'Processing and analyzing large-scale video datasets',
-      'Optimizing model performance and accuracy'
+      'Optimizing model performance and accuracy',
     ],
     icon: GraduationCap,
-    color: 'purple'
-  }
+    color: 'purple',
+  },
 ];
 
 export const education: Education = {
@@ -123,7 +125,6 @@ export const education: Education = {
     'Focus on Software Engineering and Systems',
     'Active member of Software Development Club',
     'Participating in research labs and projects',
-    'Building practical applications and contributing to open source'
-  ]
+    'Building practical applications and contributing to open source',
+  ],
 };
-

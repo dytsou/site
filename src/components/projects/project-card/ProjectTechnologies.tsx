@@ -11,7 +11,9 @@ export function ProjectTechnologies({
   isExpanded,
   onToggle,
 }: ProjectTechnologiesProps) {
-  const visibleTechnologies = isExpanded ? technologies : technologies.slice(0, 5);
+  const visibleTechnologies = isExpanded
+    ? technologies
+    : technologies.slice(0, 5);
   const hasMore = technologies.length > 5;
 
   return (
@@ -32,4 +34,3 @@ export function ProjectTechnologies({
     </div>
   );
 }
-
