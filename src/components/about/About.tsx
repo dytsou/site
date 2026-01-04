@@ -1,4 +1,4 @@
-import { useGitHub } from '../../hooks/useGitHub';
+import { useAppSelector } from '../../store/hooks';
 import { Section } from '../layout/Section';
 import { SectionHeader } from '../layout/SectionHeader';
 import { ProfileImage } from './ProfileImage';
@@ -7,7 +7,7 @@ import { StatsCards } from './StatsCards';
 import { LanguageGrid } from './language-grid/LanguageGrid';
 
 export function About() {
-  const { stats } = useGitHub();
+  const stats = useAppSelector((state) => state.github.stats);
 
   return (
     <Section id="about">
