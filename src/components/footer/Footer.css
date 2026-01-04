@@ -13,7 +13,6 @@
   @apply grid md:grid-cols-3 gap-8 mb-8;
 }
 
-
 .footer-brand {
   @apply text-2xl font-bold mb-4 text-gray-900 dark:text-white;
 }
@@ -34,7 +33,9 @@
 .footer-section-content {
   max-height: 2000px;
   overflow: hidden;
-  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  transition:
+    max-height 0.4s ease-in-out,
+    opacity 0.3s ease-in-out;
   opacity: 1;
 }
 

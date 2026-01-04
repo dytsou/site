@@ -6,7 +6,11 @@ interface ProjectCardHeaderProps {
   title: string;
 }
 
-export function ProjectCardHeader({ Icon, iconClass, title }: ProjectCardHeaderProps) {
+export function ProjectCardHeader({
+  Icon,
+  iconClass,
+  title,
+}: ProjectCardHeaderProps) {
   return (
     <h3 className="project-title">
       <span className="project-title-content">
@@ -16,4 +20,3 @@ export function ProjectCardHeader({ Icon, iconClass, title }: ProjectCardHeaderP
     </h3>
   );
 }
-

@@ -8,10 +8,14 @@ interface ThemeToggleButtonProps {
   iconKey?: string;
 }
 
-export function ThemeToggleButton({ variant = 'desktop', iconKey }: ThemeToggleButtonProps) {
+export function ThemeToggleButton({
+  variant = 'desktop',
+  iconKey,
+}: ThemeToggleButtonProps) {
   const theme = useAppSelector((state) => state.theme.theme);
   const dispatch = useAppDispatch();
-  const className = variant === 'desktop' ? 'nav-theme-toggle' : 'nav-mobile-toggle';
+  const className =
+    variant === 'desktop' ? 'nav-theme-toggle' : 'nav-mobile-toggle';
   const key = iconKey || (variant === 'desktop' ? 'moon' : 'moon-mobile');
 
   const handleToggle = () => {
@@ -26,12 +30,16 @@ export function ThemeToggleButton({ variant = 'desktop', iconKey }: ThemeToggleB
       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {theme === 'light' ? (
-        <Moon key={`${key}-moon`} className="nav-theme-icon nav-theme-icon-light" />
+        <Moon
+          key={`${key}-moon`}
+          className="nav-theme-icon nav-theme-icon-light"
+        />
       ) : (
-        <Sun key={`${key}-sun`} className="nav-theme-icon nav-theme-icon-dark" />
+        <Sun
+          key={`${key}-sun`}
+          className="nav-theme-icon nav-theme-icon-dark"
+        />
       )}
     </button>
   );
 }
-
-

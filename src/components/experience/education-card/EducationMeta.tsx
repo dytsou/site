@@ -19,4 +19,3 @@ export function EducationMeta({ period, location }: EducationMetaProps) {
     </div>
   );
 }
-

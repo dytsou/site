@@ -5,7 +5,10 @@ interface LanguageGridToggleProps {
   onToggle: () => void;
 }
 
-export function LanguageGridToggle({ isExpanded, onToggle }: LanguageGridToggleProps) {
+export function LanguageGridToggle({
+  isExpanded,
+  onToggle,
+}: LanguageGridToggleProps) {
   return (
     <button
       onClick={onToggle}
@@ -20,4 +23,3 @@ export function LanguageGridToggle({ isExpanded, onToggle }: LanguageGridToggleP
     </button>
   );
 }
-

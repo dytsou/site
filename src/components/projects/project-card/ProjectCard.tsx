@@ -22,7 +22,10 @@ interface ProjectCardProps {
   projectIndex: number;
   cardStyle: string;
   isMobile: boolean;
-  getProjectIconAndColors: (project: Project) => { Icon: ComponentType<{ className?: string }>; iconClass: string };
+  getProjectIconAndColors: (project: Project) => {
+    Icon: ComponentType<{ className?: string }>;
+    iconClass: string;
+  };
 }
 
 export function ProjectCard({
@@ -30,15 +33,17 @@ export function ProjectCard({
   projectIndex,
   cardStyle,
   isMobile,
-  getProjectIconAndColors
+  getProjectIconAndColors,
 }: ProjectCardProps) {
-  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(
+    new Set()
+  );
   const [expandedTags, setExpandedTags] = useState<Set<number>>(new Set());
   const [shouldShowToggle, setShouldShowToggle] = useState<boolean>(false);
   const descriptionRef = useRef<HTMLParagraphElement | null>(null);
 
   const toggleDescription = (projectIndex: number) => {
-    setExpandedDescriptions(prev => {
+    setExpandedDescriptions((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(projectIndex)) {
         newSet.delete(projectIndex);
@@ -50,7 +55,7 @@ export function ProjectCard({
   };
 
   const toggleTags = (projectIndex: number) => {
-    setExpandedTags(prev => {
+    setExpandedTags((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(projectIndex)) {
         newSet.delete(projectIndex);
@@ -92,11 +97,17 @@ export function ProjectCard({
   const isTagsExpanded = expandedTags.has(projectIndex);
 
   return (
-    <div className={`project-card ${isMobile ? 'project-card-mobile' : ''} ${cardStyle}`}>
+    <div
+      className={`project-card ${isMobile ? 'project-card-mobile' : ''} ${cardStyle}`}
+    >
       <div className="project-card-content">
         <div className="project-card-main">
           <div>
-            <ProjectCardHeader Icon={Icon} iconClass={iconClass} title={project.title} />
+            <ProjectCardHeader
+              Icon={Icon}
+              iconClass={iconClass}
+              title={project.title}
+            />
             <ProjectDescription
               description={project.description}
               descriptionRef={descriptionRef}
@@ -113,7 +124,10 @@ export function ProjectCard({
           />
         </div>
 
-        <ProjectActions githubUrl={project.github_url} liveUrl={project.live_url} />
+        <ProjectActions
+          githubUrl={project.github_url}
+          liveUrl={project.live_url}
+        />
       </div>
     </div>
   );

@@ -32,7 +32,9 @@ export function LanguageGrid() {
   const isContentVisible = !isMobile || isExpanded;
 
   return (
-    <div className={`language-grid-container ${!isContentVisible ? 'language-grid-collapsed' : ''}`}>
+    <div
+      className={`language-grid-container ${!isContentVisible ? 'language-grid-collapsed' : ''}`}
+    >
       <div className="language-grid-card">
         <LanguageGridHeader
           shouldShowToggle={shouldShowToggle}

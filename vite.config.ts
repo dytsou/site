@@ -8,7 +8,9 @@ import { join } from 'path';
  */
 const extractTagsFromIndex = (indexContent: string) => {
   // Extract script and link tags that Vite injects (for JS and CSS)
-  const scriptMatch = indexContent.match(/<script[^>]*src="[^"]*"[^>]*><\/script>/);
+  const scriptMatch = indexContent.match(
+    /<script[^>]*src="[^"]*"[^>]*><\/script>/
+  );
   const linkMatch = indexContent.match(/<link[^>]*rel="stylesheet"[^>]*>/);
 
   const scriptTag = scriptMatch ? scriptMatch[0] : '';
@@ -64,11 +66,18 @@ export default defineConfig({
         // Create minimal 404.html for GitHub Pages SPA routing
         if (existsSync(indexPath)) {
           const indexContent = readFileSync(indexPath, 'utf-8');
-          const { scriptTag, linkTag, faviconLink } = extractTagsFromIndex(indexContent);
-          const minimal404 = createMinimal404Html(faviconLink, linkTag, scriptTag);
+          const { scriptTag, linkTag, faviconLink } =
+            extractTagsFromIndex(indexContent);
+          const minimal404 = createMinimal404Html(
+            faviconLink,
+            linkTag,
+            scriptTag
+          );
 
           writeFileSync(notFoundPath, minimal404);
-          console.log('✓ Created minimal 404.html for GitHub Pages SPA routing');
+          console.log(
+            '✓ Created minimal 404.html for GitHub Pages SPA routing'
+          );
         } else {
           console.warn('index.html not found, skipping 404.html generation');
         }

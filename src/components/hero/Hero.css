@@ -3,17 +3,21 @@
 /* Hero Section Styles */
 .hero-section {
   @apply min-h-screen flex items-center justify-center pt-16;
-  background: linear-gradient(to bottom right,
-      rgb(239 246 255) 0%,
-      rgb(255 255 255) 50%,
-      rgb(236 254 255) 100%);
+  background: linear-gradient(
+    to bottom right,
+    rgb(239 246 255) 0%,
+    rgb(255 255 255) 50%,
+    rgb(236 254 255) 100%
+  );
 }
 
 .dark .hero-section {
-  background: linear-gradient(to bottom right,
-      rgb(17 24 39) 0%,
-      rgb(31 41 55) 50%,
-      rgb(17 24 39) 100%);
+  background: linear-gradient(
+    to bottom right,
+    rgb(17 24 39) 0%,
+    rgb(31 41 55) 50%,
+    rgb(17 24 39) 100%
+  );
 }
 
 .hero-container {

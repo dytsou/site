@@ -83,7 +83,7 @@
 }
 
 .contact-card-icon-github {
-  @apply bg-gray-700
+  @apply bg-gray-700;
 }
 
 .contact-card-icon-email {

@@ -3,7 +3,10 @@ interface EducationToggleProps {
   onToggle: () => void;
 }
 
-export function EducationToggle({ isExpanded, onToggle }: EducationToggleProps) {
+export function EducationToggle({
+  isExpanded,
+  onToggle,
+}: EducationToggleProps) {
   return (
     <button
       onClick={onToggle}
@@ -14,4 +17,3 @@ export function EducationToggle({ isExpanded, onToggle }: EducationToggleProps) 
     </button>
   );
 }
-

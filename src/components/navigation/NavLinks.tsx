@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from 'react-router-dom';
 import { NavLink } from './navLinksConfig';
 
 interface NavLinkComponentProps {
@@ -7,12 +7,17 @@ interface NavLinkComponentProps {
   onNavigate?: () => void;
 }
 
-export function NavLinkComponent({ link, variant = 'desktop', onNavigate }: NavLinkComponentProps) {
+export function NavLinkComponent({
+  link,
+  variant = 'desktop',
+  onNavigate,
+}: NavLinkComponentProps) {
   const location = useLocation();
   const isActive = location.pathname === link.path;
-  const className = variant === 'desktop'
-    ? `nav-link ${isActive ? 'nav-link-active' : ''}`
-    : `nav-mobile-link ${isActive ? 'nav-link-active' : ''}`;
+  const className =
+    variant === 'desktop'
+      ? `nav-link ${isActive ? 'nav-link-active' : ''}`
+      : `nav-mobile-link ${isActive ? 'nav-link-active' : ''}`;
 
   if (link.external) {
     return (
@@ -29,11 +34,7 @@ export function NavLinkComponent({ link, variant = 'desktop', onNavigate }: NavL
   }
 
   return (
-    <Link
-      to={link.path}
-      className={className}
-      onClick={onNavigate}
-    >
+    <Link to={link.path} className={className} onClick={onNavigate}>
       {link.label}
     </Link>
   );

@@ -22,18 +22,18 @@ export function Button({
   iconPosition = 'right',
   className = '',
   disabled = false,
-  type = 'button'
+  type = 'button',
 }: ButtonProps) {
   const variantClasses = {
     primary: 'btn-primary',
     secondary: 'btn-secondary',
-    outline: 'btn-outline'
+    outline: 'btn-outline',
   };
 
   const sizeClasses = {
     sm: 'btn-sm',
     md: 'btn-md',
-    lg: 'btn-lg'
+    lg: 'btn-lg',
   };
 
   const iconClasses = Icon ? 'btn-with-icon' : '';

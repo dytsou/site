@@ -23,8 +23,10 @@ export const fetchGitHubData = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const [reposResponse, userResponse] = await Promise.all([
-        fetch(`${GITHUB_API}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`),
-        fetch(`${GITHUB_API}/users/${GITHUB_USERNAME}`)
+        fetch(
+          `${GITHUB_API}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`
+        ),
+        fetch(`${GITHUB_API}/users/${GITHUB_USERNAME}`),
       ]);
 
       if (!reposResponse.ok || !userResponse.ok) {
@@ -39,11 +41,13 @@ export const fetchGitHubData = createAsyncThunk(
         stats: {
           public_repos: userData.public_repos,
           followers: userData.followers,
-          following: userData.following
-        }
+          following: userData.following,
+        },
       };
     } catch (err) {
-      return rejectWithValue(err instanceof Error ? err.message : 'Failed to fetch GitHub data');
+      return rejectWithValue(
+        err instanceof Error ? err.message : 'Failed to fetch GitHub data'
+      );
     }
   }
 );
@@ -72,4 +76,3 @@ const githubSlice = createSlice({
 });
 
 export default githubSlice.reducer;
-

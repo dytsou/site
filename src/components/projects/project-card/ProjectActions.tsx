@@ -35,4 +35,3 @@ export function ProjectActions({ githubUrl, liveUrl }: ProjectActionsProps) {
     </div>
   );
 }
-

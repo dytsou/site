@@ -19,4 +19,3 @@ export function GitHubViewMoreButton({ githubUrl }: GitHubViewMoreButtonProps) {
     </div>
   );
 }
-

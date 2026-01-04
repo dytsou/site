@@ -16,7 +16,9 @@ export const HeroSocialLinks = () => {
         icon={Linkedin}
         variant="primary"
         size="lg"
-        onClick={() => window.open('https://www.linkedin.com/in/dytsou/', '_blank')}
+        onClick={() =>
+          window.open('https://www.linkedin.com/in/dytsou/', '_blank')
+        }
         aria-label="LinkedIn"
       />
       <IconButton

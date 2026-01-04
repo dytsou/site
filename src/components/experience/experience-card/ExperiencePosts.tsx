@@ -18,4 +18,3 @@ export function ExperiencePosts({ posts }: ExperiencePostsProps) {
     </div>
   );
 }
-

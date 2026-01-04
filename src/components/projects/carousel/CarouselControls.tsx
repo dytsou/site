@@ -9,7 +9,13 @@ interface CarouselControlsProps {
   onGoToSlide: (index: number) => void;
 }
 
-export function CarouselControls({ onPrev, onNext, currentSlide, totalSlides, onGoToSlide }: CarouselControlsProps) {
+export function CarouselControls({
+  onPrev,
+  onNext,
+  currentSlide,
+  totalSlides,
+  onGoToSlide,
+}: CarouselControlsProps) {
   return (
     <>
       <button
@@ -33,10 +39,11 @@ export function CarouselControls({ onPrev, onNext, currentSlide, totalSlides, on
           <button
             key={index}
             onClick={() => onGoToSlide(index)}
-            className={`carousel-indicator ${index === currentSlide
-              ? 'carousel-indicator-active'
-              : 'carousel-indicator-inactive'
-              }`}
+            className={`carousel-indicator ${
+              index === currentSlide
+                ? 'carousel-indicator-active'
+                : 'carousel-indicator-inactive'
+            }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

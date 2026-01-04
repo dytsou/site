@@ -30,7 +30,10 @@ export function Navigation() {
 
           <div className="nav-mobile-controls">
             <ThemeToggleButton variant="mobile" iconKey="moon-mobile" />
-            <MobileMenuToggleButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+            <MobileMenuToggleButton
+              isOpen={isOpen}
+              onClick={() => setIsOpen(!isOpen)}
+            />
           </div>
         </div>
       </div>

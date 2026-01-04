@@ -12,4 +12,3 @@ export function RepoCardHeader({ name }: RepoCardHeaderProps) {
     </div>
   );
 }
-

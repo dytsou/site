@@ -6,7 +6,11 @@ interface LanguageGridHeaderProps {
   onToggle: () => void;
 }
 
-export function LanguageGridHeader({ shouldShowToggle, isExpanded, onToggle }: LanguageGridHeaderProps) {
+export function LanguageGridHeader({
+  shouldShowToggle,
+  isExpanded,
+  onToggle,
+}: LanguageGridHeaderProps) {
   return (
     <h5 className="language-grid-title">
       Most Used Languages
@@ -16,4 +20,3 @@ export function LanguageGridHeader({ shouldShowToggle, isExpanded, onToggle }: L
     </h5>
   );
 }
-

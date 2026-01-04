@@ -14,24 +14,16 @@ export function ExperiencePostItem({ post }: ExperiencePostItemProps) {
       className="experience-post-link group"
     >
       <div className="experience-post-content">
-        <div className="experience-post-title">
-          {post.title}
-        </div>
+        <div className="experience-post-title">{post.title}</div>
         {post.subtitle && (
-          <div className="experience-post-subtitle">
-            {post.subtitle}
-          </div>
+          <div className="experience-post-subtitle">{post.subtitle}</div>
         )}
         <div className="experience-post-meta">
-          <div className="experience-post-date">
-            {post.date}
-          </div>
+          <div className="experience-post-date">{post.date}</div>
           {post.orgUrl && (
             <>
               <span className="experience-post-separator">•</span>
-              <span className="experience-post-org-label">
-                Organization
-              </span>
+              <span className="experience-post-org-label">Organization</span>
             </>
           )}
         </div>
@@ -40,4 +32,3 @@ export function ExperiencePostItem({ post }: ExperiencePostItemProps) {
     </a>
   );
 }
-

@@ -27,18 +27,29 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const shouldShowToggle = isMobile && (experience.description.length > 0 || (experience.posts && experience.posts.length > 0));
+  const shouldShowToggle =
+    isMobile &&
+    (experience.description.length > 0 ||
+      (experience.posts && experience.posts.length > 0));
   const isContentVisible = !isMobile || isContentExpanded;
 
   return (
     <div className="experience-card">
-      <ExperienceCardDot Icon={Icon} color={experience.color} isMobile={isMobile} />
+      <ExperienceCardDot
+        Icon={Icon}
+        color={experience.color}
+        isMobile={isMobile}
+      />
 
-      <div className={`experience-card-content experience-card-bg-${experience.color}`}>
+      <div
+        className={`experience-card-content experience-card-bg-${experience.color}`}
+      >
         <div className="experience-card-header">
           {!isMobile && (
             <div className="experience-card-icon-container">
-              <Icon className={`experience-card-icon experience-card-icon-${experience.color}`} />
+              <Icon
+                className={`experience-card-icon experience-card-icon-${experience.color}`}
+              />
             </div>
           )}
           <div className="experience-card-info">
@@ -47,13 +58,23 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
               orgUrl={experience.orgUrl}
               color={experience.color}
             />
-            <div className="experience-card-title">
-              {experience.title}
-            </div>
-            <ExperienceMeta period={experience.period} location={experience.location} />
+            <div className="experience-card-title">{experience.title}</div>
+            <ExperienceMeta
+              period={experience.period}
+              location={experience.location}
+            />
 
-            <div className={isContentVisible ? 'experience-card-content-wrapper' : 'experience-card-content-wrapper collapsed'}>
-              <ExperienceDescription description={experience.description} color={experience.color} />
+            <div
+              className={
+                isContentVisible
+                  ? 'experience-card-content-wrapper'
+                  : 'experience-card-content-wrapper collapsed'
+              }
+            >
+              <ExperienceDescription
+                description={experience.description}
+                color={experience.color}
+              />
               {experience.posts && <ExperiencePosts posts={experience.posts} />}
             </div>
 

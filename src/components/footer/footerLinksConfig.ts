@@ -33,8 +33,8 @@ export const FOOTER_SECTIONS: FooterSection = {
       { href: '/projects', label: 'Projects', internal: true },
       { href: '/contact', label: 'Contact', internal: true },
       { href: 'https://dy.tsou.me/resume', label: 'Resume', external: true },
-      { href: 'https://dy.tsou.me/cal', label: 'Calendar', external: true }
-    ]
+      { href: 'https://dy.tsou.me/cal', label: 'Calendar', external: true },
+    ],
   },
   connect: {
     title: 'Connect',
@@ -42,24 +42,23 @@ export const FOOTER_SECTIONS: FooterSection = {
       {
         href: 'https://github.com/dytsou/',
         icon: Github,
-        label: 'GitHub'
+        label: 'GitHub',
       },
       {
         href: 'https://www.linkedin.com/in/dytsou',
         icon: Linkedin,
-        label: 'LinkedIn'
+        label: 'LinkedIn',
       },
       {
         href: 'mailto:contact@dy.tsou.me',
         icon: Mail,
-        label: 'Email'
+        label: 'Email',
       },
       {
         href: 'https://t.me/dytsou',
         icon: Send,
-        label: 'Telegram'
-      }
-    ]
-  }
+        label: 'Telegram',
+      },
+    ],
+  },
 };
-

@@ -31,17 +31,20 @@ export function GitHubActivity({ repos, loading }: GitHubActivityProps) {
 
   const displayRepos = repos.slice(0, 6);
   const initialReposCount = isMobile ? 2 : displayRepos.length;
-  const reposToShow = isMobile && !showAllRepos
-    ? displayRepos.slice(0, initialReposCount)
-    : displayRepos;
-  const hasMoreRepos = isMobile && displayRepos.length > initialReposCount && !showAllRepos;
-  const showLessButton = isMobile && showAllRepos && displayRepos.length > initialReposCount;
+  const reposToShow =
+    isMobile && !showAllRepos
+      ? displayRepos.slice(0, initialReposCount)
+      : displayRepos;
+  const hasMoreRepos =
+    isMobile && displayRepos.length > initialReposCount && !showAllRepos;
+  const showLessButton =
+    isMobile && showAllRepos && displayRepos.length > initialReposCount;
 
   return (
     <div className="github-activity">
       <GitHubActivityHeader />
       <div className="github-repos-grid">
-        {reposToShow.map(repo => (
+        {reposToShow.map((repo) => (
           <RepoCard key={repo.name} repo={repo} />
         ))}
       </div>
@@ -57,5 +60,3 @@ export function GitHubActivity({ repos, loading }: GitHubActivityProps) {
     </div>
   );
 }
-
-

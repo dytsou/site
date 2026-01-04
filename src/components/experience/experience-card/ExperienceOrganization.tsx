@@ -6,10 +6,16 @@ interface ExperienceOrganizationProps {
   color: string;
 }
 
-export function ExperienceOrganization({ organization, orgUrl, color }: ExperienceOrganizationProps) {
+export function ExperienceOrganization({
+  organization,
+  orgUrl,
+  color,
+}: ExperienceOrganizationProps) {
   return (
     <div className="experience-card-organization">
-      <h3 className={`experience-card-organization-title experience-card-organization-title-${color}`}>
+      <h3
+        className={`experience-card-organization-title experience-card-organization-title-${color}`}
+      >
         {organization}
       </h3>
       {orgUrl && (
@@ -26,4 +32,3 @@ export function ExperienceOrganization({ organization, orgUrl, color }: Experien
     </div>
   );
 }
-

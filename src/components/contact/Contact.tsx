@@ -16,9 +16,7 @@ export function Contact() {
       <div className="contact-container">
         <div className="contact-content">
           <div className="contact-section">
-            <h3 className="contact-title">
-              Let's Connect
-            </h3>
+            <h3 className="contact-title">Let's Connect</h3>
             <div className="contact-grid">
               {CONTACT_CARDS.map((card, index) => (
                 <ContactCard
