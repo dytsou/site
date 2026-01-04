@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Build outputs
+dist
+dist-ssr
+*.local
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+
+# Generated files
+coverage
+*.tsbuildinfo
+
