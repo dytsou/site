@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { ExternalLink } from 'lucide-react';
 import { NavLink } from './navLinksConfig';
 
 interface NavLinkComponentProps {
@@ -29,6 +30,7 @@ export function NavLinkComponent({
         onClick={onNavigate}
       >
         {link.label}
+        <ExternalLink className="nav-external-link-icon" />
       </a>
     );
   }
