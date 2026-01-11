@@ -7,11 +7,11 @@ import { EducationHighlights } from './EducationHighlights';
 import { EducationToggle } from './EducationToggle';
 
 interface Education {
-  degree: string;
-  institution: string;
-  period: string;
-  location: string;
-  highlights: string[];
+  degree?: string;
+  institution?: string;
+  period?: string;
+  location?: string;
+  highlights?: string[];
 }
 
 interface EducationCardProps {
@@ -41,12 +41,12 @@ export function EducationCard({ education }: EducationCardProps) {
         <EducationIcon />
         <div className="education-info">
           <EducationInstitution
-            institution={education.institution}
-            degree={education.degree}
+            institution={education.institution ?? ''}
+            degree={education.degree ?? ''}
           />
           <EducationMeta
-            period={education.period}
-            location={education.location}
+            period={education.period ?? ''}
+            location={education.location ?? ''}
           />
 
           <div
@@ -56,7 +56,7 @@ export function EducationCard({ education }: EducationCardProps) {
                 : 'education-highlights-wrapper collapsed'
             }
           >
-            <EducationHighlights highlights={education.highlights} />
+            <EducationHighlights highlights={education.highlights ?? []} />
           </div>
 
           {shouldShowToggle && (
