@@ -39,6 +39,7 @@
 .nav-link {
   @apply text-gray-500;
   @apply hover:text-blue-600 transition-colors font-medium;
+  @apply flex items-center gap-1.5;
 }
 
 .nav-link-active {
@@ -51,6 +52,25 @@
 }
 
 .dark .nav-link-active {
+  @apply text-blue-400;
+}
+
+.nav-external-link-icon {
+  @apply w-2.5 h-2.5;
+  @apply text-gray-400;
+  @apply transition-colors;
+  @apply flex-shrink-0;
+}
+
+.nav-link:hover .nav-external-link-icon {
+  @apply text-blue-600;
+}
+
+.dark .nav-external-link-icon {
+  @apply text-gray-500;
+}
+
+.dark .nav-link:hover .nav-external-link-icon {
   @apply text-blue-400;
 }
 
@@ -266,6 +286,7 @@
   @apply block w-full text-left px-4 py-2;
   @apply text-gray-700;
   @apply hover:bg-gray-100 rounded-lg transition-colors;
+  @apply flex items-center gap-1.5;
 }
 
 .nav-mobile-link.nav-link-active {
@@ -279,4 +300,23 @@
 
 .dark .nav-mobile-link.nav-link-active {
   @apply text-blue-400 bg-blue-900/20;
+}
+
+.nav-mobile-link .nav-external-link-icon {
+  @apply w-3 h-3;
+  @apply text-gray-400;
+  @apply transition-colors;
+  @apply flex-shrink-0;
+}
+
+.nav-mobile-link:hover .nav-external-link-icon {
+  @apply text-blue-600;
+}
+
+.dark .nav-mobile-link .nav-external-link-icon {
+  @apply text-gray-500;
+}
+
+.dark .nav-mobile-link:hover .nav-external-link-icon {
+  @apply text-blue-400;
 }

@@ -10,6 +10,37 @@ import { Contact } from './pages/Contact';
 import { useAppSelector, useAppDispatch } from './store/hooks';
 import { setTheme } from './store/themeSlice';
 import { fetchGitHubData } from './store/githubSlice';
+import { useSwipeNavigation } from './hooks/useSwipeNavigation';
+
+// Route order for swipe navigation
+const ROUTE_ORDER = ['/', '/about', '/experiences', '/projects', '/contact'];
+
+function AppContent() {
+  // Enable swipe navigation
+  useSwipeNavigation({
+    routeOrder: ROUTE_ORDER,
+    minSwipeDistance: 100,
+    enabled: true,
+    navigationCooldown: 1000,
+  });
+
+  return (
+    <>
+      <ScrollToTop />
+      <div className="min-h-screen">
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/experiences" element={<Experience />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+    </>
+  );
+}
 
 function App() {
   const theme = useAppSelector((state) => state.theme.theme);
@@ -38,18 +69,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <div className="min-h-screen">
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/experiences" element={<Experience />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
+      <AppContent />
     </BrowserRouter>
   );
 }
