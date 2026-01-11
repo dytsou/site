@@ -5,17 +5,10 @@ import { EducationInstitution } from './EducationInstitution';
 import { EducationMeta } from './EducationMeta';
 import { EducationHighlights } from './EducationHighlights';
 import { EducationToggle } from './EducationToggle';
-
-interface Education {
-  degree?: string;
-  institution?: string;
-  period?: string;
-  location?: string;
-  highlights?: string[];
-}
+import { Education as EducationType } from '../types';
 
 interface EducationCardProps {
-  education: Education;
+  education: EducationType;
 }
 
 export function EducationCard({ education }: EducationCardProps) {

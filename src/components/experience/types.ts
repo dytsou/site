@@ -20,3 +20,11 @@ export interface Experience {
   icon: LucideIcon;
   color: string;
 }
+
+export interface Education {
+  degree?: string;
+  institution?: string;
+  period?: string;
+  location?: string;
+  highlights?: string[];
+}
