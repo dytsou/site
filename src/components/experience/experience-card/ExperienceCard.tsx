@@ -58,7 +58,9 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
               orgUrl={experience.orgUrl}
               color={experience.color}
             />
-            <div className="experience-card-title">{experience.title}</div>
+            {experience.title && (
+              <div className="experience-card-title">{experience.title}</div>
+            )}
             <ExperienceMeta
               period={experience.period}
               location={experience.location}

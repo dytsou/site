@@ -10,7 +10,7 @@ export interface Post {
 
 export interface Experience {
   type: string;
-  title: string;
+  title?: string;
   organization: string;
   orgUrl?: string;
   period: string;

@@ -1,25 +1,5 @@
-import { Briefcase, GraduationCap, LucideIcon } from 'lucide-react';
-
-export interface Post {
-  title: string;
-  subtitle?: string;
-  url: string;
-  orgUrl?: string;
-  date: string;
-}
-
-export interface Experience {
-  type: string;
-  title: string;
-  organization: string;
-  orgUrl?: string;
-  period: string;
-  location: string;
-  description: string[];
-  posts?: Post[];
-  icon: LucideIcon;
-  color: string;
-}
+import { Briefcase, GraduationCap } from 'lucide-react';
+import { Experience } from '../experience/types';
 
 export interface Education {
   degree: string;
@@ -58,7 +38,7 @@ export const experiences: Experience[] = [
   },
   {
     type: 'leadership',
-    title: 'Agenda Committee Member',
+    title: 'Agenda Committee',
     organization: "SITCON, Students' Information Technology Conference",
     orgUrl: 'https://sitcon.org/2025',
     period: 'Oct 2024 - Mar 2025',
@@ -84,7 +64,6 @@ export const experiences: Experience[] = [
   },
   {
     type: 'research',
-    title: 'Member',
     organization: 'Software Quality Lab',
     orgUrl: 'https://sqlab.web.nycu.edu.tw',
     period: 'Sep 2025 - Present',
@@ -100,7 +79,6 @@ export const experiences: Experience[] = [
   },
   {
     type: 'research',
-    title: 'Member',
     organization: 'Applied Computing and Multimedia Lab',
     orgUrl: ' http://acm.cs.nycu.edu.tw/',
     period: 'Sep 2024 - Aug 2025',
