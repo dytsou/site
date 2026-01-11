@@ -11,11 +11,11 @@ export interface Post {
 export interface Experience {
   type: string;
   title?: string;
-  organization: string;
+  organization?: string;
   orgUrl?: string;
-  period: string;
-  location: string;
-  description: string[];
+  period?: string;
+  location?: string;
+  description?: string[];
   posts?: Post[];
   icon: LucideIcon;
   color: string;
