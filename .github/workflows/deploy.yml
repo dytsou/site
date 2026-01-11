@@ -57,11 +57,8 @@ jobs:
     # - checks job completed successfully (for push and workflow_dispatch)
     needs: [checks]
     if: |
-      always() &&
-      (
-        (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
-        (github.event_name != 'workflow_run' && needs.checks.result == 'success')
-      )
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name != 'workflow_run' && needs.checks.result == 'success')
     runs-on: ubuntu-latest
     permissions:
       contents: write
