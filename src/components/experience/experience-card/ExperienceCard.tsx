@@ -29,7 +29,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
 
   const shouldShowToggle =
     isMobile &&
-    (experience.description.length > 0 ||
+    ((experience.description?.length ?? 0) > 0 ||
       (experience.posts && experience.posts.length > 0));
   const isContentVisible = !isMobile || isContentExpanded;
 
@@ -54,14 +54,16 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
           )}
           <div className="experience-card-info">
             <ExperienceOrganization
-              organization={experience.organization}
+              organization={experience.organization ?? ''}
               orgUrl={experience.orgUrl}
               color={experience.color}
             />
-            <div className="experience-card-title">{experience.title}</div>
+            {experience.title && (
+              <div className="experience-card-title">{experience.title}</div>
+            )}
             <ExperienceMeta
-              period={experience.period}
-              location={experience.location}
+              period={experience.period ?? ''}
+              location={experience.location ?? ''}
             />
 
             <div
@@ -72,7 +74,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
               }
             >
               <ExperienceDescription
-                description={experience.description}
+                description={experience.description ?? []}
                 color={experience.color}
               />
               {experience.posts && <ExperiencePosts posts={experience.posts} />}
