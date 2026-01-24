@@ -97,7 +97,7 @@ export const experiences: Experience[] = [
 export const education: Education = {
   degree: 'Bachelor of Science in Computer Science',
   institution: 'National Yang Ming Chiao Tung University',
-  period: 'Sep 2022 - Jun 2026 (Expected)',
+  period: 'Sep 2022 - Present',
   location: 'Hsinchu, Taiwan',
   highlights: [
     'Focus on Software Engineering and Systems',
