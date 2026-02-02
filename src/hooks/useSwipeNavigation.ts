@@ -158,16 +158,18 @@ export function useSwipeNavigation({
         return;
       }
 
-      // Check if element or its parent has horizontal scroll
-      const hasHorizontalScroll = (el: HTMLElement | null): boolean => {
-        if (!el) return false;
-        if (el.scrollWidth > el.clientWidth) return true;
-        return hasHorizontalScroll(el.parentElement);
-      };
+      // Allow wheel on document body/html so global swipe navigation works
+      // (e.g. synthetic events in tests or trackpad on empty area)
+      if (target !== document.body && target !== document.documentElement) {
+        const hasHorizontalScroll = (el: HTMLElement | null): boolean => {
+          if (!el) return false;
+          if (el.scrollWidth > el.clientWidth) return true;
+          return hasHorizontalScroll(el.parentElement);
+        };
 
-      // Don't trigger if the element has horizontal scroll capability
-      if (hasHorizontalScroll(target)) {
-        return;
+        if (hasHorizontalScroll(target)) {
+          return;
+        }
       }
 
       const deltaX = e.deltaX;
