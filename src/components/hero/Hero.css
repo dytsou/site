@@ -69,7 +69,7 @@
 
 /* Hero Actions Styles */
 .hero-actions {
-  @apply flex flex-wrap justify-center gap-4;
+  @apply flex flex-col sm:flex-row sm:flex-nowrap justify-center items-center gap-4;
 }
 
 /* Hero Social Links Styles */
