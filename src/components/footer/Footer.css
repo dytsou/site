@@ -81,4 +81,6 @@
 
 .footer-copyright {
   @apply text-gray-600 dark:text-gray-400 text-sm;
+
+  text-wrap: balance;
 }
