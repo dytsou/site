@@ -167,4 +167,5 @@
 
 .opportunity-label {
   @apply text-gray-700 dark:text-gray-300;
+  text-wrap: balance;
 }
