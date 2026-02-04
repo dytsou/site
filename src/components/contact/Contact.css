@@ -20,7 +20,7 @@
 }
 
 .contact-grid {
-  @apply flex flex-row flex-wrap justify-center items-center md:grid md:grid-cols-3;
+  @apply flex flex-col justify-center items-center md:grid md:grid-cols-3;
   gap: clamp(2rem, 10vw, 6rem);
   max-width: 100%;
   width: 100%;
@@ -41,6 +41,12 @@
     @apply justify-evenly;
     gap: clamp(2.5rem, 12vw, 7rem);
     padding: 0 1rem;
+  }
+}
+
+@media (min-width: 354px) and (max-width: 767px) {
+  .contact-grid {
+    @apply flex-row;
   }
 }
 
@@ -161,4 +167,5 @@
 
 .opportunity-label {
   @apply text-gray-700 dark:text-gray-300;
+  text-wrap: balance;
 }
