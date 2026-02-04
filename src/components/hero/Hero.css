@@ -56,7 +56,7 @@
 }
 
 .hero-title-gradient {
-  @apply bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent whitespace-nowrap;
 }
 
 .hero-subtitle {
