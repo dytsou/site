@@ -13,7 +13,7 @@ export const AboutContent = () => {
           creating seamless full-stack applications.
         </p>
         <p className="about-text">
-          As Vice President of NYCU Software Development Club , I lead a
+          As Vice President of NYCU Software Development Club, I lead a
           community of developers and organize technical workshops. I also serve
           on the Agenda Committee for SITCON, Taiwan's largest student-run tech
           conference.
