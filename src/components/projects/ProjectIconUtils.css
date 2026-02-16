@@ -110,6 +110,69 @@
   @apply from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20;
 }
 
+/* Koreji - Time Management */
+.project-icon-koreji {
+  @apply text-purple-600 dark:text-purple-400;
+}
+
+.project-icon-bg-koreji {
+  @apply from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20;
+}
+
+/* Cal - Calendar */
+.project-icon-cal {
+  @apply text-teal-600 dark:text-teal-400;
+}
+
+.project-icon-bg-cal {
+  @apply from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20;
+}
+
+/* Shorten URL */
+.project-icon-shorten-url {
+  @apply text-indigo-600 dark:text-indigo-400;
+}
+
+.project-icon-bg-shorten-url {
+  @apply from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20;
+}
+
+/* Resume Builder */
+.project-icon-resume {
+  @apply text-amber-600 dark:text-amber-400;
+}
+
+.project-icon-bg-resume {
+  @apply from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20;
+}
+
+/* GitHub Readme Stats */
+.project-icon-github-stats {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.project-icon-bg-github-stats {
+  @apply from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20;
+}
+
+/* Raycast Rsync Extension */
+.project-icon-rsync {
+  @apply text-rose-600 dark:text-rose-400;
+}
+
+.project-icon-bg-rsync {
+  @apply from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20;
+}
+
+/* Intern Corner Scheduler */
+.project-icon-scheduler {
+  @apply text-blue-600 dark:text-blue-400;
+}
+
+.project-icon-bg-scheduler {
+  @apply from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20;
+}
+
 /* Default Web App */
 .project-icon-default {
   @apply text-blue-600 dark:text-blue-400;
