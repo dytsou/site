@@ -1,4 +1,5 @@
-import { Github, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { Github } from '../../icons/brandSocialIcons';
 
 interface ProjectActionsProps {
   githubUrl?: string;

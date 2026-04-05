@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, Calendar, Send } from 'lucide-react';
+import { Mail, Calendar, Send } from 'lucide-react';
+import { Github, Linkedin } from '../icons/brandSocialIcons';
 import { IconButton } from '../ui/IconButton';
 import './Hero.css';
 
