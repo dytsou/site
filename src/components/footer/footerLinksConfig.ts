@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, Send, LucideIcon } from 'lucide-react';
+import { Mail, Send, LucideIcon } from 'lucide-react';
+import { Github, Linkedin } from '../icons/brandSocialIcons';
 
 export interface FooterLink {
   href: string;

@@ -1,4 +1,5 @@
-import { Mail, Github, Linkedin, LucideIcon } from 'lucide-react';
+import { Mail, LucideIcon } from 'lucide-react';
+import { Github, Linkedin } from '../icons/brandSocialIcons';
 
 export interface ContactCard {
   platform: 'linkedin' | 'github' | 'email';
