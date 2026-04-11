@@ -10,13 +10,9 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "preview": "vite preview",
-    "preview:e2e": "vite preview --port 5173 --strictPort",
     "deploy": "gh-pages -d dist",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "prepare": "husky",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
+    "prepare": "husky"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
@@ -29,7 +25,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
-    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "19.2.3",
@@ -43,7 +38,6 @@
     "globals": "^17.4.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
-    "playwright": "^1.59.1",
     "postcss": "^8.5.8",
     "prettier": "^3.8.2",
     "tailwindcss": "^4.2.2",

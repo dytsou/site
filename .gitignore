@@ -25,7 +25,6 @@ dist-ssr
 *.sw?
 .env
 
-# Playwright
+# Playwright artifacts (if regenerated locally)
 /test-results/
 /playwright-report/
-/playwright/.cache/

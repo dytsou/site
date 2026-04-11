@@ -7,13 +7,6 @@ updates:
       interval: "weekly"
       day: "friday"
     groups:
-      playwright:
-        patterns:
-          - "playwright"
-          - "@playwright/*"
-        update-types:
-          - "minor"
-          - "patch"
       app-and-tooling:
         patterns:
           - "lucide-react"
