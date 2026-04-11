@@ -15,6 +15,9 @@ on:
 permissions:
   contents: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   auto-rebase:
     name: Rebase Dependabot PRs
@@ -22,7 +25,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Rebase
-        uses: bbeesley/gha-auto-dependabot-rebase@f021ca5692e69dcfa7ee60569ba6a3267c1e2a69
+        uses: bbeesley/gha-auto-dependabot-rebase@v1.5.225
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PA_TOKEN }}
         with:
