@@ -1,20 +1,22 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isCI = !!process.env.CI;
+
 /**
  * See https://playwright.dev/docs/test-configuration.
+ * CI serves `dist/` via `vite preview` (requires `pnpm build` before `pnpm test:e2e`).
+ * Locally, `pnpm run dev` is used with reuseExistingServer for faster iteration.
  */
 export default defineConfig({
   testDir: './e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  /* CI: one worker for stability on a small suite; raise workers or use workflow sharding when tests grow. */
+  workers: isCI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI ? [['github'], ['html']] : 'html',
+  reporter: isCI ? [['github'], ['html']] : 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -24,7 +26,7 @@ export default defineConfig({
   },
 
   /* Configure projects for major browsers */
-  projects: process.env.CI
+  projects: isCI
     ? [
         /* In CI, only test on Chromium to save time and resources */
         {
@@ -60,11 +62,17 @@ export default defineConfig({
         },
       ],
 
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'pnpm run dev',
-    url: 'http://localhost:5173',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
+  webServer: isCI
+    ? {
+        command: 'pnpm run preview:e2e',
+        url: 'http://localhost:5173',
+        reuseExistingServer: false,
+        timeout: 120 * 1000,
+      }
+    : {
+        command: 'pnpm run dev',
+        url: 'http://localhost:5173',
+        reuseExistingServer: true,
+        timeout: 120 * 1000,
+      },
 });
