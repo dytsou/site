@@ -55,7 +55,7 @@ jobs:
           echo "main is ${COUNT} commit(s) ahead of tag '${LATEST_TAG}'."
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node
         uses: actions/setup-node@v6
