@@ -11,14 +11,12 @@ import { useAppSelector, useAppDispatch } from './store/hooks';
 import { setTheme } from './store/themeSlice';
 import { fetchGitHubData } from './store/githubSlice';
 import { useSwipeNavigation } from './hooks/useSwipeNavigation';
-
-// Route order for swipe navigation
-const ROUTE_ORDER = ['/', '/about', '/experiences', '/projects', '/contact'];
+import { SWIPE_ROUTE_ORDER } from './constants/swipeRouteOrder';
 
 function AppContent() {
   // Enable swipe navigation
   useSwipeNavigation({
-    routeOrder: ROUTE_ORDER,
+    routeOrder: [...SWIPE_ROUTE_ORDER],
     minSwipeDistance: 100,
     enabled: true,
     navigationCooldown: 1000,
