@@ -64,7 +64,7 @@ jobs:
 
       # CLI reporters override playwright.config — include line (live [n/m] in log), github, html
       - name: Run e2e tests
-        run: pnpm test:e2e -- --reporter=line,github,html
+        run: pnpm exec playwright test --reporter=line,github,html
 
       - name: Upload test results
         if: always()
