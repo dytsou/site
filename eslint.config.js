@@ -6,7 +6,18 @@ import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  {
+    ignores: [
+      'dist',
+      'node_modules',
+      '.cache',
+      '.pnpm-store',
+      '.screenshots',
+      '**/.cache/**',
+      '**/.pnpm-store/**',
+      '**/.screenshots/**',
+    ],
+  },
   {
     extends: [
       js.configs.recommended,
