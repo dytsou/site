@@ -52,7 +52,20 @@
 
 /* Contact Card */
 .contact-card {
-  @apply flex flex-col items-center gap-4 p-6 rounded-xl transition-all hover:shadow-lg transform hover:-translate-y-1;
+  @apply flex flex-col items-center gap-4 p-6 rounded-xl transition-all;
+  box-shadow: var(--shadow-card);
+}
+
+.contact-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.contact-card:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px var(--focus-ring),
+    var(--shadow-card-hover);
 }
 
 .contact-card-mobile {

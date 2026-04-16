@@ -160,7 +160,13 @@
 }
 
 .experience-card-content {
-  @apply p-6 rounded-xl border-2 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1;
+  @apply p-6 rounded-xl border-2 transition-all;
+  box-shadow: var(--shadow-card);
+}
+
+.experience-card-content:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
 }
 
 .experience-card-bg-blue {
