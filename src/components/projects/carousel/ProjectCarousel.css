@@ -169,9 +169,39 @@
     width: 44px;
     height: 44px;
     padding: 0;
+    background: transparent;
+    position: relative;
+    border-radius: 9999px;
   }
 
   .carousel-indicator-active {
     width: 44px;
+    background: transparent;
+  }
+
+  .carousel-indicator-inactive {
+    background: transparent;
+  }
+
+  .carousel-indicator::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    background: rgb(209 213 219); /* gray-300 */
+  }
+
+  .carousel-indicator-inactive:hover::before {
+    background: rgb(156 163 175); /* gray-400 */
+  }
+
+  .carousel-indicator-active::before {
+    width: 28px;
+    height: 10px;
+    background: rgb(37 99 235); /* blue-600 */
   }
 }
