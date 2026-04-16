@@ -86,7 +86,7 @@
 .project-tech-more-button:focus-visible,
 .project-tech-less-button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22);
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }
 
 /* Action Buttons */
@@ -114,5 +114,5 @@
 
 .project-action-button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }

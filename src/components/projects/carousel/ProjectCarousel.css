@@ -93,7 +93,7 @@
 .carousel-control-button:focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 4px rgba(59, 130, 246, 0.25),
+    0 0 0 4px var(--focus-ring),
     0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
@@ -119,7 +119,7 @@
 
 .carousel-indicator:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -137,7 +137,7 @@
 
 .carousel-wrapper:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22);
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }
 
 @media (max-width: 640px) {
