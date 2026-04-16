@@ -42,6 +42,12 @@
   @apply flex items-center gap-1.5;
 }
 
+.nav-link:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .nav-link-active {
   @apply text-blue-600;
 }
@@ -287,6 +293,11 @@
   @apply text-gray-700;
   @apply hover:bg-gray-100 rounded-lg transition-colors;
   @apply flex items-center gap-1.5;
+}
+
+.nav-mobile-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }
 
 .nav-mobile-link.nav-link-active {
