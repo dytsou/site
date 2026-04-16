@@ -1,13 +1,11 @@
-import { ExternalLink } from 'lucide-react';
 import { Github } from '../../icons/brandSocialIcons';
 
 interface ProjectActionsProps {
   githubUrl?: string;
-  liveUrl?: string;
 }
 
-export function ProjectActions({ githubUrl, liveUrl }: ProjectActionsProps) {
-  if (!githubUrl && !liveUrl) return null;
+export function ProjectActions({ githubUrl }: ProjectActionsProps) {
+  if (!githubUrl) return null;
 
   return (
     <div className="project-actions">
@@ -20,17 +18,6 @@ export function ProjectActions({ githubUrl, liveUrl }: ProjectActionsProps) {
         >
           <Github className="project-action-icon" />
           Code
-        </a>
-      )}
-      {liveUrl && (
-        <a
-          href={liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="project-action-button project-action-demo"
-        >
-          <ExternalLink className="project-action-icon" />
-          Demo
         </a>
       )}
     </div>

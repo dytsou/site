@@ -14,3 +14,5 @@ export interface GitHubStats {
 }
 
 export type Theme = 'light' | 'dark';
+
+export type { Project, ProjectSource } from './projects';
