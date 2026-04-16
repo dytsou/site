@@ -1,0 +1,57 @@
+name: Sync Projects
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  sync-projects:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync project data
+        run: pnpm sync:projects
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: sync generated project data"
+          branch: automation/sync-projects
+          delete-branch: true
+          title: "chore: sync generated project data"
+          body: |
+            ## Summary
+            - refresh generated project metadata from GitHub
+            - keep the projects carousel in sync with the configured repository URLs
+
+            ## Test plan
+            - [x] `pnpm sync:projects`
+          add-paths: |
+            src/components/contents/projects.sources.json
+            src/components/contents/Projects.generated.ts

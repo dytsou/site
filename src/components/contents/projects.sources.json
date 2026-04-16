@@ -1,0 +1,62 @@
+[
+  {
+    "url": "https://github.com/kore-ji/koreji-frontend",
+    "title": "Koreji",
+    "featured": true,
+    "tags": ["time-management", "productivity", "mobile-app"]
+  },
+  {
+    "url": "https://github.com/NYCU-SDC/core-system-backend",
+    "title": "SDC Core System",
+    "featured": true,
+    "description": "Backend infrastructure for NYCU Software Development Club. Built a robust RESTful API system with Go, featuring Docker containerization and PostgreSQL database management.",
+    "tags": ["erp", "golang-system", "rest-api", "docker", "postgresql"]
+  },
+  {
+    "url": "https://github.com/dytsou/NextMeeting",
+    "title": "NextMeeting",
+    "featured": true
+  },
+  {
+    "url": "https://github.com/MCHackathon2025/CAIender-frontend",
+    "title": "CAIender",
+    "featured": true,
+    "tags": ["ai", "helper", "hackathon"]
+  },
+  {
+    "url": "https://github.com/dytsou/shorten-url",
+    "title": "Shorten URL",
+    "featured": false
+  },
+  {
+    "url": "https://github.com/dytsou/github-readme-stats",
+    "title": "GitHub README Stats",
+    "featured": true
+  },
+  {
+    "url": "https://github.com/dytsou/raycast-rsync-extension",
+    "title": "Raycast Rsync Extension",
+    "featured": false
+  },
+  {
+    "url": "https://github.com/dytsou/Dungeon",
+    "title": "Dungeon",
+    "featured": false,
+    "tags": ["dungeons-and-dragons", "text-based", "game"]
+  },
+  {
+    "url": "https://github.com/dytsou/resume",
+    "title": "Resume Builder",
+    "featured": false
+  },
+  {
+    "url": "https://github.com/dytsou/intern-corner-scheduler",
+    "title": "Intern Corner Scheduler",
+    "featured": false
+  },
+  {
+    "url": "https://github.com/dytsou/GenAI-Studio",
+    "title": "GenAI Studio",
+    "featured": false
+  }
+]

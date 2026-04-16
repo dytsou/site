@@ -1,21 +1,10 @@
 import { useEffect, useRef, useState, ComponentType } from 'react';
+import type { Project } from '../../../types/projects';
 import './ProjectCard.css';
 import { ProjectCardHeader } from './ProjectCardHeader';
 import { ProjectDescription } from './ProjectDescription';
 import { ProjectTechnologies } from './ProjectTechnologies';
 import { ProjectActions } from './ProjectActions';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  short_description: string;
-  technologies: string[];
-  github_url?: string;
-  live_url?: string;
-  image_url?: string;
-  featured?: boolean;
-}
 
 interface ProjectCardProps {
   project: Project;
@@ -119,15 +108,13 @@ export function ProjectCard({
 
           <ProjectTechnologies
             technologies={project.technologies}
+            tags={project.tags}
             isExpanded={isTagsExpanded}
             onToggle={() => toggleTags(projectIndex)}
           />
         </div>
 
-        <ProjectActions
-          githubUrl={project.github_url}
-          liveUrl={project.live_url}
-        />
+        <ProjectActions githubUrl={project.github_url} />
       </div>
     </div>
   );

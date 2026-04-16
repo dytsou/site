@@ -58,6 +58,11 @@
 
 /* Technologies Section */
 .project-technologies {
+  @apply flex flex-col gap-2;
+}
+
+.project-technologies-row,
+.project-tags-row {
   @apply flex flex-wrap gap-2;
 }
 

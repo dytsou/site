@@ -21,12 +21,8 @@ import {
   Calendar,
 } from 'lucide-react';
 import { ComponentType } from 'react';
+import type { Project } from '../../types/projects';
 import './ProjectIconUtils.css';
-
-interface Project {
-  title: string;
-  technologies?: string[];
-}
 
 interface IconConfig {
   Icon: ComponentType<{ className?: string }>;
@@ -169,7 +165,9 @@ export function getProjectIconAndColors(project: Project): {
   bgClass: string;
   iconClass: string;
 } {
-  const tech = (project.technologies || []).map((t: string) => t.toLowerCase());
+  const tech = [...(project.technologies || []), ...(project.tags || [])].map(
+    (t: string) => t.toLowerCase()
+  );
   const title = String(project.title || '').toLowerCase();
 
   // Find matching configuration

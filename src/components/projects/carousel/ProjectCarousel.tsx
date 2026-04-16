@@ -1,20 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
+import type { Project } from '../../../types/projects';
 import { ProjectCard } from '../project-card/ProjectCard';
 import { getProjectIconAndColors } from '../ProjectIconUtils';
 import { CarouselControls } from './CarouselControls';
 import './ProjectCarousel.css';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  short_description: string;
-  technologies: string[];
-  github_url?: string;
-  live_url?: string;
-  image_url?: string;
-  featured?: boolean;
-}
 
 interface ProjectCarouselProps {
   projects: Project[];
