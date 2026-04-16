@@ -59,6 +59,10 @@
   @apply bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent;
 }
 
+.hero-title-nowrap {
+  @apply whitespace-nowrap;
+}
+
 .hero-subtitle {
   @apply text-2xl sm:text-3xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed;
 }
