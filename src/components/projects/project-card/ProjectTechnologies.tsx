@@ -36,12 +36,24 @@ export function ProjectTechnologies({
             <TechTag key={index} technology={tech} />
           ))}
           {showToggleInTechRow && showExpand && (
-            <button onClick={onToggle} className="project-tech-more-button">
+            <button
+              type="button"
+              onClick={onToggle}
+              className="project-tech-more-button"
+              aria-label={`Show ${hiddenCount} more technologies and tags`}
+              aria-expanded={isExpanded}
+            >
               +{hiddenCount}
             </button>
           )}
           {showToggleInTechRow && showCollapse && (
-            <button onClick={onToggle} className="project-tech-less-button">
+            <button
+              type="button"
+              onClick={onToggle}
+              className="project-tech-less-button"
+              aria-label="Collapse technologies and tags"
+              aria-expanded={isExpanded}
+            >
               Show less
             </button>
           )}
@@ -58,12 +70,24 @@ export function ProjectTechnologies({
             />
           ))}
           {showToggleInTagsRow && showExpand && (
-            <button onClick={onToggle} className="project-tech-more-button">
+            <button
+              type="button"
+              onClick={onToggle}
+              className="project-tech-more-button"
+              aria-label={`Show ${hiddenCount} more technologies and tags`}
+              aria-expanded={isExpanded}
+            >
               +{hiddenCount}
             </button>
           )}
           {showToggleInTagsRow && showCollapse && (
-            <button onClick={onToggle} className="project-tech-less-button">
+            <button
+              type="button"
+              onClick={onToggle}
+              className="project-tech-less-button"
+              aria-label="Collapse technologies and tags"
+              aria-expanded={isExpanded}
+            >
               Show less
             </button>
           )}

@@ -6,7 +6,8 @@
 }
 
 .carousel-wrapper {
-  @apply relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-2xl;
+  @apply relative overflow-hidden rounded-2xl bg-white/80 dark:bg-gray-800/70 shadow-xl ring-1 ring-black/5 dark:ring-white/10;
+  backdrop-filter: blur(10px);
 }
 
 .carousel-track {
@@ -22,7 +23,7 @@
 }
 
 .carousel-slide-content {
-  @apply gap-6 min-h-[350px] lg:min-h-[400px] p-6;
+  @apply gap-6 min-h-[350px] lg:min-h-[400px] p-5 sm:p-6 lg:p-7;
 }
 
 .carousel-slide-content.multi-column {
@@ -31,6 +32,27 @@
 
 .carousel-slide-content.single-column {
   @apply flex justify-center;
+}
+
+@media (max-width: 639px) {
+  /* Leave a safe gutter so arrows don't sit on top of the single card. */
+  .carousel-slide-content.single-column {
+    padding-left: 3.25rem;
+    padding-right: 3.25rem;
+  }
+
+  /* Keep controls reachable without eating too much card space. */
+  .carousel-control-prev {
+    left: 0.75rem;
+  }
+
+  .carousel-control-next {
+    right: 0.75rem;
+  }
+
+  .carousel-indicators {
+    padding-bottom: 0.75rem;
+  }
 }
 
 /* Card Style Variants */
@@ -48,7 +70,12 @@
 
 /* Carousel Controls Styles */
 .carousel-control-button {
-  @apply absolute top-1/2 -translate-y-1/2 p-2 bg-white dark:bg-gray-700 rounded-full shadow-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors z-10;
+  @apply absolute top-1/2 -translate-y-1/2 grid place-items-center z-10 rounded-full shadow-lg transition-all;
+  @apply bg-white/90 dark:bg-gray-800/85 hover:bg-white dark:hover:bg-gray-800;
+  @apply ring-1 ring-black/10 dark:ring-white/10;
+  width: 44px;
+  height: 44px;
+  backdrop-filter: blur(10px);
 }
 
 .carousel-control-prev {
@@ -60,21 +87,91 @@
 }
 
 .carousel-control-icon {
-  @apply w-6 h-6 text-gray-700 dark:text-gray-300;
+  @apply w-5 h-5 text-gray-800 dark:text-gray-200;
+}
+
+.carousel-control-button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(59, 130, 246, 0.25),
+    0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 .carousel-indicators {
-  @apply flex justify-center space-x-2 pb-4;
+  @apply flex justify-center gap-2 pb-4;
 }
 
 .carousel-indicator {
-  @apply w-3 h-3 rounded-full transition-colors;
+  @apply rounded-full transition-all;
+  width: 10px;
+  height: 10px;
+  padding: 8px;
 }
 
 .carousel-indicator-active {
   @apply bg-blue-600 dark:bg-blue-400;
+  width: 28px;
 }
 
 .carousel-indicator-inactive {
   @apply bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500;
+}
+
+.carousel-indicator:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .carousel-control-button {
+    opacity: 0.35;
+    transform: translateY(-50%) scale(0.98);
+  }
+
+  .carousel-wrapper:hover .carousel-control-button,
+  .carousel-wrapper:focus-within .carousel-control-button {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.carousel-wrapper:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22);
+}
+
+@media (max-width: 640px) {
+  /* On narrow screens, keep arrows out of the card's visual "center". */
+  .carousel-control-button {
+    width: 40px;
+    height: 40px;
+    opacity: 0.85;
+  }
+
+  .carousel-control-prev {
+    @apply left-2;
+  }
+
+  .carousel-control-next {
+    @apply right-2;
+  }
+
+  .carousel-slide-content {
+    @apply px-6;
+  }
+
+  /* Increase tap targets for indicators (44px guidance). */
+  .carousel-indicators {
+    @apply gap-1;
+  }
+
+  .carousel-indicator {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+
+  .carousel-indicator-active {
+    width: 44px;
+  }
 }
