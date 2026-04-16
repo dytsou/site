@@ -12,6 +12,7 @@ export function MobileMenuToggleButton({
 }: MobileMenuToggleButtonProps) {
   return (
     <button
+      type="button"
       onClick={onClick}
       className="nav-mobile-toggle"
       aria-label="Toggle menu"

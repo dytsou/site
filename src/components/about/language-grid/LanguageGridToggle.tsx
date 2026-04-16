@@ -11,6 +11,7 @@ export function LanguageGridToggle({
 }: LanguageGridToggleProps) {
   return (
     <button
+      type="button"
       onClick={onToggle}
       className="language-grid-toggle"
       aria-label={isExpanded ? 'Collapse languages' : 'Expand languages'}
