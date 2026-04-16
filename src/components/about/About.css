@@ -13,8 +13,9 @@
 
 .about-text {
   @apply text-gray-700 dark:text-gray-300 leading-relaxed text-lg;
-  text-align: justify;
-  hyphens: auto;
+  text-align: left;
+  hyphens: none;
+  text-wrap: pretty;
 }
 
 .about-highlight {

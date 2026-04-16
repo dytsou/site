@@ -39,14 +39,14 @@
 
   .contact-grid {
     @apply justify-evenly;
-    gap: clamp(2.5rem, 12vw, 7rem);
+    gap: clamp(1.5rem, 6vw, 3rem);
     padding: 0 1rem;
   }
 }
 
 @media (min-width: 354px) and (max-width: 767px) {
   .contact-grid {
-    @apply flex-row;
+    @apply flex-row flex-wrap;
   }
 }
 

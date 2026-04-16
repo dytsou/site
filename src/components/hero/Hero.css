@@ -56,7 +56,7 @@
 }
 
 .hero-title-gradient {
-  @apply bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent whitespace-nowrap;
+  @apply bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent;
 }
 
 .hero-subtitle {
@@ -65,8 +65,8 @@
 
 .hero-description {
   @apply text-lg sm:text-xl text-gray-700 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed;
-  hyphens: auto;
-  text-wrap: balance;
+  hyphens: none;
+  text-wrap: pretty;
 }
 
 /* Hero Actions Styles */

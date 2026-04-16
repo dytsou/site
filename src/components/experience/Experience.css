@@ -116,6 +116,12 @@
   @apply relative pl-20;
 }
 
+@media (max-width: 767px) {
+  .experience-card {
+    @apply pl-0 pt-8;
+  }
+}
+
 .experience-card-dot {
   @apply absolute w-5 h-5 rounded-full border-4 border-white dark:border-gray-800;
   left: 1.5rem;

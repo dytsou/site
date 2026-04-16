@@ -2,7 +2,7 @@
 
 /* Section Layout Styles */
 .section-base {
-  @apply min-h-screen py-20;
+  @apply py-14 sm:py-16 lg:py-20;
 }
 
 .section-white {
@@ -14,15 +14,15 @@
 }
 
 .section-container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12;
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-6 sm:py-8 lg:py-12;
 }
 
 .section-header {
-  @apply text-center mb-16;
+  @apply text-center mb-10 sm:mb-16;
 }
 
 .section-title {
-  @apply text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4;
+  @apply text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4;
 }
 
 .section-divider {
@@ -30,7 +30,7 @@
 }
 
 .section-subtitle {
-  @apply text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mt-8;
-  hyphens: auto;
-  text-wrap: balance;
+  @apply text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mt-4 sm:mt-8;
+  hyphens: none;
+  text-wrap: pretty;
 }
