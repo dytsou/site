@@ -3,8 +3,14 @@ export interface GitHubRepo {
   description: string;
   html_url: string;
   stargazers_count: number;
-  language: string;
+  language: string | null;
   topics: string[];
+  fork: boolean;
+  languages_url: string;
+  owner: {
+    login: string;
+  };
+  private?: boolean;
 }
 
 export interface GitHubStats {

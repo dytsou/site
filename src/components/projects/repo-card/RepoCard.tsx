@@ -61,7 +61,7 @@ export function RepoCard({ repo }: RepoCardProps) {
         onToggle={handleToggleExpand}
       />
       <RepoCardFooter
-        language={repo.language}
+        language={repo.language ?? undefined}
         stargazersCount={repo.stargazers_count}
       />
     </a>

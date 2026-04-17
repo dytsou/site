@@ -5,6 +5,7 @@ import { ProfileImage } from './ProfileImage';
 import { AboutContent } from '../contents/About';
 import { StatsCards } from './StatsCards';
 import { LanguageGrid } from './language-grid/LanguageGrid';
+import { FALLBACK_PUBLIC_REPOS } from './AboutStats.generated';
 
 export function About() {
   const stats = useAppSelector((state) => state.github.stats);
@@ -18,7 +19,9 @@ export function About() {
 
         <div className="space-y-6">
           <AboutContent />
-          <StatsCards publicRepos={stats?.public_repos} />
+          <StatsCards
+            publicRepos={stats?.public_repos ?? FALLBACK_PUBLIC_REPOS}
+          />
           <LanguageGrid />
         </div>
       </div>
