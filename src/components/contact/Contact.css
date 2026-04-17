@@ -15,12 +15,25 @@
   @apply max-w-4xl mx-auto;
 }
 
-.contact-content {
-  @apply space-y-8;
+.contact-shell {
+  @apply space-y-6;
 }
 
-.contact-section {
-  @apply mb-6;
+.contact-panel,
+.opportunity-container {
+  @apply rounded-2xl border;
+  background-color: var(--contact-surface);
+  border-color: color-mix(in srgb, var(--contact-border) 70%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+.contact-panel {
+  @apply p-8;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--contact-accent) 6%, transparent),
+    color-mix(in srgb, var(--contact-surface) 94%, transparent)
+  );
 }
 
 .contact-title {
@@ -29,39 +42,30 @@
 }
 
 .contact-grid {
-  @apply flex flex-col justify-center items-center md:grid md:grid-cols-3;
-  gap: clamp(2rem, 10vw, 6rem);
-  max-width: 100%;
-  width: 100%;
+  @apply grid w-full;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1rem;
 }
 
 @media (min-width: 768px) {
   .contact-grid {
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
   }
 }
 
 @media (max-width: 767px) {
-  .contact-section {
-    @apply w-full;
-  }
-
   .contact-grid {
-    @apply justify-evenly;
-    gap: clamp(1.5rem, 6vw, 3rem);
-    padding: 0 1rem;
-  }
-}
-
-@media (min-width: 354px) and (max-width: 767px) {
-  .contact-grid {
-    @apply flex-row flex-wrap;
+    gap: 0.75rem;
   }
 }
 
 /* Contact Card */
 .contact-card {
-  @apply flex flex-col items-center gap-4 p-6 rounded-xl transition-shadow transition-transform;
+  @apply flex flex-col items-center gap-3 p-4 md:gap-4 md:p-6 rounded-xl transition-shadow transition-transform;
+  @apply border;
+  background-color: color-mix(in srgb, var(--contact-surface) 92%, transparent);
+  border-color: color-mix(in srgb, var(--contact-border) 80%, transparent);
   box-shadow: var(--shadow-card);
 }
 
@@ -75,19 +79,6 @@
   box-shadow:
     0 0 0 4px var(--focus-ring),
     var(--shadow-card-hover);
-}
-
-.contact-card-mobile {
-  @apply flex flex-col items-center gap-2 p-0 bg-transparent border-0;
-  flex: 0 1 auto;
-}
-
-.contact-card-mobile:hover {
-  @apply transform-none shadow-none;
-}
-
-.contact-card-icon-link {
-  @apply cursor-pointer inline-block;
 }
 
 .contact-card-linkedin {
@@ -124,7 +115,7 @@
 }
 
 .contact-card-icon {
-  @apply p-4 rounded-full group-hover:scale-105 transition-transform;
+  @apply p-3 md:p-4 rounded-full group-hover:scale-105 transition-transform;
 }
 
 .contact-card-icon-linkedin {
@@ -145,7 +136,7 @@
 }
 
 .contact-card-icon-svg {
-  @apply w-8 h-8 text-white;
+  @apply w-7 h-7 md:w-8 md:h-8 text-white;
 }
 
 .contact-card-content {
@@ -157,12 +148,8 @@
   color: var(--contact-text);
 }
 
-.contact-card-mobile .contact-card-title {
-  @apply mb-0;
-}
-
 .contact-card-subtitle {
-  @apply text-sm md:block hidden;
+  @apply text-sm hidden md:block;
 }
 
 .contact-card-subtitle-linkedin {
@@ -180,15 +167,12 @@
 
 /* Opportunity List */
 .opportunity-container {
-  @apply p-8 rounded-2xl border;
+  @apply p-8;
   background: linear-gradient(
     135deg,
     color-mix(in srgb, var(--contact-accent) 8%, transparent),
     color-mix(in srgb, var(--contact-accent-2) 8%, transparent)
   );
-  background-color: var(--contact-surface);
-  border-color: color-mix(in srgb, var(--contact-border) 70%, transparent);
-  box-shadow: var(--shadow-card);
 }
 
 .opportunity-title {
@@ -235,4 +219,24 @@
 .opportunity-label {
   color: var(--contact-text);
   text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-card,
+  .opportunity-item {
+    transition: none;
+  }
+
+  .contact-card:hover,
+  .opportunity-item:hover {
+    transform: none;
+  }
+
+  .contact-card-icon {
+    transition: none;
+  }
+
+  .contact-card-icon:hover {
+    transform: none;
+  }
 }

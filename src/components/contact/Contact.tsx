@@ -14,13 +14,13 @@ export function Contact() {
       />
 
       <div className="contact-container">
-        <div className="contact-content">
-          <div className="contact-section">
+        <div className="contact-shell">
+          <div className="contact-panel contact-panel-connect">
             <h3 className="contact-title">Let's Connect</h3>
-            <div className="contact-grid">
-              {CONTACT_CARDS.map((card, index) => (
+            <div className="contact-grid" aria-label="Contact links">
+              {CONTACT_CARDS.map((card) => (
                 <ContactCard
-                  key={index}
+                  key={card.platform}
                   platform={card.platform}
                   title={card.title}
                   subtitle={card.subtitle}
@@ -30,6 +30,7 @@ export function Contact() {
               ))}
             </div>
           </div>
+
           <OpportunityList />
         </div>
       </div>
