@@ -26,7 +26,8 @@
 }
 
 .section-divider {
-  @apply w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto;
+  @apply w-24 h-1 mx-auto;
+  background-image: linear-gradient(to right, var(--accent), var(--accent-2));
 }
 
 .section-subtitle {
