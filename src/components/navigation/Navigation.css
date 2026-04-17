@@ -22,14 +22,41 @@
 }
 
 .nav-brand {
+  @apply inline-flex items-center justify-center;
   @apply text-2xl font-bold;
   @apply text-gray-500;
-  @apply hover:text-blue-600 transition-colors;
+  @apply rounded-xl;
+  padding: 0.25rem;
 }
 
 .dark .nav-brand {
   @apply text-gray-500;
-  @apply hover:text-blue-600;
+}
+
+.nav-brand:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
+.nav-brand-frame {
+  width: 32px;
+  height: 32px;
+  border-radius: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.nav-brand-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 0.6rem;
+  transition: opacity 0.2s ease;
+}
+
+.nav-brand:hover .nav-brand-frame {
+  transform: translateY(-1px);
 }
 
 .nav-desktop-menu {
