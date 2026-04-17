@@ -6,18 +6,22 @@ import { AboutContent } from '../contents/About';
 import { StatsCards } from './StatsCards';
 import { LanguageGrid } from './language-grid/LanguageGrid';
 import { FALLBACK_PUBLIC_REPOS } from './AboutStats.generated';
+import './About.css';
 
 export function About() {
   const stats = useAppSelector((state) => state.github.stats);
 
   return (
     <Section id="about">
-      <SectionHeader title="About Me" />
+      <SectionHeader
+        title="About Me"
+        subtitle="Student engineer focused on backend scalability, full‑stack product craft, and applied research."
+      />
 
-      <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="about-layout">
         <ProfileImage />
 
-        <div className="space-y-6">
+        <div className="about-right-col">
           <AboutContent />
           <StatsCards
             publicRepos={stats?.public_repos ?? FALLBACK_PUBLIC_REPOS}
