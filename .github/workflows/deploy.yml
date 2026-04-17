@@ -2,10 +2,10 @@ name: Deploy to dytsou.github.io
 
 on:
   workflow_run:
-    workflows: ["CI"]
+    workflows: [ "CI" ]
     types:
       - completed
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check formatting
-        run: pnpm format:check
+        run: pnpm format
 
       - name: Run linter
         run: pnpm lint
@@ -50,12 +50,15 @@ jobs:
 
   deploy:
     # Only deploy if:
-    # - CI workflow completed successfully with all tests passing (for workflow_run), OR
-    # - checks job completed successfully (for manual workflow_dispatch)
-    needs: [checks]
+    # - CI (.github/workflows/ci.yml, workflow name "CI") completed successfully (workflow_run), OR
+    # - checks job completed successfully (manual workflow_dispatch)
+    needs: [ checks ]
     if: |
-      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
-      (github.event_name == 'workflow_dispatch' && needs.checks.result == 'success')
+      always() &&
+      (
+        (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+        (github.event_name == 'workflow_dispatch' && needs.checks.result == 'success')
+      )
     runs-on: ubuntu-latest
     permissions:
       contents: write
