@@ -19,6 +19,7 @@ export function CarouselControls({
   return (
     <>
       <button
+        type="button"
         onClick={onPrev}
         className="carousel-control-button carousel-control-prev"
         aria-label="Previous slide"
@@ -27,6 +28,7 @@ export function CarouselControls({
       </button>
 
       <button
+        type="button"
         onClick={onNext}
         className="carousel-control-button carousel-control-next"
         aria-label="Next slide"
@@ -38,6 +40,7 @@ export function CarouselControls({
         {Array.from({ length: totalSlides }, (_, index) => (
           <button
             key={index}
+            type="button"
             onClick={() => onGoToSlide(index)}
             className={`carousel-indicator ${
               index === currentSlide
@@ -45,6 +48,7 @@ export function CarouselControls({
                 : 'carousel-indicator-inactive'
             }`}
             aria-label={`Go to slide ${index + 1}`}
+            aria-current={index === currentSlide ? 'true' : undefined}
           />
         ))}
       </div>

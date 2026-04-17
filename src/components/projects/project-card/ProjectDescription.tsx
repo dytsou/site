@@ -24,7 +24,11 @@ export function ProjectDescription({
         {description}
       </p>
       {shouldShowToggle && (
-        <button onClick={onToggle} className="project-description-toggle">
+        <button
+          type="button"
+          onClick={onToggle}
+          className="project-description-toggle"
+        >
           {isExpanded ? 'See less' : 'See more'}
         </button>
       )}

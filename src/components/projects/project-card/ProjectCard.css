@@ -4,7 +4,9 @@
 
 /* Card Container */
 .project-card {
-  @apply flex flex-col justify-between rounded-xl overflow-hidden shadow-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02];
+  @apply flex flex-col justify-between rounded-xl overflow-hidden transition-all duration-300 ease-out;
+  @apply shadow-md hover:shadow-lg;
+  @apply ring-1 ring-black/5 dark:ring-white/10;
 }
 
 .project-card-mobile {
@@ -16,7 +18,7 @@
 }
 
 .project-card-main {
-  @apply space-y-3 flex-1;
+  @apply space-y-4 flex-1;
 }
 
 /* Project Header */
@@ -38,13 +40,12 @@
 }
 
 .project-description {
-  @apply text-base text-gray-700 dark:text-gray-300 leading-relaxed;
+  @apply text-[15px] lg:text-base text-gray-700/90 dark:text-gray-200/80 leading-relaxed;
   transition: all 0.3s ease-in-out;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-align: justify;
-  hyphens: auto;
+  text-wrap: pretty;
 }
 
 .project-description-collapsed {
@@ -54,6 +55,12 @@
 
 .project-description-toggle {
   @apply text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm mt-2 transition-colors;
+}
+
+.project-description-toggle:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Technologies Section */
@@ -67,11 +74,19 @@
 }
 
 .project-tech-more-button {
-  @apply px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs font-medium hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors;
+  @apply px-2.5 py-1 bg-blue-100/80 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-semibold hover:bg-blue-200/80 dark:hover:bg-blue-900/45 transition-colors;
+  @apply ring-1 ring-blue-600/10 dark:ring-blue-300/10;
 }
 
 .project-tech-less-button {
-  @apply px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors;
+  @apply px-2.5 py-1 bg-gray-100/80 dark:bg-white/10 text-gray-700 dark:text-gray-200 rounded-full text-xs font-semibold hover:bg-gray-200/80 dark:hover:bg-white/15 transition-colors;
+  @apply ring-1 ring-black/5 dark:ring-white/10;
+}
+
+.project-tech-more-button:focus-visible,
+.project-tech-less-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }
 
 /* Action Buttons */
@@ -80,11 +95,13 @@
 }
 
 .project-action-button {
-  @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-colors font-semibold text-sm;
+  @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-semibold text-sm;
+  min-height: 44px;
 }
 
 .project-action-github {
   @apply bg-gray-900 dark:bg-gray-700 text-white dark:text-white hover:bg-gray-800 dark:hover:bg-gray-600;
+  @apply ring-1 ring-black/10 dark:ring-white/10;
 }
 
 .project-action-demo {
@@ -93,4 +110,9 @@
 
 .project-action-icon {
   @apply w-4 h-4;
+}
+
+.project-action-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }

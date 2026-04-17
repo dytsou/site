@@ -9,6 +9,7 @@ export function ExperienceCardToggle({
 }: ExperienceCardToggleProps) {
   return (
     <button
+      type="button"
       onClick={onToggle}
       className="experience-card-content-toggle"
       aria-label={isExpanded ? 'Collapse details' : 'Expand details'}

@@ -76,7 +76,29 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
 
   return (
     <div className="carousel-container">
-      <div className="carousel-wrapper">
+      <div
+        className="carousel-wrapper"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Featured projects"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (slideCount === 0) return;
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevSlide();
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            nextSlide();
+          } else if (e.key === 'Home') {
+            e.preventDefault();
+            goToSlide(0);
+          } else if (e.key === 'End') {
+            e.preventDefault();
+            goToSlide(slideCount - 1);
+          }
+        }}
+      >
         <div className="carousel-track">
           <div
             className="carousel-slides"

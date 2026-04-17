@@ -22,8 +22,16 @@ export function Navigation() {
     <nav className={`nav ${isScrolled ? 'nav-scrolled' : 'nav-transparent'}`}>
       <div className="nav-container">
         <div className="nav-content">
-          <Link to="/" className="nav-brand">
-            dytsou
+          <Link to="/" className="nav-brand" aria-label="Home">
+            <span className="nav-brand-frame" aria-hidden="true">
+              <img
+                src="/assets/favicon.png"
+                width={28}
+                height={28}
+                className="nav-brand-icon"
+                alt=""
+              />
+            </span>
           </Link>
 
           <DesktopMenu />

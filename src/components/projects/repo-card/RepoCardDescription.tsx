@@ -25,6 +25,7 @@ export function RepoCardDescription({
       </p>
       {shouldShowToggle && (
         <button
+          type="button"
           onClick={onToggle}
           className="repo-card-more-button"
           aria-label={isExpanded ? 'See less' : 'See more'}

@@ -19,8 +19,9 @@
 
 .footer-description {
   @apply text-gray-700 dark:text-gray-400;
-  text-align: justify;
-  hyphens: auto;
+  text-align: left;
+  hyphens: none;
+  text-wrap: pretty;
 }
 
 .footer-section-title {

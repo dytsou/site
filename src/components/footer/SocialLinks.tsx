@@ -20,6 +20,7 @@ export function SocialLinksComponent({
         {FOOTER_SECTIONS.connect.title}
         {shouldShowToggle && (
           <button
+            type="button"
             onClick={() => setIsExpanded(!isExpanded)}
             className="footer-section-toggle"
             aria-label={isExpanded ? 'Collapse section' : 'Expand section'}

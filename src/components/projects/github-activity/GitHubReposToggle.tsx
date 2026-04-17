@@ -12,6 +12,7 @@ export function GitHubReposToggle({
   return (
     <div className="github-repos-toggle-container">
       <button
+        type="button"
         onClick={onToggle}
         className="github-repos-toggle-button"
         aria-label={

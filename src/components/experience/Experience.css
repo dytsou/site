@@ -92,11 +92,14 @@
 /* Experience Timeline */
 .experience-timeline {
   @apply relative;
+  isolation: isolate;
 }
 
 .experience-timeline-line {
-  @apply absolute top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600;
+  @apply absolute top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-slate-200/15;
   left: 1.5rem;
+  z-index: 0;
+  pointer-events: none;
   /* 24px - aligns with dot center on desktop (left-6 = 24px) */
 }
 
@@ -109,6 +112,8 @@
 
 .experience-timeline-items {
   @apply space-y-12;
+  position: relative;
+  z-index: 1;
 }
 
 /* Experience Card */
@@ -116,12 +121,27 @@
   @apply relative pl-20;
 }
 
+@media (max-width: 767px) {
+  .experience-card {
+    @apply pl-14 pt-8;
+  }
+
+  .experience-timeline-line {
+    left: 1.25rem;
+  }
+
+  .experience-card-dot {
+    left: 1.25rem;
+  }
+}
+
 .experience-card-dot {
-  @apply absolute w-5 h-5 rounded-full border-4 border-white dark:border-gray-800;
+  @apply absolute w-5 h-5 rounded-full border-4 border-white dark:border-slate-950/70 dark:ring-1 dark:ring-white/10;
   left: 1.5rem;
   /* Match timeline line position */
   top: 2rem;
   transform: translate(-50%, -50%);
+  z-index: 2;
   /* Center on timeline line */
 }
 
@@ -154,23 +174,39 @@
 }
 
 .experience-card-content {
-  @apply p-6 rounded-xl border-2 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1;
+  @apply p-6 rounded-xl border-2 transition-shadow transition-transform;
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--shadow-card);
+}
+
+.dark .experience-card-content {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+}
+
+.experience-card-content:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.dark .experience-card-content:hover {
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
 }
 
 .experience-card-bg-blue {
-  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-500;
+  @apply bg-blue-50 dark:bg-blue-900/60 border-blue-500;
 }
 
 .experience-card-bg-cyan {
-  @apply bg-cyan-50 dark:bg-cyan-900/20 border-cyan-500;
+  @apply bg-cyan-50 dark:bg-cyan-900/60 border-cyan-500;
 }
 
 .experience-card-bg-green {
-  @apply bg-green-50 dark:bg-green-900/20 border-green-500;
+  @apply bg-green-50 dark:bg-green-900/60 border-green-500;
 }
 
 .experience-card-bg-purple {
-  @apply bg-purple-50 dark:bg-purple-900/20 border-purple-500;
+  @apply bg-purple-50 dark:bg-purple-900/60 border-purple-500;
 }
 
 .experience-card-header {
