@@ -1,12 +1,22 @@
 @reference "tailwindcss";
 
 /* GitHub Activity Section */
+:root {
+  --projects-surface: var(--bg-elev-1);
+  --projects-border: var(--border);
+  --projects-text: var(--text);
+  --projects-text-muted: var(--text-muted);
+  --projects-accent: var(--accent);
+  --projects-accent-2: var(--accent-2);
+}
+
 .github-activity {
   @apply mt-20;
 }
 
 .github-activity-title {
-  @apply text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center;
+  @apply text-2xl font-bold mb-8 text-center;
+  color: var(--projects-text);
 }
 
 .github-repos-grid {
@@ -15,7 +25,24 @@
 
 /* Repository Card */
 .repo-card {
-  @apply p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all hover:shadow-lg;
+  @apply p-6 rounded-xl border transition-all;
+  background-color: color-mix(
+    in srgb,
+    var(--projects-surface) 88%,
+    transparent
+  );
+  border-color: color-mix(in srgb, var(--projects-border) 85%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+.repo-card:hover {
+  border-color: color-mix(
+    in srgb,
+    var(--projects-border) 45%,
+    var(--projects-accent)
+  );
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
 }
 
 .repo-card-header {
@@ -23,11 +50,17 @@
 }
 
 .repo-card-title {
-  @apply font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors;
+  @apply font-bold transition-colors;
+  color: var(--projects-text);
+}
+
+.repo-card:hover .repo-card-title {
+  color: var(--projects-accent);
 }
 
 .repo-card-icon {
-  @apply w-5 h-5 text-gray-600 dark:text-gray-400;
+  @apply w-5 h-5;
+  color: var(--projects-text-muted);
 }
 
 .repo-card-description-wrapper {
@@ -35,7 +68,8 @@
 }
 
 .repo-card-description {
-  @apply text-sm text-gray-600 dark:text-gray-400;
+  @apply text-sm;
+  color: var(--projects-text-muted);
   transition: all 0.3s ease-in-out;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -48,11 +82,17 @@
 }
 
 .repo-card-more-button {
-  @apply text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm mt-2 transition-colors;
+  @apply font-medium text-sm mt-2 transition-colors;
+  color: var(--projects-accent);
+}
+
+.repo-card-more-button:hover {
+  color: color-mix(in srgb, var(--projects-accent) 86%, var(--projects-text));
 }
 
 .repo-card-footer {
-  @apply flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400;
+  @apply flex items-center gap-4 text-sm;
+  color: var(--projects-text-muted);
 }
 
 /* Language Indicator */
@@ -78,7 +118,12 @@
 }
 
 .github-repos-toggle-button {
-  @apply inline-flex items-center justify-center w-12 h-12 text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition-colors;
+  @apply inline-flex items-center justify-center w-12 h-12 transition-colors;
+  color: var(--projects-text);
+}
+
+.github-repos-toggle-button:hover {
+  color: var(--projects-text-muted);
 }
 
 .github-repos-toggle-icon {
@@ -91,7 +136,26 @@
 }
 
 .github-button {
-  @apply inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-gray-700 text-white dark:text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors font-semibold;
+  @apply inline-flex items-center gap-2 px-6 py-3 rounded-lg transition-colors font-semibold;
+  /* Light mode: near-black pill (GitHub-like) */
+  background-color: rgb(15 23 42);
+  color: rgb(248 250 252);
+  box-shadow: 0 0 0 1px rgb(30 41 59);
+}
+
+.github-button:hover {
+  background-color: rgb(30 41 59);
+}
+
+/* Dark mode: avoid mixing --text (light) into bg; use solid slate + light label */
+.dark .github-button {
+  background-color: rgb(15 23 42);
+  color: rgb(248 250 252);
+  box-shadow: 0 0 0 1px rgb(51 65 85);
+}
+
+.dark .github-button:hover {
+  background-color: rgb(30 41 59);
 }
 
 .github-button-icon {

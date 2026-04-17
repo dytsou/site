@@ -1,20 +1,19 @@
 import { useState, useEffect } from 'react';
+import { useAppSelector } from '../../../store/hooks';
 import '../About.css';
 import { LanguageGridHeader } from './LanguageGridHeader';
 import { LanguageGridList } from './LanguageGridList';
+import { FALLBACK_LANGUAGES } from './Languages.generated';
 
-const LANGUAGES: { name: string; color: string }[] = [
-  { name: 'Python', color: '#3572A5' },
-  { name: 'C++', color: '#f34b7d' },
-  { name: 'C', color: '#555555' },
-  { name: 'Shell', color: '#89e051' },
-  { name: 'JavaScript', color: '#f1e05a' },
-  { name: 'Verilog', color: '#b2b7f8' },
-  { name: 'Go', color: '#00ADD8' },
-  { name: 'Cuda', color: '#3A4E3A' },
-];
+const LANGUAGE_COLORS: Record<string, string> = Object.fromEntries(
+  FALLBACK_LANGUAGES.map((l) => [l.name, l.color])
+);
 
 export function LanguageGrid() {
+  const topLanguages = useAppSelector((state) => state.github.topLanguages);
+  const languagesLoading = useAppSelector(
+    (state) => state.github.languagesLoading
+  );
   const [isMobile, setIsMobile] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -30,6 +29,11 @@ export function LanguageGrid() {
 
   const shouldShowToggle = isMobile;
   const isContentVisible = !isMobile || isExpanded;
+  const resolvedLanguages =
+    topLanguages?.map((l) => ({
+      name: l.name,
+      color: LANGUAGE_COLORS[l.name] ?? 'var(--accent)',
+    })) ?? FALLBACK_LANGUAGES;
 
   return (
     <div
@@ -42,7 +46,12 @@ export function LanguageGrid() {
           onToggle={() => setIsExpanded(!isExpanded)}
         />
         <div className="language-grid-list-wrapper">
-          <LanguageGridList languages={LANGUAGES} />
+          <LanguageGridList languages={resolvedLanguages} />
+          {languagesLoading && (
+            <div className="mt-3 text-xs text-[color:var(--text-muted)]">
+              Loading from GitHub…
+            </div>
+          )}
         </div>
       </div>
     </div>

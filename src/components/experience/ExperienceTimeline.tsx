@@ -12,7 +12,13 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
       <div className="experience-timeline-line"></div>
       <div className="experience-timeline-items">
         {experiences.map((exp, index) => (
-          <ExperienceCard key={index} experience={exp} />
+          <div
+            key={`${exp.organization ?? 'experience'}-${exp.period ?? index}`}
+            className="animate-fade-in"
+            style={{ animationDelay: `${index * 70}ms` }}
+          >
+            <ExperienceCard experience={exp} />
+          </div>
         ))}
       </div>
     </div>

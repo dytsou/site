@@ -6,11 +6,11 @@
 }
 
 .section-white {
-  @apply bg-white dark:bg-gray-900;
+  background-color: var(--bg-elev-1);
 }
 
 .section-gray {
-  @apply bg-gray-50 dark:bg-gray-800;
+  background-color: var(--bg);
 }
 
 .section-container {
@@ -22,15 +22,18 @@
 }
 
 .section-title {
-  @apply text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4;
+  @apply text-3xl sm:text-4xl lg:text-5xl font-bold mb-4;
+  color: var(--text);
 }
 
 .section-divider {
-  @apply w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto;
+  @apply w-24 h-1 mx-auto;
+  background-image: linear-gradient(to right, var(--accent), var(--accent-2));
 }
 
 .section-subtitle {
-  @apply text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mt-4 sm:mt-8;
+  @apply text-base sm:text-lg max-w-3xl mx-auto mt-4 sm:mt-8;
+  color: var(--text-muted);
   hyphens: none;
   text-wrap: pretty;
 }

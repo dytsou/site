@@ -1,12 +1,28 @@
 @reference "tailwindcss";
 
 /* Project Carousel Styles */
+:root {
+  --projects-surface: var(--bg-elev-1);
+  --projects-border: var(--border);
+  --projects-text: var(--text);
+  --projects-text-muted: var(--text-muted);
+  --projects-accent: var(--accent);
+  --projects-accent-2: var(--accent-2);
+}
+
 .carousel-container {
   @apply relative w-full;
 }
 
 .carousel-wrapper {
-  @apply relative overflow-hidden rounded-2xl bg-white/80 dark:bg-gray-800/70 shadow-xl ring-1 ring-black/5 dark:ring-white/10;
+  @apply relative overflow-hidden rounded-2xl;
+  background-color: color-mix(
+    in srgb,
+    var(--projects-surface) 82%,
+    transparent
+  );
+  box-shadow: var(--shadow-card);
+  border: 1px solid color-mix(in srgb, var(--projects-border) 85%, transparent);
   backdrop-filter: blur(10px);
 }
 
@@ -57,22 +73,38 @@
 
 /* Card Style Variants */
 .card-style-primary {
-  @apply bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--projects-accent) 10%, transparent),
+    color-mix(in srgb, var(--projects-accent-2) 10%, transparent)
+  );
 }
 
 .card-style-secondary {
-  @apply bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--projects-accent-2) 10%, transparent),
+    color-mix(in srgb, var(--projects-accent) 10%, transparent)
+  );
 }
 
 .card-style-tertiary {
-  @apply bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--projects-accent) 10%, transparent),
+    color-mix(in srgb, var(--projects-text) 6%, transparent)
+  );
 }
 
 /* Carousel Controls Styles */
 .carousel-control-button {
   @apply absolute top-1/2 -translate-y-1/2 grid place-items-center z-10 rounded-full shadow-lg transition-all;
-  @apply bg-white/90 dark:bg-gray-800/85 hover:bg-white dark:hover:bg-gray-800;
-  @apply ring-1 ring-black/10 dark:ring-white/10;
+  background-color: color-mix(
+    in srgb,
+    var(--projects-surface) 88%,
+    transparent
+  );
+  border: 1px solid color-mix(in srgb, var(--projects-border) 75%, transparent);
   width: 44px;
   height: 44px;
   backdrop-filter: blur(10px);
@@ -87,7 +119,8 @@
 }
 
 .carousel-control-icon {
-  @apply w-5 h-5 text-gray-800 dark:text-gray-200;
+  @apply w-5 h-5;
+  color: var(--projects-text);
 }
 
 .carousel-control-button:focus-visible {
@@ -109,12 +142,20 @@
 }
 
 .carousel-indicator-active {
-  @apply bg-blue-600 dark:bg-blue-400;
+  background-color: var(--projects-accent);
   width: 28px;
 }
 
 .carousel-indicator-inactive {
-  @apply bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500;
+  background-color: color-mix(in srgb, var(--projects-border) 90%, transparent);
+}
+
+.carousel-indicator-inactive:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--projects-text-muted) 38%,
+    transparent
+  );
 }
 
 .carousel-indicator:focus-visible {
@@ -192,16 +233,16 @@
     height: 10px;
     transform: translate(-50%, -50%);
     border-radius: 9999px;
-    background: rgb(209 213 219); /* gray-300 */
+    background: color-mix(in srgb, var(--projects-border) 90%, transparent);
   }
 
   .carousel-indicator-inactive:hover::before {
-    background: rgb(156 163 175); /* gray-400 */
+    background: color-mix(in srgb, var(--projects-text-muted) 40%, transparent);
   }
 
   .carousel-indicator-active::before {
     width: 28px;
     height: 10px;
-    background: rgb(37 99 235); /* blue-600 */
+    background: var(--projects-accent);
   }
 }

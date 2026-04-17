@@ -2,7 +2,20 @@
 
 /* Footer Component Styles */
 .footer {
-  @apply bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-white py-12;
+  @apply py-12;
+  background:
+    radial-gradient(
+      1000px 520px at 100% 10%,
+      rgb(6 182 212 / 0.08),
+      transparent 55%
+    ),
+    radial-gradient(
+      900px 520px at 0% 30%,
+      rgb(37 99 235 / 0.06),
+      transparent 60%
+    ),
+    linear-gradient(to bottom, var(--bg), var(--bg-elev-1));
+  color: var(--text);
 }
 
 .footer-container {
@@ -14,18 +27,20 @@
 }
 
 .footer-brand {
-  @apply text-2xl font-bold mb-4 text-gray-900 dark:text-white;
+  @apply text-2xl font-bold mb-4;
+  color: var(--text);
 }
 
 .footer-description {
-  @apply text-gray-700 dark:text-gray-400;
+  color: var(--text-muted);
   text-align: left;
   hyphens: none;
   text-wrap: pretty;
 }
 
 .footer-section-title {
-  @apply text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2;
+  @apply text-lg font-semibold mb-4 flex items-center gap-2;
+  color: var(--text);
 }
 
 .footer-section-collapsed .footer-section-title {
@@ -49,7 +64,12 @@
 }
 
 .footer-section-toggle {
-  @apply inline-flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors md:hidden;
+  @apply inline-flex items-center justify-center transition-colors md:hidden;
+  color: var(--text-muted);
+}
+
+.footer-section-toggle:hover {
+  color: var(--text);
 }
 
 .footer-section-toggle-icon {
@@ -57,11 +77,22 @@
 }
 
 .footer-links {
-  @apply space-y-2 text-gray-700 dark:text-gray-400;
+  @apply space-y-2;
+  color: var(--text-muted);
 }
 
 .footer-link {
-  @apply hover:text-blue-600 dark:hover:text-blue-400 transition-colors;
+  @apply transition-colors;
+}
+
+.footer-link:hover {
+  color: var(--accent);
+}
+
+.footer-link:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .footer-social-container {
@@ -69,19 +100,47 @@
 }
 
 .footer-social-link {
-  @apply p-3 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors;
+  @apply p-3 rounded-lg transition-colors;
+  background-color: rgb(255 255 255 / 0.7);
+  border: 1px solid rgb(226 232 240 / 0.9);
+  box-shadow: var(--shadow-card);
+}
+
+.dark .footer-social-link {
+  background-color: rgb(17 24 39 / 0.6);
+  border-color: rgb(30 41 59 / 0.9);
+}
+
+.footer-social-link:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgb(37 99 235 / 0.25);
+  transform: translateY(-1px);
+}
+
+.dark .footer-social-link:hover {
+  border-color: rgb(96 165 250 / 0.25);
+}
+
+.footer-social-link:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px var(--focus-ring),
+    var(--shadow-card-hover);
 }
 
 .footer-social-icon {
-  @apply w-5 h-5 text-gray-700 dark:text-gray-300;
+  @apply w-5 h-5;
+  color: var(--text);
 }
 
 .footer-divider {
-  @apply border-t border-gray-300 dark:border-gray-800 pt-8 text-center;
+  @apply pt-8 text-center;
+  border-top: 1px solid var(--border);
 }
 
 .footer-copyright {
-  @apply text-gray-600 dark:text-gray-400 text-sm;
+  @apply text-sm;
+  color: var(--text-muted);
 
   text-wrap: balance;
 }

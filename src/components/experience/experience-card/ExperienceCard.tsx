@@ -41,9 +41,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
         isMobile={isMobile}
       />
 
-      <div
-        className={`experience-card-content experience-card-bg-${experience.color}`}
-      >
+      <div className="experience-card-content">
         <div className="experience-card-header">
           {!isMobile && (
             <div className="experience-card-icon-container">

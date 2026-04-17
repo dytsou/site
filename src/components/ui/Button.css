@@ -61,13 +61,26 @@
 /* TechTag Component Styles */
 .tech-tag {
   @apply px-2 py-1 rounded-full text-xs font-semibold;
-  @apply bg-slate-100/80 dark:bg-white/10 text-slate-700 dark:text-slate-200;
-  @apply ring-1 ring-slate-200/70 dark:ring-white/10;
+  background-color: color-mix(in srgb, var(--border) 34%, transparent);
+  color: var(--text);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--border) 78%, transparent);
+}
+
+.dark .tech-tag {
+  background-color: color-mix(in srgb, white 10%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, white 14%, transparent);
 }
 
 .tech-tag-hashtag {
-  @apply bg-fuchsia-100/70 dark:bg-fuchsia-900/25 text-fuchsia-800 dark:text-fuchsia-200;
-  @apply ring-1 ring-fuchsia-200/70 dark:ring-fuchsia-200/10;
+  background-color: color-mix(in srgb, rgb(192 38 211) 16%, transparent);
+  color: color-mix(in srgb, rgb(112 26 117) 92%, var(--text));
+  box-shadow: 0 0 0 1px color-mix(in srgb, rgb(192 38 211) 28%, transparent);
+}
+
+.dark .tech-tag-hashtag {
+  background-color: color-mix(in srgb, rgb(217 70 239) 22%, transparent);
+  color: color-mix(in srgb, rgb(250 232 255) 92%, var(--text));
+  box-shadow: 0 0 0 1px color-mix(in srgb, rgb(217 70 239) 22%, transparent);
 }
 
 .btn-primary {

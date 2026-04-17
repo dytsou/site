@@ -4,21 +4,33 @@
 .hero-section {
   @apply flex items-center justify-center pt-16;
   min-height: 100svh;
-  background: linear-gradient(
-    to bottom right,
-    rgb(239 246 255) 0%,
-    rgb(255 255 255) 50%,
-    rgb(236 254 255) 100%
-  );
+  background:
+    radial-gradient(
+      1200px 700px at 50% 0%,
+      rgb(6 182 212 / 0.14),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 0% 15%,
+      rgb(37 99 235 / 0.12),
+      transparent 65%
+    ),
+    linear-gradient(to bottom right, var(--bg), var(--bg-elev-1));
 }
 
 .dark .hero-section {
-  background: linear-gradient(
-    to bottom right,
-    rgb(17 24 39) 0%,
-    rgb(31 41 55) 50%,
-    rgb(17 24 39) 100%
-  );
+  background:
+    radial-gradient(
+      1200px 700px at 50% 0%,
+      rgb(34 211 238 / 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 0% 15%,
+      rgb(96 165 250 / 0.12),
+      transparent 65%
+    ),
+    linear-gradient(to bottom right, var(--bg), var(--bg-elev-1));
 }
 
 .hero-container {
@@ -28,18 +40,6 @@
 .hero-content {
   @apply text-center space-y-6;
   animation: fade-in 0.6s ease-out;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Hero Intro Styles */
@@ -57,7 +57,12 @@
 }
 
 .hero-title-gradient {
-  @apply bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r bg-clip-text text-transparent;
+  background-image: linear-gradient(
+    90deg,
+    var(--accent) 0%,
+    var(--accent-2) 100%
+  );
 }
 
 .hero-title-nowrap {
@@ -65,11 +70,13 @@
 }
 
 .hero-subtitle {
-  @apply text-2xl sm:text-3xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed;
+  @apply text-2xl sm:text-3xl font-medium leading-relaxed;
+  color: var(--text-muted);
 }
 
 .hero-description {
-  @apply text-lg sm:text-xl text-gray-700 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed;
+  @apply text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed;
+  color: var(--text-muted);
   hyphens: none;
   text-wrap: pretty;
 }

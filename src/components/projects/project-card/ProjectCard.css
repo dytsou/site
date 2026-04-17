@@ -1,6 +1,12 @@
 @reference "tailwindcss";
 
 /* ProjectCard Component Styles */
+:root {
+  --projects-text: var(--text);
+  --projects-text-muted: var(--text-muted);
+  --projects-border: var(--border);
+  --projects-accent: var(--accent);
+}
 
 /* Card Container */
 .project-card {
@@ -23,7 +29,8 @@
 
 /* Project Header */
 .project-title {
-  @apply text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-1;
+  @apply text-2xl lg:text-3xl font-bold mb-1;
+  color: var(--projects-text);
 }
 
 .project-title-content {
@@ -40,7 +47,8 @@
 }
 
 .project-description {
-  @apply text-[15px] lg:text-base text-gray-700/90 dark:text-gray-200/80 leading-relaxed;
+  @apply text-[15px] lg:text-base leading-relaxed;
+  color: color-mix(in srgb, var(--projects-text-muted) 92%, transparent);
   transition: all 0.3s ease-in-out;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -54,7 +62,12 @@
 }
 
 .project-description-toggle {
-  @apply text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm mt-2 transition-colors;
+  @apply font-medium text-sm mt-2 transition-colors;
+  color: var(--projects-accent);
+}
+
+.project-description-toggle:hover {
+  color: color-mix(in srgb, var(--projects-accent) 86%, var(--projects-text));
 }
 
 .project-description-toggle:focus-visible {
@@ -74,13 +87,48 @@
 }
 
 .project-tech-more-button {
-  @apply px-2.5 py-1 bg-blue-100/80 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-semibold hover:bg-blue-200/80 dark:hover:bg-blue-900/45 transition-colors;
-  @apply ring-1 ring-blue-600/10 dark:ring-blue-300/10;
+  @apply px-2.5 py-1 rounded-full text-xs font-semibold transition-colors;
+  background-color: color-mix(in srgb, var(--projects-accent) 18%, transparent);
+  color: color-mix(in srgb, var(--projects-accent) 88%, var(--projects-text));
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--projects-accent) 30%, transparent);
+}
+
+.dark .project-tech-more-button {
+  background-color: color-mix(in srgb, var(--projects-accent) 26%, transparent);
+  color: color-mix(in srgb, rgb(219 234 254) 92%, var(--projects-text));
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--projects-accent) 24%, transparent);
+}
+
+.project-tech-more-button:hover {
+  background-color: color-mix(in srgb, var(--projects-accent) 24%, transparent);
+}
+
+.dark .project-tech-more-button:hover {
+  background-color: color-mix(in srgb, var(--projects-accent) 32%, transparent);
 }
 
 .project-tech-less-button {
-  @apply px-2.5 py-1 bg-gray-100/80 dark:bg-white/10 text-gray-700 dark:text-gray-200 rounded-full text-xs font-semibold hover:bg-gray-200/80 dark:hover:bg-white/15 transition-colors;
-  @apply ring-1 ring-black/5 dark:ring-white/10;
+  @apply px-2.5 py-1 rounded-full text-xs font-semibold transition-colors;
+  background-color: color-mix(in srgb, var(--projects-border) 36%, transparent);
+  color: var(--projects-text);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--projects-border) 82%, transparent);
+}
+
+.dark .project-tech-less-button {
+  background-color: color-mix(in srgb, white 10%, transparent);
+  color: var(--projects-text);
+  box-shadow: 0 0 0 1px color-mix(in srgb, white 14%, transparent);
+}
+
+.project-tech-less-button:hover {
+  background-color: color-mix(in srgb, var(--projects-border) 46%, transparent);
+}
+
+.dark .project-tech-less-button:hover {
+  background-color: color-mix(in srgb, white 14%, transparent);
 }
 
 .project-tech-more-button:focus-visible,
@@ -100,8 +148,23 @@
 }
 
 .project-action-github {
-  @apply bg-gray-900 dark:bg-gray-700 text-white dark:text-white hover:bg-gray-800 dark:hover:bg-gray-600;
-  @apply ring-1 ring-black/10 dark:ring-white/10;
+  background-color: rgb(15 23 42);
+  color: rgb(248 250 252);
+  box-shadow: 0 0 0 1px rgb(30 41 59);
+}
+
+.project-action-github:hover {
+  background-color: rgb(30 41 59);
+}
+
+.dark .project-action-github {
+  background-color: rgb(15 23 42);
+  color: rgb(248 250 252);
+  box-shadow: 0 0 0 1px rgb(51 65 85);
+}
+
+.dark .project-action-github:hover {
+  background-color: rgb(30 41 59);
 }
 
 .project-action-demo {
