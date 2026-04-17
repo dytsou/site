@@ -104,7 +104,9 @@ async function githubFetch(url) {
       throw error;
     }
 
-    throw new Error(`GitHub API request failed (${response.status}) for ${url}`);
+    throw new Error(
+      `GitHub API request failed (${response.status}) for ${url}`
+    );
   }
 
   return response.json();
@@ -140,7 +142,9 @@ async function fetchOwnedPublicRepos(username) {
 
   return repos.filter(
     (repo) =>
-      repo?.owner?.login === username && repo?.fork === false && repo?.private !== true
+      repo?.owner?.login === username &&
+      repo?.fork === false &&
+      repo?.private !== true
   );
 }
 
@@ -236,4 +240,3 @@ main().catch((error) => {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });
-

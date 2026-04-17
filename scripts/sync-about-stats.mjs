@@ -4,7 +4,10 @@ import process from 'node:process';
 
 const repoRoot = process.cwd();
 const envPath = path.join(repoRoot, '.env');
-const outputPath = path.join(repoRoot, 'src/components/about/AboutStats.generated.ts');
+const outputPath = path.join(
+  repoRoot,
+  'src/components/about/AboutStats.generated.ts'
+);
 
 async function readDotEnv(filePath) {
   try {
@@ -84,7 +87,9 @@ async function githubFetch(url) {
       throw error;
     }
 
-    throw new Error(`GitHub API request failed (${response.status}) for ${url}`);
+    throw new Error(
+      `GitHub API request failed (${response.status}) for ${url}`
+    );
   }
 
   return response.json();
@@ -131,4 +136,3 @@ main().catch((error) => {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });
-

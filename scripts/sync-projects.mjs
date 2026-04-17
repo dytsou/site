@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import prettier from 'prettier';
 
 const repoRoot = process.cwd();
 const envPath = path.join(repoRoot, '.env');
@@ -210,6 +211,11 @@ export const PROJECTS_CONTENTS: Project[] = ${contents} as Project[];
 `;
 }
 
+async function formatGeneratedTypeScript(code, filePath) {
+  const config = await prettier.resolveConfig(filePath);
+  return prettier.format(code, { ...(config ?? {}), filepath: filePath });
+}
+
 async function buildProject(source) {
   if (offlineMode) {
     return buildProjectOffline(source);
@@ -238,7 +244,8 @@ async function main() {
     const projects = await Promise.all(sources.map(buildProject));
     const output = renderOutput(projects);
 
-    await writeFile(outputPath, output);
+    const formatted = await formatGeneratedTypeScript(output, outputPath);
+    await writeFile(outputPath, formatted);
     console.log(`Generated ${path.relative(repoRoot, outputPath)}`);
   } catch (error) {
     const hasOutput = await fileExists(outputPath);
