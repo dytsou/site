@@ -121,7 +121,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     title: 'GenAI Studio',
     description:
       'A local-first AI chat workspace built with React + TypeScript + Vite',
-    technologies: ['TypeScript', 'CSS', 'HTML', 'JavaScript'],
+    technologies: ['TypeScript', 'CSS', 'JavaScript', 'HTML'],
     tags: ['chat-application', 'react', 'typescript', 'vite'],
     github_url: 'https://github.com/dytsou/GenAI-Studio',
     featured: false,
