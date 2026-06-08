@@ -38,7 +38,7 @@ export const PROJECTS_CONTENTS: Project[] = [
       'whereby',
       'zoom',
     ],
-    github_url: 'https://github.com/dytsou/NextMeeting',
+    github_url: 'https://github.com/dytsou/ProxiMeeting',
     featured: true,
   },
   {
