@@ -6,7 +6,7 @@ import {
   Navigate,
   useNavigate,
 } from 'react-router-dom';
-import { setWebMcpNavigate, registerWebMcpTools } from './agent/webmcp';
+import { setWebMcpNavigate } from './agent/webmcp';
 import { Navigation } from './components/navigation/Navigation';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Home } from './pages/Home';
@@ -25,7 +25,6 @@ function AppContent() {
 
   useEffect(() => {
     setWebMcpNavigate(navigate);
-    registerWebMcpTools();
   }, [navigate]);
 
   // Enable swipe navigation

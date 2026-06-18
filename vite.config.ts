@@ -43,7 +43,7 @@ const createMinimal404Html = (
   ${faviconLink}
   <title>Dong-You Tsou</title>
   ${linkTag}
-  <script src="/webmcp-bootstrap.js"></script>
+  <script src="/webmcp-bootstrap.js" defer></script>
 </head>
 <body>
   <div id="root"></div>

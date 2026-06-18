@@ -1,10 +1,13 @@
-import { registerWebMcpTools } from './agent/webmcp';
+import { waitAndRegisterWebMcpTools } from './agent/webmcp';
+
+const controller = new AbortController();
 
 function bootWebMcp() {
-  if (registerWebMcpTools()) return;
-  document.addEventListener('DOMContentLoaded', () => registerWebMcpTools(), {
-    once: true,
-  });
+  waitAndRegisterWebMcpTools(controller.signal);
 }
 
-bootWebMcp();
+if (document.readyState === 'complete') {
+  bootWebMcp();
+} else {
+  window.addEventListener('load', bootWebMcp, { once: true });
+}

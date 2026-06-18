@@ -2,14 +2,17 @@ import { SITE_ROUTES, SITE_URL } from '../constants/site';
 import { CONTACT_CARDS } from '../components/contact/ContactLinks';
 import { PROJECTS_CONTENTS } from '../components/contents/Projects.generated';
 
+type WebMcpTool = {
+  name: string;
+  description: string;
+  inputSchema: Record<string, unknown>;
+  execute: (input: Record<string, unknown>) => Promise<unknown>;
+  annotations?: { readOnlyHint?: boolean };
+};
+
 type ModelContext = {
   registerTool: (
-    tool: {
-      name: string;
-      description: string;
-      inputSchema: Record<string, unknown>;
-      execute: (input: Record<string, unknown>) => Promise<unknown>;
-    },
+    tool: WebMcpTool,
     options?: { signal?: AbortSignal }
   ) => Promise<void>;
 };
@@ -27,25 +30,30 @@ let navigateToPage: (path: string) => void = (path) => {
 
 let toolsRegistered = false;
 
+export function hasWebMcpModelContext(): boolean {
+  return typeof getModelContext()?.registerTool === 'function';
+}
+
 function getModelContext(): ModelContext | undefined {
-  return (
-    (document as ModelContextHost).modelContext ??
-    (navigator as ModelContextHost).modelContext
-  );
+  const navigatorContext = (navigator as ModelContextHost).modelContext;
+  if (typeof navigatorContext?.registerTool === 'function') {
+    return navigatorContext;
+  }
+
+  const documentContext = (document as ModelContextHost).modelContext;
+  if (typeof documentContext?.registerTool === 'function') {
+    return documentContext;
+  }
+
+  return undefined;
 }
 
 export function setWebMcpNavigate(navigate: (path: string) => void) {
   navigateToPage = navigate;
 }
 
-export function registerWebMcpTools(signal?: AbortSignal): boolean {
-  const modelContext = getModelContext();
-  if (!modelContext || toolsRegistered) return toolsRegistered;
-  toolsRegistered = true;
-
-  const options = signal ? { signal } : undefined;
-
-  void modelContext.registerTool(
+function buildWebMcpTools(): WebMcpTool[] {
+  return [
     {
       name: 'navigate_to_page',
       description: 'Navigate to a page on Dong-You Tsou personal site.',
@@ -69,10 +77,6 @@ export function registerWebMcpTools(signal?: AbortSignal): boolean {
         return { url: `${SITE_URL}${page === '/' ? '' : page}` };
       },
     },
-    options
-  );
-
-  void modelContext.registerTool(
     {
       name: 'get_contact_info',
       description: 'Return public contact channels for Dong-You Tsou.',
@@ -90,11 +94,8 @@ export function registerWebMcpTools(signal?: AbortSignal): boolean {
         calendar: `${SITE_URL}/cal`,
         resume: `${SITE_URL}/resume`,
       }),
+      annotations: { readOnlyHint: true },
     },
-    options
-  );
-
-  void modelContext.registerTool(
     {
       name: 'list_projects',
       description: 'List featured projects from the site portfolio.',
@@ -125,11 +126,8 @@ export function registerWebMcpTools(signal?: AbortSignal): boolean {
           ),
         };
       },
+      annotations: { readOnlyHint: true },
     },
-    options
-  );
-
-  void modelContext.registerTool(
     {
       name: 'list_site_pages',
       description: 'Return canonical URLs for all public site pages.',
@@ -151,9 +149,46 @@ export function registerWebMcpTools(signal?: AbortSignal): boolean {
           oauthAuthorizationServer: `${SITE_URL}/.well-known/oauth-authorization-server`,
         },
       }),
+      annotations: { readOnlyHint: true },
     },
-    options
-  );
+  ];
+}
 
-  return true;
+export async function registerWebMcpTools(
+  signal?: AbortSignal
+): Promise<boolean> {
+  if (toolsRegistered) return true;
+
+  const modelContext = getModelContext();
+  if (!modelContext) return false;
+
+  const options = signal ? { signal } : undefined;
+
+  try {
+    for (const tool of buildWebMcpTools()) {
+      await modelContext.registerTool(tool, options);
+    }
+    toolsRegistered = true;
+    return true;
+  } catch (error) {
+    if (signal?.aborted) return false;
+    console.warn('WebMCP tool registration failed:', error);
+    return false;
+  }
+}
+
+const POLL_MS = 100;
+const REGISTRATION_TIMEOUT_MS = 30_000;
+
+export function waitAndRegisterWebMcpTools(signal?: AbortSignal): void {
+  const deadline = Date.now() + REGISTRATION_TIMEOUT_MS;
+
+  const attempt = async () => {
+    if (signal?.aborted) return;
+    if (await registerWebMcpTools(signal)) return;
+    if (Date.now() >= deadline) return;
+    setTimeout(attempt, POLL_MS);
+  };
+
+  void attempt();
 }
