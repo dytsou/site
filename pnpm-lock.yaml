@@ -7,6 +7,7 @@ settings:
 overrides:
   '@babel/core': 7.29.6
   esbuild: 0.28.1
+  undici: 7.28.0
 
 importers:
 
@@ -1828,8 +1829,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici@7.24.8:
-    resolution: {integrity: sha512-6KQ/+QxK49Z/p3HO6E5ZCZWNnCasyZLa5ExaVYyvPxUwKtbCPMKELJOqh7EqOle0t9cH/7d2TaaTRRa6Nhs4YQ==}
+  undici@7.28.0:
+    resolution: {integrity: sha512-cRZYrTDwWznlnRiPjggAGxZXanty6M8RV1ff8Wm4LWXBp7/IG8v5DnOm74DtUBp9OONpK75YlPnIjQqX0dBDtA==}
     engines: {node: '>=20.18.1'}
 
   unenv@2.0.0-rc.24:
@@ -3218,7 +3219,7 @@ snapshots:
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.34.5
-      undici: 7.24.8
+      undici: 7.28.0
       workerd: 1.20260616.1
       ws: 8.20.1
       youch: 4.1.0-beta.10
@@ -3503,7 +3504,7 @@ snapshots:
 
   typescript@6.0.3: {}
 
-  undici@7.24.8: {}
+  undici@7.28.0: {}
 
   unenv@2.0.0-rc.24:
     dependencies:
