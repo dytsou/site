@@ -36,19 +36,22 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Deploy site edge worker
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
-        run: pnpm deploy:worker
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN is not set. Skipping worker deploy and DNS-AID."
+            exit 0
+          fi
+          pnpm deploy:worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
       - name: Apply DNS-AID records
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ZONE_ID != '' }}
-        run: pnpm apply:dns-aid
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ZONE_ID" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN or CLOUDFLARE_ZONE_ID is not set. Skipping DNS-AID."
+            exit 0
+          fi
+          pnpm apply:dns-aid
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-
-      - name: Skip notice
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN == '' }}
-        run: |
-          echo "::warning::CLOUDFLARE_API_TOKEN is not set. Link headers, markdown negotiation, and DNS-AID deploy were skipped."
