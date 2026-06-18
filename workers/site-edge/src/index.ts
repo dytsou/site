@@ -141,6 +141,14 @@ export default {
     }
 
     const originResponse = await fetchOrigin(env, pathname, request);
+    if (!originResponse.ok) {
+      console.log({
+        event: 'origin_fetch_error',
+        pathname,
+        method: request.method,
+        status: originResponse.status,
+      });
+    }
     const headers = new Headers(originResponse.headers);
     applyDiscoveryContentType(pathname, headers);
     applyHtmlContentType(pathname, headers);

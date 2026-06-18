@@ -11,6 +11,7 @@
     "apply:dns-aid": "node scripts/apply-dns-aid.mjs",
     "verify:cloudflare-token": "node scripts/verify-cloudflare-token.mjs",
     "deploy:worker": "node scripts/verify-cloudflare-token.mjs && pnpm exec wrangler deploy --config workers/site-edge/wrangler.toml",
+    "tail:worker": "pnpm exec wrangler tail --config workers/site-edge/wrangler.toml",
     "lint": "eslint .",
     "sync": "pnpm sync:projects && pnpm sync:about-stats && pnpm sync:about-languages",
     "sync:projects": "node scripts/sync-projects.mjs",
