@@ -22,7 +22,7 @@ const PAGE_PATHS = SITE_ROUTES.map((route) => route.path);
 
 let navigateToPage: (path: string) => void = (path) => {
   const url = `${SITE_URL}${path === '/' ? '' : path}`;
-  window.location.assign(url);
+  globalThis.location.assign(url);
 };
 
 let toolsRegistered = false;

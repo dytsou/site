@@ -9,6 +9,10 @@ const requiredPermissions = [
   'Zone > DNS > Edit (only for DNS-AID script)',
 ];
 
+function isActiveTokenStatus(status) {
+  return status === 'active';
+}
+
 async function cloudflareRequest(path) {
   const response = await fetch(`https://api.cloudflare.com/client/v4${path}`, {
     headers: {
@@ -50,29 +54,36 @@ async function main() {
     process.exit(1);
   }
 
-  const { response: verifyResponse, payload: verifyPayload } =
+  const { payload: verifyPayload } =
     await cloudflareRequest('/user/tokens/verify');
 
   if (!verifyPayload.success) {
     console.error(
-      'Token verification failed:',
-      JSON.stringify(verifyPayload.errors)
+      'Token verification failed. Check token validity and permissions.'
     );
     printSetupInstructions();
     process.exit(1);
   }
 
-  console.log(`✓ Token is active (status: ${verifyPayload.result?.status})`);
+  if (!isActiveTokenStatus(verifyPayload.result?.status)) {
+    console.error('Token is not active. Create or refresh the API token.');
+    printSetupInstructions();
+    process.exit(1);
+  }
+
+  console.log('✓ Token is active.');
 
   const { response: scriptsResponse, payload: scriptsPayload } =
     await cloudflareRequest(`/accounts/${accountId}/workers/scripts`);
 
   if (!scriptsPayload.success) {
     console.error(
-      'Token cannot access Workers Scripts API:',
-      JSON.stringify(scriptsPayload.errors)
+      'Token cannot access Workers Scripts API. Check token permissions.'
     );
-    console.error(`Required permissions:\n${requiredPermissions.map((p) => `  - ${p}`).join('\n')}`);
+    console.error(
+      'Required permissions:\n' +
+        requiredPermissions.map((permission) => '  - ' + permission).join('\n')
+    );
     printSetupInstructions();
     process.exit(1);
   }
@@ -94,7 +105,9 @@ async function main() {
   console.log('✓ Cloudflare token is ready for worker deploy');
 }
 
-main().catch((error) => {
-  console.error(error);
+try {
+  await main();
+} catch {
+  console.error('Cloudflare token verification failed unexpectedly.');
   process.exit(1);
-});
+}
