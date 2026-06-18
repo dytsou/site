@@ -4,6 +4,7 @@
   "prConcurrentLimit": 10,
   "commitMessagePrefix": "build(deps)",
   "gitAuthor": "dytsou <d.y.tsou@gmail.com>",
+  "minimumReleaseAge": "2 days",
   "packageRules": [
     {
       "description": "Group npm dependency updates",
