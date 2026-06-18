@@ -2,6 +2,7 @@ import process from 'node:process';
 
 const zoneId = process.env.CLOUDFLARE_ZONE_ID;
 const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+const zoneName = 'tsou.me';
 const siteHost = 'dy.tsou.me';
 
 const records = [
@@ -27,27 +28,39 @@ const records = [
   },
 ];
 
-async function listRecords(name) {
+function fqdn(recordName) {
+  return `${recordName}.${zoneName}`;
+}
+
+async function cloudflare(path, options = {}) {
   const response = await fetch(
-    `https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records?type=HTTPS,SVCB&name=${name}.${siteHost}`,
+    `https://api.cloudflare.com/client/v4/zones/${zoneId}${path}`,
     {
       headers: {
         Authorization: `Bearer ${apiToken}`,
         'Content-Type': 'application/json',
       },
+      ...options,
     }
   );
-  const payload = await response.json();
+  return response.json();
+}
+
+async function listRecords(type, name) {
+  const params = new URLSearchParams({ type, name });
+  const payload = await cloudflare(`/dns_records?${params}`);
   if (!payload.success) {
-    throw new Error(`Failed to list DNS records: ${JSON.stringify(payload.errors)}`);
+    throw new Error(
+      `Failed to list DNS records: ${JSON.stringify(payload.errors)}`
+    );
   }
   return payload.result;
 }
 
 async function upsertRecord(record) {
-  const fqdn = `${record.name}.${siteHost}`;
-  const existing = (await listRecords(record.name)).find(
-    (entry) => entry.type === record.type && entry.name === fqdn
+  const fullName = fqdn(record.name);
+  const existing = (await listRecords(record.type, fullName)).find(
+    (entry) => entry.type === record.type
   );
 
   const body = {
@@ -57,26 +70,26 @@ async function upsertRecord(record) {
     data: record.data,
   };
 
-  const url = existing
-    ? `https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records/${existing.id}`
-    : `https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records`;
+  const path = existing ? `/dns_records/${existing.id}` : '/dns_records';
   const method = existing ? 'PUT' : 'POST';
 
-  const response = await fetch(url, {
+  const payload = await cloudflare(path, {
     method,
-    headers: {
-      Authorization: `Bearer ${apiToken}`,
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(body),
   });
-  const payload = await response.json();
+
   if (!payload.success) {
+    const alreadyExists = payload.errors?.some((error) => error.code === 81058);
+    if (alreadyExists) {
+      console.log(`✓ ${record.type} ${fullName} already exists`);
+      return;
+    }
     throw new Error(
-      `Failed to ${existing ? 'update' : 'create'} ${record.type} ${fqdn}: ${JSON.stringify(payload.errors)}`
+      `Failed to ${existing ? 'update' : 'create'} ${record.type} ${fullName}: ${JSON.stringify(payload.errors)}`
     );
   }
-  console.log(`✓ ${existing ? 'Updated' : 'Created'} ${record.type} ${fqdn}`);
+
+  console.log(`✓ ${existing ? 'Updated' : 'Created'} ${record.type} ${fullName}`);
 }
 
 async function main() {
