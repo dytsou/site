@@ -25,6 +25,12 @@ dist-ssr
 *.sw?
 .env
 
+# Generated agent discovery artifacts (see scripts/generate-agent-discovery.mjs)
+/public/sitemap.xml
+/public/robots.txt
+/public/auth.md
+/public/.well-known/
+
 # Playwright artifacts (if regenerated locally)
 /test-results/
 /playwright-report/

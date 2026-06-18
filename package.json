@@ -4,8 +4,9 @@
   "version": "1.8.4",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "pnpm sync && vite build",
+    "dev": "pnpm generate:agent-discovery && vite",
+    "build": "pnpm sync && pnpm generate:agent-discovery && vite build",
+    "generate:agent-discovery": "node scripts/generate-agent-discovery.mjs",
     "lint": "eslint .",
     "sync": "pnpm sync:projects && pnpm sync:about-stats && pnpm sync:about-languages",
     "sync:projects": "node scripts/sync-projects.mjs",
