@@ -1,5 +1,12 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
+import { registerWebMcpTools } from './agent/webmcp';
 import { Navigation } from './components/navigation/Navigation';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Home } from './pages/Home';
@@ -14,6 +21,12 @@ import { useSwipeNavigation } from './hooks/useSwipeNavigation';
 import { SWIPE_ROUTE_ORDER } from './constants/swipeRouteOrder';
 
 function AppContent() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    registerWebMcpTools(navigate);
+  }, [navigate]);
+
   // Enable swipe navigation
   useSwipeNavigation({
     routeOrder: [...SWIPE_ROUTE_ORDER],

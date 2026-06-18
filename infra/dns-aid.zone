@@ -1,0 +1,6 @@
+; DNS for AI Discovery (DNS-AID) records for dy.tsou.me
+; Publish in a signed DNSSEC zone. Replace hints with your Cloudflare edge addresses.
+;
+; Example ServiceMode SVCB/HTTPS records:
+; _index._agents.dy.tsou.me. 3600 IN HTTPS 1 . alpn=h3,h2 ipv4hint=104.21.0.0 ipv6hint=2606:4700::6815:0
+; _index._agents.dy.tsou.me. 3600 IN SVCB  1 dy.tsou.me. port=443 alpn=h3,h2
