@@ -7,6 +7,7 @@ const repoRoot = process.cwd();
 const publicDir = path.join(repoRoot, 'public');
 const siteUrl = 'https://dy.tsou.me';
 const generatedAt = new Date().toISOString().slice(0, 10);
+const publicScopes = ['public'];
 
 let siteVersion = '1.0.0';
 try {
@@ -198,6 +199,7 @@ Public content on this site does not require credentials. Agents may access page
 - **Provisioning:** immediate on first request
 - **Credential types:** none
 - **Credential use:** no bearer token is required for public pages, \`.well-known\` discovery documents, or agent skills
+- **Scopes:** public (read-only access to published site content)
 - **Claim URI:** ${siteUrl}/auth.md#anonymous
 
 ## Protected resources
@@ -243,7 +245,7 @@ function buildOAuthProtectedResource() {
     {
       resource: siteUrl,
       authorization_servers: [siteUrl],
-      scopes_supported: [],
+      scopes_supported: publicScopes,
       bearer_methods_supported: ['header'],
     },
     null,
@@ -258,6 +260,7 @@ function buildOAuthAuthorizationServer() {
       authorization_endpoint: `${siteUrl}/.well-known/oauth-authorization-server`,
       token_endpoint: `${siteUrl}/.well-known/oauth-authorization-server`,
       jwks_uri: `${siteUrl}/.well-known/jwks.json`,
+      scopes_supported: publicScopes,
       grant_types_supported: [],
       response_types_supported: [],
       agent_auth: {

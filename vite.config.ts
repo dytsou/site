@@ -9,7 +9,7 @@ import { join } from 'path';
 const extractTagsFromIndex = (indexContent: string) => {
   // Extract script and link tags that Vite injects (for JS and CSS)
   const scriptMatch = indexContent.match(
-    /<script[^>]*src="[^"]*"[^>]*><\/script>/
+    /<script[^>]*type="module"[^>]*src="[^"]*"[^>]*><\/script>/
   );
   const linkMatch = indexContent.match(/<link[^>]*rel="stylesheet"[^>]*>/);
 
@@ -43,6 +43,7 @@ const createMinimal404Html = (
   ${faviconLink}
   <title>Dong-You Tsou</title>
   ${linkTag}
+  <script src="/webmcp-bootstrap.js"></script>
 </head>
 <body>
   <div id="root"></div>

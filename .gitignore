@@ -30,6 +30,7 @@ dist-ssr
 /public/robots.txt
 /public/auth.md
 /public/.well-known/
+/public/webmcp-bootstrap.js
 
 # Playwright artifacts (if regenerated locally)
 /test-results/
