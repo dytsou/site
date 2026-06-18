@@ -6,6 +6,13 @@ updates:
     schedule:
       interval: "weekly"
       day: "friday"
+    # pnpm 11 enforces minimumReleaseAge (24h) on frozen lockfile installs in CI.
+    # Delay version-update PRs so published packages pass that check.
+    cooldown:
+      default-days: 2
+      semver-patch-days: 2
+      semver-minor-days: 2
+      semver-major-days: 7
     groups:
       app-and-tooling:
         patterns:
