@@ -18,6 +18,10 @@ const ROUTE_MARKDOWN: Record<string, string> = {
   '/contact': '/.well-known/markdown/contact.md',
 };
 
+const STATIC_CONTENT_TYPES: Record<string, string> = {
+  '/auth.md': 'text/markdown; charset=utf-8',
+};
+
 const WELL_KNOWN_CONTENT_TYPES: Record<string, string> = {
   '/.well-known/api-catalog': 'application/linkset+json; charset=utf-8',
   '/.well-known/agent-skills/index.json': 'application/json; charset=utf-8',
@@ -100,8 +104,9 @@ async function serveMarkdown(
   return new Response(markdown, { status: 200, headers });
 }
 
-function applyWellKnownContentType(pathname: string, headers: Headers) {
-  const contentType = WELL_KNOWN_CONTENT_TYPES[pathname];
+function applyDiscoveryContentType(pathname: string, headers: Headers) {
+  const contentType =
+    STATIC_CONTENT_TYPES[pathname] ?? WELL_KNOWN_CONTENT_TYPES[pathname];
   if (contentType) {
     headers.set('Content-Type', contentType);
   }
@@ -137,7 +142,7 @@ export default {
 
     const originResponse = await fetchOrigin(env, pathname, request);
     const headers = new Headers(originResponse.headers);
-    applyWellKnownContentType(pathname, headers);
+    applyDiscoveryContentType(pathname, headers);
     applyHtmlContentType(pathname, headers);
 
     const status =

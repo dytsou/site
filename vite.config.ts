@@ -78,6 +78,16 @@ export default defineConfig({
           console.log(
             '✓ Created minimal 404.html for GitHub Pages SPA routing'
           );
+
+          const webmcpBootstrap = join(distPath, 'webmcp-bootstrap.js');
+          if (existsSync(webmcpBootstrap)) {
+            const bootstrap404 = minimal404.replace(
+              '</head>',
+              '  <script src="/webmcp-bootstrap.js"></script>\n</head>'
+            );
+            writeFileSync(notFoundPath, bootstrap404);
+            console.log('✓ Included webmcp-bootstrap.js in 404.html');
+          }
         } else {
           console.warn('index.html not found, skipping 404.html generation');
         }
