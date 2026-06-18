@@ -7,6 +7,8 @@
     "dev": "pnpm generate:agent-discovery && vite",
     "build": "pnpm sync && pnpm generate:agent-discovery && vite build",
     "generate:agent-discovery": "node scripts/generate-agent-discovery.mjs",
+    "apply:dns-aid": "node scripts/apply-dns-aid.mjs",
+    "deploy:worker": "pnpm exec wrangler deploy --config workers/site-edge/wrangler.toml",
     "lint": "eslint .",
     "sync": "pnpm sync:projects && pnpm sync:about-stats && pnpm sync:about-languages",
     "sync:projects": "node scripts/sync-projects.mjs",

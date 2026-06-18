@@ -2,11 +2,22 @@ import { createHash } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { readFile } from 'node:fs/promises';
 
 const repoRoot = process.cwd();
 const publicDir = path.join(repoRoot, 'public');
 const siteUrl = 'https://dy.tsou.me';
 const generatedAt = new Date().toISOString().slice(0, 10);
+
+let siteVersion = '1.0.0';
+try {
+  const packageJson = JSON.parse(
+    await readFile(path.join(repoRoot, 'package.json'), 'utf8')
+  );
+  siteVersion = packageJson.version ?? siteVersion;
+} catch {
+  // keep default
+}
 
 const siteRoutes = [
   { path: '/', changefreq: 'weekly', priority: '1.0' },
@@ -173,23 +184,39 @@ Sitemap: ${siteUrl}/sitemap.xml
 function buildAuthMd() {
   return `# auth.md
 
-Audience: AI agents and automated clients.
+## Audience
 
-This site is a public personal portfolio. No authentication is required to read pages, discovery documents, or agent skills.
+AI agents and automated clients that need to discover or interact with ${siteUrl}.
 
-## Registration
+## Agent registration
 
-No agent registration or OAuth flow is required for public content on ${siteUrl}.
+Public content on this site does not require credentials. Agents may access pages and discovery documents immediately using the anonymous registration method below.
 
-## Credentials
+### Method: anonymous
 
-Public pages do not accept bearer tokens. If you need to contact the site owner, use the public channels documented at ${siteUrl}/contact.
+- **Identity type:** anonymous
+- **Registration endpoint:** none (open access; no account creation)
+- **Provisioning:** immediate on first request
+- **Credential types:** none
+- **Credential use:** no bearer token is required for public pages, \`.well-known\` discovery documents, or agent skills
+- **Claim URI:** ${siteUrl}/auth.md#anonymous
+
+## Protected resources
+
+This site has no protected APIs. All published pages and discovery documents are public.
 
 ## Discovery
 
 - API catalog: ${siteUrl}/.well-known/api-catalog
 - Agent skills: ${siteUrl}/.well-known/agent-skills/index.json
+- OAuth protected resource: ${siteUrl}/.well-known/oauth-protected-resource
+- OAuth authorization server: ${siteUrl}/.well-known/oauth-authorization-server
+- MCP server card: ${siteUrl}/.well-known/mcp/server-card.json
 - Sitemap: ${siteUrl}/sitemap.xml
+
+## Contact
+
+For human outreach, see ${siteUrl}/contact.
 `;
 }
 
@@ -202,8 +229,80 @@ function buildApiCatalog() {
           'service-doc': [{ href: `${siteUrl}/auth.md`, type: 'text/markdown' }],
           describedby: [
             { href: `${siteUrl}/.well-known/agent-skills/index.json` },
+            { href: `${siteUrl}/.well-known/mcp/server-card.json` },
           ],
         },
+      ],
+    },
+    null,
+    2
+  );
+}
+
+function buildOAuthProtectedResource() {
+  return JSON.stringify(
+    {
+      resource: siteUrl,
+      authorization_servers: [siteUrl],
+      scopes_supported: [],
+      bearer_methods_supported: ['header'],
+    },
+    null,
+    2
+  );
+}
+
+function buildOAuthAuthorizationServer() {
+  return JSON.stringify(
+    {
+      issuer: siteUrl,
+      authorization_endpoint: `${siteUrl}/.well-known/oauth-authorization-server`,
+      token_endpoint: `${siteUrl}/.well-known/oauth-authorization-server`,
+      jwks_uri: `${siteUrl}/.well-known/jwks.json`,
+      grant_types_supported: [],
+      response_types_supported: [],
+      agent_auth: {
+        skill: `${siteUrl}/.well-known/agent-skills/site-navigation.md`,
+        register_uri: `${siteUrl}/auth.md`,
+        identity_types_supported: ['anonymous'],
+        anonymous: {
+          credential_types_supported: ['none'],
+          claim_uri: `${siteUrl}/auth.md#anonymous`,
+        },
+      },
+    },
+    null,
+    2
+  );
+}
+
+function buildJwks() {
+  return JSON.stringify({ keys: [] }, null, 2);
+}
+
+function buildMcpServerCard() {
+  return JSON.stringify(
+    {
+      serverInfo: {
+        name: 'dytsou-personal-site',
+        version: siteVersion,
+      },
+      endpoint: siteUrl,
+      transport: {
+        type: 'webmcp',
+      },
+      capabilities: {
+        tools: {
+          listChanged: false,
+        },
+        resources: {},
+        prompts: {},
+      },
+      tools: [
+        { name: 'navigate_to_page' },
+        { name: 'get_contact_info' },
+        { name: 'list_projects' },
+        { name: 'list_site_pages' },
       ],
     },
     null,
@@ -252,6 +351,19 @@ async function main() {
   await writeText(
     path.join(publicDir, '.well-known/api-catalog'),
     buildApiCatalog()
+  );
+  await writeText(
+    path.join(publicDir, '.well-known/oauth-protected-resource'),
+    buildOAuthProtectedResource()
+  );
+  await writeText(
+    path.join(publicDir, '.well-known/oauth-authorization-server'),
+    buildOAuthAuthorizationServer()
+  );
+  await writeText(path.join(publicDir, '.well-known/jwks.json'), buildJwks());
+  await writeText(
+    path.join(publicDir, '.well-known/mcp/server-card.json'),
+    buildMcpServerCard()
   );
   await writeText(
     path.join(publicDir, '.well-known/agent-skills/index.json'),

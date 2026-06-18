@@ -3,13 +3,8 @@ main = "src/index.ts"
 compatibility_date = "2025-06-01"
 
 [vars]
-ORIGIN_HOST = "dytsou.github.io"
+ORIGIN_BASE = "https://raw.githubusercontent.com/dytsou/dytsou.github.io/main/"
 
-# Route this worker on dy.tsou.me after deploying:
-#   wrangler deploy
-# Then add a route in the Cloudflare dashboard:
-#   dy.tsou.me/* -> dytsou-site-edge
-#
-# DNS-AID (publish at your DNS provider with DNSSEC signing):
-#   _index._agents.dy.tsou.me.  HTTPS  1 . alpn=h3,h2 ipv4hint=<edge-ip> ipv6hint=<edge-ipv6>
-#   _index._agents.dy.tsou.me.  SVCB   1 dy.tsou.me. alpn=h3,h2 port=443
+[[routes]]
+pattern = "dy.tsou.me/*"
+zone_name = "tsou.me"
