@@ -9,7 +9,7 @@ import { join } from 'path';
 const extractTagsFromIndex = (indexContent: string) => {
   // Extract script and link tags that Vite injects (for JS and CSS)
   const scriptMatch = indexContent.match(
-    /<script[^>]*src="[^"]*"[^>]*><\/script>/
+    /<script[^>]*type="module"[^>]*src="[^"]*"[^>]*><\/script>/
   );
   const linkMatch = indexContent.match(/<link[^>]*rel="stylesheet"[^>]*>/);
 
@@ -43,6 +43,7 @@ const createMinimal404Html = (
   ${faviconLink}
   <title>Dong-You Tsou</title>
   ${linkTag}
+  <script src="/webmcp-bootstrap.js"></script>
 </head>
 <body>
   <div id="root"></div>
@@ -78,16 +79,6 @@ export default defineConfig({
           console.log(
             '✓ Created minimal 404.html for GitHub Pages SPA routing'
           );
-
-          const webmcpBootstrap = join(distPath, 'webmcp-bootstrap.js');
-          if (existsSync(webmcpBootstrap)) {
-            const bootstrap404 = minimal404.replace(
-              '</head>',
-              '  <script src="/webmcp-bootstrap.js"></script>\n</head>'
-            );
-            writeFileSync(notFoundPath, bootstrap404);
-            console.log('✓ Included webmcp-bootstrap.js in 404.html');
-          }
         } else {
           console.warn('index.html not found, skipping 404.html generation');
         }
