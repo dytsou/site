@@ -9,7 +9,9 @@ const wranglerToml = readFileSync(
 
 // ponytail: naive TOML string parse; fine for flat name/account_id in wrangler.toml
 function wranglerString(key) {
-  const match = wranglerToml.match(new RegExp(`^${key}\\s*=\\s*"([^"]+)"`, 'm'));
+  const match = wranglerToml.match(
+    new RegExp(String.raw`^${key}\s*=\s*"([^"]+)"`, 'm')
+  );
   if (!match) {
     throw new Error(`workers/site-edge/wrangler.toml: missing ${key}`);
   }
