@@ -4,3 +4,7 @@ allowBuilds:
   workerd: true
 # Supply-chain settings for pnpm 11+. See https://pnpm.io/settings#minimumreleaseage
 minimumReleaseAge: 1440
+
+overrides:
+  '@babel/core': '7.29.6'
+  esbuild: '0.28.1'
