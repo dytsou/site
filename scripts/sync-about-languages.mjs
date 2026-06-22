@@ -1,13 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import process from 'node:process';
-import {
-  fetchOwnedPublicRepos,
-  fileExists,
-  githubFetch,
-  isRetriableGithubError,
-  resolveGithubConfig,
-} from './lib/github-api.mjs';
+import { fetchOwnedPublicRepos, githubFetch } from './lib/github-api.mjs';
+import { runScript, withGithubSync } from './lib/github-sync.mjs';
 
 const repoRoot = process.cwd();
 const outputPath = path.join(
@@ -90,14 +84,10 @@ function renderOutput(languages) {
 `;
 }
 
-async function main() {
-  const username = 'dytsou';
-  const excluded = new Set(await readExcludedLanguages());
-  const { getToken, offlineMode } = resolveGithubConfig();
-  const token = await getToken();
-  const apiOptions = { token, offlineMode };
-
-  try {
+await runScript(() =>
+  withGithubSync(outputPath, async ({ apiOptions }) => {
+    const username = 'dytsou';
+    const excluded = new Set(await readExcludedLanguages());
     const repos = await fetchOwnedPublicRepos(username, apiOptions);
     const totals = new Map();
 
@@ -118,25 +108,6 @@ async function main() {
       name,
       color: LANGUAGE_COLORS[name] ?? 'var(--accent)',
     }));
-    const output = renderOutput(languages);
-    await writeFile(outputPath, output);
-    console.log(`Generated ${path.relative(repoRoot, outputPath)}`);
-  } catch (error) {
-    const hasOutput = await fileExists(outputPath);
-    const message = error instanceof Error ? error.message : String(error);
-
-    if (hasOutput && isRetriableGithubError(error, Boolean(token))) {
-      console.warn(
-        `Warning: ${message}. Using existing ${path.relative(repoRoot, outputPath)}`
-      );
-      return;
-    }
-
-    throw error;
-  }
-}
-
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
-});
+    await writeFile(outputPath, renderOutput(languages));
+  })
+);

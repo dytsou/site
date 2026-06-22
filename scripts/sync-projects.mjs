@@ -2,12 +2,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import prettier from 'prettier';
-import {
-  fileExists,
-  githubFetch,
-  isRetriableGithubError,
-  resolveGithubConfig,
-} from './lib/github-api.mjs';
+import { fileExists, githubFetch } from './lib/github-api.mjs';
+import { runScript, withGithubSync } from './lib/github-sync.mjs';
 
 const repoRoot = process.cwd();
 const sourcesPath = path.join(
@@ -159,35 +155,18 @@ async function buildProject(source, { token, offlineMode }) {
   };
 }
 
-async function main() {
-  const { getToken, offlineMode } = resolveGithubConfig();
-  const token = await getToken();
-  const sources = await readSources();
-  try {
-    const projects = await Promise.all(
-      sources.map((source) => buildProject(source, { token, offlineMode }))
-    );
-    const output = renderOutput(projects);
-
-    const formatted = await formatGeneratedTypeScript(output, outputPath);
-    await writeFile(outputPath, formatted);
-    console.log(`Generated ${path.relative(repoRoot, outputPath)}`);
-  } catch (error) {
-    const hasOutput = await fileExists(outputPath);
-    const message = error instanceof Error ? error.message : String(error);
-    if (hasOutput && isRetriableGithubError(error, Boolean(token))) {
-      await stripOrderIndexFromGenerated();
-      console.warn(
-        `Warning: ${message}. Using existing ${path.relative(repoRoot, outputPath)}`
+await runScript(() =>
+  withGithubSync(
+    outputPath,
+    async ({ token, offlineMode }) => {
+      const sources = await readSources();
+      const projects = await Promise.all(
+        sources.map((source) => buildProject(source, { token, offlineMode }))
       );
-      return;
-    }
-
-    throw error;
-  }
-}
-
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
-});
+      const output = renderOutput(projects);
+      const formatted = await formatGeneratedTypeScript(output, outputPath);
+      await writeFile(outputPath, formatted);
+    },
+    { onFallback: stripOrderIndexFromGenerated }
+  )
+);

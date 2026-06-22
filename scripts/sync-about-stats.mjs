@@ -1,18 +1,13 @@
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import process from 'node:process';
-import {
-  fileExists,
-  githubFetch,
-  isRetriableGithubError,
-  resolveGithubConfig,
-} from './lib/github-api.mjs';
+import { githubFetch } from './lib/github-api.mjs';
+import { runScript, withGithubSync } from './lib/github-sync.mjs';
 
-const repoRoot = process.cwd();
 const outputPath = path.join(
-  repoRoot,
+  process.cwd(),
   'src/components/about/AboutStats.generated.ts'
 );
+const username = 'dytsou';
 
 function renderOutput(publicRepos) {
   const value =
@@ -24,36 +19,12 @@ function renderOutput(publicRepos) {
 `;
 }
 
-async function main() {
-  const username = 'dytsou';
-  const { getToken, offlineMode } = resolveGithubConfig();
-  const token = await getToken();
-  const apiOptions = { token, offlineMode };
-
-  try {
+await runScript(() =>
+  withGithubSync(outputPath, async ({ apiOptions }) => {
     const user = await githubFetch(
       `https://api.github.com/users/${username}`,
       apiOptions
     );
-    const output = renderOutput(user?.public_repos);
-    await writeFile(outputPath, output);
-    console.log(`Generated ${path.relative(repoRoot, outputPath)}`);
-  } catch (error) {
-    const hasOutput = await fileExists(outputPath);
-    const message = error instanceof Error ? error.message : String(error);
-
-    if (hasOutput && isRetriableGithubError(error, Boolean(token))) {
-      console.warn(
-        `Warning: ${message}. Using existing ${path.relative(repoRoot, outputPath)}`
-      );
-      return;
-    }
-
-    throw error;
-  }
-}
-
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
-});
+    await writeFile(outputPath, renderOutput(user?.public_repos));
+  })
+);
