@@ -8,13 +8,6 @@ export type GitHubActivityRepo = {
 
 export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
   {
-    name: 'venn2meet',
-    description: '',
-    html_url: 'https://github.com/dytsou/venn2meet',
-    stargazers_count: 0,
-    language: 'TypeScript',
-  },
-  {
     name: 'site',
     description:
       'My personal website, which would be deploy to http://dy.tsou.me',
@@ -28,6 +21,13 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     html_url: 'https://github.com/dytsou/dytsou.github.io',
     stargazers_count: 0,
     language: 'HTML',
+  },
+  {
+    name: 'venn2meet',
+    description: '',
+    html_url: 'https://github.com/dytsou/venn2meet',
+    stargazers_count: 0,
+    language: 'TypeScript',
   },
   {
     name: 'sdcBillook',

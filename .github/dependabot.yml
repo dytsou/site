@@ -20,7 +20,6 @@ updates:
           - "@astrojs/*"
           - "react"
           - "lucide-react"
-          - "esbuild"
           - "typescript-eslint"
           - "typescript"
           - "postcss"

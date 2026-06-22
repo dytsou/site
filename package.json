@@ -4,14 +4,8 @@
   "version": "1.9.1",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/emit-site-routes.mjs && pnpm generate:agent-discovery && pnpm build:webmcp && astro dev",
-    "build": "node scripts/emit-site-routes.mjs && pnpm sync && pnpm generate:agent-discovery && pnpm build:webmcp && astro build && node scripts/verify-build.mjs",
-    "generate:agent-discovery": "node scripts/generate-agent-discovery.mjs",
-    "build:webmcp": "node scripts/build-webmcp.mjs",
-    "apply:dns-aid": "node scripts/apply-dns-aid.mjs",
-    "verify:cloudflare-token": "node scripts/verify-cloudflare-token.mjs",
-    "deploy:worker": "node scripts/verify-cloudflare-token.mjs && pnpm exec wrangler deploy --config workers/site-edge/wrangler.toml",
-    "tail:worker": "pnpm exec wrangler tail --config workers/site-edge/wrangler.toml",
+    "dev": "node scripts/emit-site-routes.mjs && astro dev",
+    "build": "node scripts/emit-site-routes.mjs && pnpm sync && astro build && node scripts/verify-build.mjs",
     "lint": "eslint .",
     "sync": "pnpm sync:projects && pnpm sync:about-stats && pnpm sync:about-languages && pnpm sync:github-activity",
     "sync:projects": "node scripts/sync-projects.mjs",
@@ -45,7 +39,6 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.5.0",
-    "esbuild": "0.28.1",
     "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -59,8 +52,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.61.1",
-    "wrangler": "^4.103.0"
+    "typescript-eslint": "^8.61.1"
   },
   "overrides": {
     "brace-expansion@>=5.0.0 <5.0.6": ">=5.0.6"

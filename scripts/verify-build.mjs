@@ -53,14 +53,7 @@ async function assertAllRoutesExist(routes) {
 }
 
 async function assertRequiredArtifacts() {
-  const requiredArtifacts = [
-    'sitemap.xml',
-    'robots.txt',
-    'webmcp-bootstrap.js',
-    '.well-known/api-catalog',
-    '.well-known/agent-skills/index.json',
-    '.well-known/mcp/server-card.json',
-  ];
+  const requiredArtifacts = ['sitemap.xml', 'robots.txt'];
 
   for (const artifact of requiredArtifacts) {
     await assertExists(artifact);
@@ -80,10 +73,6 @@ async function assertRouteTitlesAndScripts(routes) {
       throw new Error(`Duplicate <title> across routes: ${title}`);
     }
     titles.add(title);
-
-    if (!html.includes('webmcp-bootstrap.js')) {
-      throw new Error(`Missing webmcp-bootstrap.js script on ${route.path}`);
-    }
   }
 }
 

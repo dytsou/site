@@ -10,7 +10,6 @@ export default tseslint.config(
     ignores: [
       'dist',
       'node_modules',
-      'workers',
       'public',
       '.cache',
       '.pnpm-store',
