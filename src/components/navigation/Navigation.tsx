@@ -9,7 +9,7 @@ interface NavigationProps {
   currentPath: string;
 }
 
-export function Navigation({ currentPath }: NavigationProps) {
+export function Navigation({ currentPath }: Readonly<NavigationProps>) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
