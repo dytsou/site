@@ -20,7 +20,7 @@ import {
   Users,
   Calendar,
 } from 'lucide-react';
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 import type { Project } from '../../types/projects';
 import './ProjectIconUtils.css';
 
