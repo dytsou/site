@@ -1,0 +1,16 @@
+# ponytail: safety net when GitHub Pages runs Jekyll on this repo (Astro source).
+# Production deploys built dist/ to dytsou.github.io via .github/workflows/deploy.yml.
+exclude:
+  - src
+  - scripts
+  - node_modules
+  - dist
+  - public
+  - workers
+  - infra
+  - e2e
+  - artifacts
+  - .github
+  - .husky
+  - .vscode
+  - .astro
