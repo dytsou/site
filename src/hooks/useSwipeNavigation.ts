@@ -39,7 +39,8 @@ export function useSwipeNavigation({
 
   useEffect(() => {
     if (!enabled) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      return;
 
     const getCurrentRouteIndex = (): number => {
       const index = normalizedRoutes.indexOf(normalizedCurrent);
@@ -69,7 +70,7 @@ export function useSwipeNavigation({
       if (nextRoute && nextRoute !== normalizedCurrent) {
         isNavigating.current = true;
         lastNavigationTime.current = now;
-        window.location.assign(nextRoute);
+        globalThis.location.assign(nextRoute);
         scrollAccumulator.current = 0;
         setTimeout(() => {
           isNavigating.current = false;
