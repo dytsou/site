@@ -131,6 +131,32 @@ function applyHtmlContentType(pathname: string, headers: Headers) {
   }
 }
 
+const EXTENSION_CONTENT_TYPES: Record<string, string> = {
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.mjs': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon',
+  '.xml': 'application/xml; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8',
+  '.woff2': 'font/woff2',
+  '.woff': 'font/woff',
+  '.html': 'text/html; charset=utf-8',
+  '.md': 'text/markdown; charset=utf-8',
+};
+
+function applyExtensionContentType(pathname: string, headers: Headers) {
+  const dot = pathname.lastIndexOf('.');
+  if (dot === -1) return;
+  const contentType = EXTENSION_CONTENT_TYPES[pathname.slice(dot)];
+  if (contentType) headers.set('Content-Type', contentType);
+}
+
 function stripRawGitHubSecurityHeaders(headers: Headers) {
   headers.delete('content-security-policy');
   headers.delete('content-security-policy-report-only');
@@ -173,6 +199,7 @@ export default {
     }
     const headers = new Headers(originResponse.headers);
     stripRawGitHubSecurityHeaders(headers);
+    applyExtensionContentType(pathname, headers);
     applyDiscoveryContentType(pathname, headers);
     applyHtmlContentType(pathname, headers);
 
