@@ -131,6 +131,11 @@ function applyHtmlContentType(pathname: string, headers: Headers) {
   }
 }
 
+function stripRawGitHubSecurityHeaders(headers: Headers) {
+  headers.delete('content-security-policy');
+  headers.delete('content-security-policy-report-only');
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -167,6 +172,7 @@ export default {
       });
     }
     const headers = new Headers(originResponse.headers);
+    stripRawGitHubSecurityHeaders(headers);
     applyDiscoveryContentType(pathname, headers);
     applyHtmlContentType(pathname, headers);
 
