@@ -56,12 +56,14 @@ export function useSwipeNavigation({
       }
 
       const currentIndex = getCurrentRouteIndex();
-      const nextIndex =
-        direction === 'left'
-          ? (currentIndex + 1) % normalizedRoutes.length
-          : currentIndex === 0
-            ? normalizedRoutes.length - 1
-            : currentIndex - 1;
+      let nextIndex: number;
+      if (direction === 'left') {
+        nextIndex = (currentIndex + 1) % normalizedRoutes.length;
+      } else if (currentIndex === 0) {
+        nextIndex = normalizedRoutes.length - 1;
+      } else {
+        nextIndex = currentIndex - 1;
+      }
 
       const nextRoute = normalizedRoutes[nextIndex];
       if (nextRoute && nextRoute !== normalizedCurrent) {
