@@ -1,0 +1,12 @@
+{
+  "resource": "https://dy.tsou.me",
+  "authorization_servers": [
+    "https://dy.tsou.me"
+  ],
+  "scopes_supported": [
+    "public"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ]
+}

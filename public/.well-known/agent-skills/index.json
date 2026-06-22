@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "site-navigation",
+      "type": "skill-md",
+      "description": "Navigate the personal site and retrieve canonical page URLs for Dong-You Tsou.",
+      "url": "https://dy.tsou.me/.well-known/agent-skills/site-navigation.md",
+      "digest": "sha256:fe0cf0380d98aa4a5b54a95af6198f88c4030091b91c1516157fc37d9d6e4d76"
+    },
+    {
+      "name": "contact-dytsou",
+      "type": "skill-md",
+      "description": "Contact Dong-You Tsou via email, LinkedIn, GitHub, or calendar booking.",
+      "url": "https://dy.tsou.me/.well-known/agent-skills/contact-dytsou.md",
+      "digest": "sha256:024ed91ea1b7b318c7b690cb0488ffcbaab2daa80cc2cccf3d4a887d9e163059"
+    }
+  ]
+}

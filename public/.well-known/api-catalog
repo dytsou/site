@@ -1,0 +1,21 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://dy.tsou.me",
+      "service-doc": [
+        {
+          "href": "https://dy.tsou.me/auth.md",
+          "type": "text/markdown"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://dy.tsou.me/.well-known/agent-skills/index.json"
+        },
+        {
+          "href": "https://dy.tsou.me/.well-known/mcp/server-card.json"
+        }
+      ]
+    }
+  ]
+}
