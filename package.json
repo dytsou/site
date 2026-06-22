@@ -1,7 +1,7 @@
 {
   "name": "dytsou@personal-site",
   "private": true,
-  "version": "1.9.0",
+  "version": "1.9.1",
   "type": "module",
   "scripts": {
     "dev": "pnpm generate:agent-discovery && pnpm build:webmcp && vite",
