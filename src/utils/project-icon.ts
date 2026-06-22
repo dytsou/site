@@ -117,8 +117,10 @@ export function getProjectIconClasses(project: Project): {
   bgClass: string;
   iconClass: string;
 } {
-  const tech = [...(project.technologies || []), ...(project.tags || [])].map(
-    (t) => t.toLowerCase()
+  const tech = new Set(
+    [...(project.technologies || []), ...(project.tags || [])].map((t) =>
+      t.toLowerCase()
+    )
   );
   const title = String(project.title || '').toLowerCase();
 
@@ -130,7 +132,7 @@ export function getProjectIconClasses(project: Project): {
       titleMatchers.some((matcher) => title.includes(matcher));
     const techMatch =
       techMatchers.length > 0 &&
-      techMatchers.some((matcher) => tech.includes(matcher));
+      techMatchers.some((matcher) => tech.has(matcher));
     return titleMatch || techMatch;
   });
 
