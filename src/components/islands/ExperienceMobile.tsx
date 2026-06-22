@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 export function ExperienceMobile() {
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)');
+    const mq = globalThis.matchMedia('(max-width: 767px)');
 
     const bindToggle = (button: HTMLButtonElement) => {
       const panel = button
