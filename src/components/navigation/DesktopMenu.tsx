@@ -7,7 +7,7 @@ interface DesktopMenuProps {
   currentPath: string;
 }
 
-export function DesktopMenu({ currentPath }: DesktopMenuProps) {
+export function DesktopMenu({ currentPath }: Readonly<DesktopMenuProps>) {
   return (
     <div className="nav-desktop-menu">
       {navLinks.map((link) => (
