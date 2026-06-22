@@ -46,13 +46,13 @@ function routeToHtmlPath(routePath) {
   return `${routePath.slice(1)}/index.html`;
 }
 
-async function main() {
-  const routes = JSON.parse(await readFile(routesPath, 'utf8'));
-
+async function assertAllRoutesExist(routes) {
   for (const route of routes) {
     await assertExists(routeToHtmlPath(route.path));
   }
+}
 
+async function assertRequiredArtifacts() {
   const requiredArtifacts = [
     'sitemap.xml',
     'robots.txt',
@@ -65,7 +65,9 @@ async function main() {
   for (const artifact of requiredArtifacts) {
     await assertExists(artifact);
   }
+}
 
+async function assertRouteTitlesAndScripts(routes) {
   const titles = new Set();
   for (const route of routes) {
     const html = await readDist(routeToHtmlPath(route.path));
@@ -83,19 +85,18 @@ async function main() {
       throw new Error(`Missing webmcp-bootstrap.js script on ${route.path}`);
     }
   }
+}
 
-  const projectsHtml = await readDist('projects/index.html');
-  if (!projectsHtml.includes('carousel-container')) {
-    throw new Error('Projects page missing carousel markup');
-  }
-
+async function ensureNojekyll() {
   const nojekyllPath = path.join(distDir, '.nojekyll');
   try {
     await readFile(nojekyllPath);
   } catch {
     await writeFile(nojekyllPath, '');
   }
+}
 
+async function assertNoSecretPatterns() {
   const files = await listDistFiles();
   for (const file of files) {
     const content = await readDist(file);
@@ -105,6 +106,22 @@ async function main() {
       }
     }
   }
+}
+
+async function main() {
+  const routes = JSON.parse(await readFile(routesPath, 'utf8'));
+
+  await assertAllRoutesExist(routes);
+  await assertRequiredArtifacts();
+  await assertRouteTitlesAndScripts(routes);
+
+  const projectsHtml = await readDist('projects/index.html');
+  if (!projectsHtml.includes('carousel-container')) {
+    throw new Error('Projects page missing carousel markup');
+  }
+
+  await ensureNojekyll();
+  await assertNoSecretPatterns();
 
   console.log('✓ verify-build passed');
 }
