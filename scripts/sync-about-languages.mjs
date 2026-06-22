@@ -1,50 +1,19 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import {
+  fetchOwnedPublicRepos,
+  fileExists,
+  githubFetch,
+  isRetriableGithubError,
+  resolveGithubConfig,
+} from './lib/github-api.mjs';
 
 const repoRoot = process.cwd();
-const envPath = path.join(repoRoot, '.env');
 const outputPath = path.join(
   repoRoot,
   'src/components/about/language-grid/Languages.generated.ts'
 );
-
-async function readDotEnv(filePath) {
-  try {
-    const raw = await readFile(filePath, 'utf8');
-    const lines = raw.split(/\r?\n/);
-    const env = {};
-
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
-
-      const eqIndex = trimmed.indexOf('=');
-      if (eqIndex === -1) continue;
-
-      const key = trimmed.slice(0, eqIndex).trim();
-      let value = trimmed.slice(eqIndex + 1).trim();
-
-      if (
-        (value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))
-      ) {
-        value = value.slice(1, -1);
-      }
-
-      if (key) env[key] = value;
-    }
-
-    return env;
-  } catch {
-    return {};
-  }
-}
-
-const dotEnv = await readDotEnv(envPath);
-const githubToken = process.env.GITHUB_TOKEN || dotEnv.GITHUB_TOKEN;
-const offlineMode =
-  process.env.NO_GITHUB_API === '1' || process.env.NO_GITHUB_API === 'true';
 
 const LANGUAGE_COLORS = {
   Python: '#3572A5',
@@ -63,55 +32,6 @@ const LANGUAGE_COLORS = {
   Swift: '#F05138',
 };
 
-async function fileExists(filePath) {
-  try {
-    await readFile(filePath, 'utf8');
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-async function githubFetch(url) {
-  if (offlineMode) {
-    const error = new Error(`Offline mode: skipping GitHub API for ${url}`);
-    error.name = 'GitHubOfflineMode';
-    throw error;
-  }
-
-  const response = await fetch(url, {
-    headers: {
-      Accept: 'application/vnd.github+json',
-      ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
-    },
-  });
-
-  if (!response.ok) {
-    const remaining = response.headers.get('x-ratelimit-remaining');
-    const reset = response.headers.get('x-ratelimit-reset');
-
-    if (response.status === 403 && remaining === '0') {
-      const resetSeconds = reset ? Number(reset) : null;
-      const resetAt = resetSeconds ? new Date(resetSeconds * 1000) : null;
-      const resetMessage = resetAt
-        ? ` (rate limit resets at ${resetAt.toISOString()})`
-        : '';
-
-      const error = new Error(
-        `GitHub API rate-limited for ${url}${resetMessage}`
-      );
-      error.name = 'GitHubRateLimitError';
-      throw error;
-    }
-
-    throw new Error(
-      `GitHub API request failed (${response.status}) for ${url}`
-    );
-  }
-
-  return response.json();
-}
-
 function mapWithConcurrency(items, limit, fn) {
   const results = new Array(items.length);
   let idx = 0;
@@ -127,25 +47,6 @@ function mapWithConcurrency(items, limit, fn) {
     });
 
   return Promise.all(workers).then(() => results);
-}
-
-async function fetchOwnedPublicRepos(username) {
-  const perPage = 100;
-  const repos = [];
-
-  for (let page = 1; page <= 10; page += 1) {
-    const url = `https://api.github.com/users/${username}/repos?sort=pushed&per_page=${perPage}&page=${page}`;
-    const data = await githubFetch(url);
-    repos.push(...data);
-    if (data.length < perPage) break;
-  }
-
-  return repos.filter(
-    (repo) =>
-      repo?.owner?.login === username &&
-      repo?.fork === false &&
-      repo?.private !== true
-  );
 }
 
 async function readExcludedLanguages() {
@@ -192,13 +93,16 @@ function renderOutput(languages) {
 async function main() {
   const username = 'dytsou';
   const excluded = new Set(await readExcludedLanguages());
+  const { getToken, offlineMode } = resolveGithubConfig();
+  const token = await getToken();
+  const apiOptions = { token, offlineMode };
 
   try {
-    const repos = await fetchOwnedPublicRepos(username);
+    const repos = await fetchOwnedPublicRepos(username, apiOptions);
     const totals = new Map();
 
     await mapWithConcurrency(repos, 6, async (repo) => {
-      const data = await githubFetch(repo.languages_url);
+      const data = await githubFetch(repo.languages_url, apiOptions);
       for (const [lang, bytes] of Object.entries(data)) {
         if (excluded.has(lang)) continue;
         totals.set(lang, (totals.get(lang) ?? 0) + bytes);
@@ -220,12 +124,8 @@ async function main() {
   } catch (error) {
     const hasOutput = await fileExists(outputPath);
     const message = error instanceof Error ? error.message : String(error);
-    const isRateLimited =
-      error instanceof Error && error.name === 'GitHubRateLimitError';
-    const isOfflineMode =
-      error instanceof Error && error.name === 'GitHubOfflineMode';
 
-    if (hasOutput && (isRateLimited || isOfflineMode || !githubToken)) {
+    if (hasOutput && isRetriableGithubError(error, Boolean(token))) {
       console.warn(
         `Warning: ${message}. Using existing ${path.relative(repoRoot, outputPath)}`
       );
