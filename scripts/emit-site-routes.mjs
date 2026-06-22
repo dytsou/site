@@ -26,7 +26,7 @@ async function main() {
   if (!Array.isArray(routes) || routes.length === 0) {
     throw new Error('site-routes.json must be a non-empty array');
   }
-  routes.forEach(validateRoute);
+  routes.forEach((route, index) => validateRoute(route, index));
   const canonical = `${JSON.stringify(routes, null, 2)}\n`;
   await writeFile(routesPath, canonical);
 }
