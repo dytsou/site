@@ -16,10 +16,11 @@ updates:
     groups:
       app-and-tooling:
         patterns:
-          - "lucide-react"
-          - "vite"
+          - "astro"
+          - "@astrojs/*"
           - "react"
-          - "@supabase/supabase-js"
+          - "lucide-react"
+          - "esbuild"
           - "typescript-eslint"
           - "typescript"
           - "postcss"

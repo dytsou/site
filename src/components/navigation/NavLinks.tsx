@@ -1,20 +1,30 @@
-import { Link, useLocation } from 'react-router-dom';
 import { ExternalLink } from 'lucide-react';
-import { NavLink } from './navLinksConfig';
+import type { NavLink } from './navLinksConfig';
 
 interface NavLinkComponentProps {
   link: NavLink;
+  currentPath: string;
   variant?: 'desktop' | 'mobile';
   onNavigate?: () => void;
 }
 
+function normalizePath(path: string): string {
+  if (path === '/') return '/';
+  return path.endsWith('/') ? path : `${path}/`;
+}
+
+function hrefFor(path: string): string {
+  if (path.startsWith('http')) return path;
+  return normalizePath(path);
+}
+
 export function NavLinkComponent({
   link,
+  currentPath,
   variant = 'desktop',
   onNavigate,
 }: NavLinkComponentProps) {
-  const location = useLocation();
-  const isActive = location.pathname === link.path;
+  const isActive = normalizePath(currentPath) === normalizePath(link.path);
   const className =
     variant === 'desktop'
       ? `nav-link ${isActive ? 'nav-link-active' : ''}`
@@ -36,8 +46,8 @@ export function NavLinkComponent({
   }
 
   return (
-    <Link to={link.path} className={className} onClick={onNavigate}>
+    <a href={hrefFor(link.path)} className={className} onClick={onNavigate}>
       {link.label}
-    </Link>
+    </a>
   );
 }

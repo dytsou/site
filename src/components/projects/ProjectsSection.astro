@@ -1,23 +1,13 @@
 ---
 import Section from '../layout/Section.astro';
 import SectionHeader from '../layout/SectionHeader.astro';
-import ProjectCard from './ProjectCard.astro';
+import { ProjectCarousel } from '../projects/carousel/ProjectCarousel';
+import GitHubActivitySection from './GitHubActivitySection.astro';
 import { PROJECTS_CONTENTS } from '../contents/Projects.generated';
 import '../projects/carousel/ProjectCarousel.css';
 import '../projects/carousel/CarouselDarkMode.css';
 
-const CARD_STYLES = [
-  'card-style-primary',
-  'card-style-secondary',
-  'card-style-tertiary',
-];
-
 const projects = PROJECTS_CONTENTS;
-const cardsPerSlide = 1;
-const slides: (typeof projects)[] = [];
-for (let i = 0; i < projects.length; i += cardsPerSlide) {
-  slides.push(projects.slice(i, i + cardsPerSlide));
-}
 ---
 
 <Section id="projects">
@@ -28,106 +18,9 @@ for (let i = 0; i < projects.length; i += cardsPerSlide) {
 
   {
     projects.length > 0 && (
-      <div class="carousel-container" data-carousel>
-        <div
-          class="carousel-wrapper"
-          role="region"
-          aria-roledescription="carousel"
-          aria-label="Featured projects"
-          tabindex="0"
-        >
-          <div class="carousel-track">
-            <div
-              class="carousel-slides"
-              data-carousel-slides
-              style="transform: translateX(0%)"
-            >
-              {slides.map((slideProjects, slideIndex) => (
-                <div class="carousel-slide" data-carousel-slide={slideIndex}>
-                  <div class="carousel-slide-content single-column">
-                    {slideProjects.map((project, projectIdx) => {
-                      const globalIndex =
-                        slideIndex * cardsPerSlide + projectIdx;
-                      const cardStyle =
-                        CARD_STYLES[globalIndex % CARD_STYLES.length];
-                      return (
-                        <ProjectCard
-                          project={project}
-                          projectIndex={globalIndex}
-                          cardStyle={cardStyle}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            class="carousel-control-button carousel-control-prev"
-            data-carousel-prev
-            aria-label="Previous slide"
-          >
-            <svg
-              class="carousel-control-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          </button>
-
-          <button
-            type="button"
-            class="carousel-control-button carousel-control-next"
-            data-carousel-next
-            aria-label="Next slide"
-          >
-            <svg
-              class="carousel-control-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </button>
-
-          <div class="carousel-indicators" data-carousel-indicators>
-            {slides.map((_, index) => (
-              <button
-                type="button"
-                class:list={[
-                  'carousel-indicator',
-                  index === 0
-                    ? 'carousel-indicator-active'
-                    : 'carousel-indicator-inactive',
-                ]}
-                data-carousel-indicator={index}
-                aria-label={`Go to slide ${index + 1}`}
-                aria-current={index === 0 ? 'true' : undefined}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      <ProjectCarousel client:visible projects={projects} />
     )
   }
+
+  <GitHubActivitySection />
 </Section>
