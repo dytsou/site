@@ -1,0 +1,377 @@
+---
+import Section from '../layout/Section.astro';
+import SectionHeader from '../layout/SectionHeader.astro';
+import { education, experiences } from '../../data/experience-content';
+import '../experience/Experience.css';
+---
+
+<Section id="experience" background="gray">
+  <SectionHeader title="Experience & Education" />
+
+  <div class="education-card">
+    <div class="education-card-content">
+      <div class="education-icon-container">
+        <svg
+          class="education-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+          <path d="M22 10v6" />
+          <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+        </svg>
+      </div>
+      <div class="education-info">
+        <h3 class="education-institution">{education.institution}</h3>
+        <div class="education-degree">{education.degree}</div>
+        <div class="education-meta">
+          <div class="education-meta-item">
+            <svg
+              class="education-meta-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M8 2v4" />
+              <path d="M16 2v4" />
+              <rect width="18" height="18" x="3" y="4" rx="2" />
+              <path d="M3 10h18" />
+            </svg>
+            {education.period}
+          </div>
+          <div class="education-meta-item">
+            <svg
+              class="education-meta-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            {education.location}
+          </div>
+        </div>
+
+        <div
+          class="education-highlights-wrapper collapsed"
+          data-expandable-content
+          data-expandable-mobile-content
+        >
+          <ul class="education-highlights">
+            {
+              education.highlights.map((highlight) => (
+                <li class="education-highlight-item">
+                  <span class="education-highlight-bullet">•</span>
+                  {highlight}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <button
+          type="button"
+          class="education-toggle"
+          data-expandable-toggle
+          data-expandable-mobile-only
+          aria-label="Expand education highlights"
+        >
+          Show more
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="experience-timeline">
+    <div class="experience-timeline-line"></div>
+    <div class="experience-timeline-items">
+      {
+        experiences.map((exp, index) => (
+          <div
+            class="animate-fade-in"
+            style={{ animationDelay: `${index * 70}ms` }}
+          >
+            <div class="experience-card">
+              <div class="experience-card-dot experience-card-dot-mobile">
+                {exp.icon === 'briefcase' ? (
+                  <svg
+                    class={`experience-card-dot-icon experience-card-dot-icon-${exp.color}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    <rect width="20" height="14" x="2" y="6" rx="2" />
+                  </svg>
+                ) : (
+                  <svg
+                    class={`experience-card-dot-icon experience-card-dot-icon-${exp.color}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+                    <path d="M22 10v6" />
+                    <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+                  </svg>
+                )}
+              </div>
+
+              <div class="experience-card-content">
+                <div class="experience-card-header">
+                  <div class="experience-card-icon-container">
+                    {exp.icon === 'briefcase' ? (
+                      <svg
+                        class={`experience-card-icon experience-card-icon-${exp.color}`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        <rect width="20" height="14" x="2" y="6" rx="2" />
+                      </svg>
+                    ) : (
+                      <svg
+                        class={`experience-card-icon experience-card-icon-${exp.color}`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+                        <path d="M22 10v6" />
+                        <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+                      </svg>
+                    )}
+                  </div>
+                  <div class="experience-card-info">
+                    <div class="experience-card-organization">
+                      <h3
+                        class={`experience-card-organization-title experience-card-organization-title-${exp.color}`}
+                      >
+                        {exp.organization}
+                      </h3>
+                      {exp.orgUrl && (
+                        <a
+                          href={exp.orgUrl.trim()}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="experience-card-org-link"
+                          title="Visit organization website"
+                        >
+                          <svg
+                            class="experience-card-org-link-icon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M15 3h6v6" />
+                            <path d="M10 14 21 3" />
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                    {exp.title && (
+                      <div class="experience-card-title">{exp.title}</div>
+                    )}
+                    <div class="experience-card-meta">
+                      <div class="experience-card-meta-item">
+                        <svg
+                          class="experience-card-meta-icon"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M8 2v4" />
+                          <path d="M16 2v4" />
+                          <rect width="18" height="18" x="3" y="4" rx="2" />
+                          <path d="M3 10h18" />
+                        </svg>
+                        {exp.period}
+                      </div>
+                      <div class="experience-card-meta-item">
+                        <svg
+                          class="experience-card-meta-icon"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                          <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        {exp.location}
+                      </div>
+                    </div>
+
+                    <div
+                      class="experience-card-content-wrapper collapsed"
+                      data-expandable-content
+                      data-expandable-mobile-content
+                    >
+                      {(exp.description?.length ?? 0) > 0 && (
+                        <ul class="experience-card-description">
+                          {exp.description?.map((item) => (
+                            <li class="experience-card-description-item">
+                              <span
+                                class={`experience-card-description-bullet-${exp.color}`}
+                              >
+                                •
+                              </span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {exp.posts && exp.posts.length > 0 && (
+                        <div class="experience-posts">
+                          <div class="experience-posts-list">
+                            {exp.posts.map((post) => (
+                              <a
+                                href={post.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="experience-post-link group"
+                              >
+                                <div class="experience-post-content">
+                                  <div class="experience-post-title">
+                                    {post.title}
+                                  </div>
+                                  {post.subtitle && (
+                                    <div class="experience-post-subtitle">
+                                      {post.subtitle}
+                                    </div>
+                                  )}
+                                  <div class="experience-post-meta">
+                                    <div class="experience-post-date">
+                                      {post.date}
+                                    </div>
+                                    {post.orgUrl && (
+                                      <>
+                                        <span class="experience-post-separator">
+                                          •
+                                        </span>
+                                        <span class="experience-post-org-label">
+                                          Organization
+                                        </span>
+                                      </>
+                                    )}
+                                  </div>
+                                </div>
+                                <svg
+                                  class="experience-post-icon"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M15 3h6v6" />
+                                  <path d="M10 14 21 3" />
+                                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                </svg>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {((exp.description?.length ?? 0) > 0 ||
+                      (exp.posts && exp.posts.length > 0)) && (
+                      <button
+                        type="button"
+                        class="experience-card-toggle"
+                        data-expandable-toggle
+                        data-expandable-mobile-only
+                        aria-label="Expand experience details"
+                      >
+                        Show more
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Section>

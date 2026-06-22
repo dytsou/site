@@ -8,5 +8,8 @@ export default defineConfig({
   trailingSlash: 'always',
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      tsconfigPaths: true,
+    },
   },
 });

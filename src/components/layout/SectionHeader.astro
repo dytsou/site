@@ -1,0 +1,19 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  class?: string;
+}
+
+const { title, subtitle, class: className = '' } = Astro.props;
+---
+
+<div class:list={['section-header', className]}>
+  <h2 class="section-title">{title}</h2>
+  <div class="section-divider"></div>
+  {subtitle && <p class="section-subtitle">{subtitle}</p>}
+</div>
+
+<style is:global>
+  @import './Section.css';
+</style>
