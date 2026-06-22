@@ -2,10 +2,10 @@ name: Deploy to dytsou.github.io
 
 on:
   workflow_run:
-    workflows: [ "CI" ]
+    workflows: ["CI"]
     types:
       - completed
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -48,11 +48,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+          if-no-files-found: error
+
   deploy:
     # Only deploy if:
     # - CI (.github/workflows/ci.yml, workflow name "CI") completed successfully (workflow_run), OR
     # - checks job completed successfully (manual workflow_dispatch)
-    needs: [ checks ]
+    needs: [checks]
     if: |
       always() &&
       (
@@ -61,36 +69,31 @@ jobs:
       )
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       contents: write
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v7
+      - name: Download build artifact from CI
+        if: github.event_name == 'workflow_run'
+        uses: actions/download-artifact@v4
         with:
-          ref: ${{ github.event.workflow_run.head_branch || github.ref }}
-          fetch-depth: 0
+          name: dist
+          path: dist
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - name: Download build artifact from checks
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/download-artifact@v4
         with:
-          node-version: 24
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build site
-        run: pnpm build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: dist
+          path: dist
 
       - name: Verify build output
         run: |
           if [ ! -d "dist" ]; then
-            echo "::error::dist folder not found after build"
+            echo "::error::dist folder not found after download"
             exit 1
           fi
           echo "✓ Build output verified"
