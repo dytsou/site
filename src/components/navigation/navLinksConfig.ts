@@ -1,13 +1,2 @@
-export interface NavLink {
-  path: string;
-  label: string;
-  external?: boolean;
-}
-
-export const navLinks: NavLink[] = [
-  { path: '/about', label: 'About' },
-  { path: '/experiences', label: 'Experiences' },
-  { path: '/projects', label: 'Projects' },
-  { path: '/contact', label: 'Contact' },
-  { path: 'https://dy.tsou.me/resume', label: 'Resume', external: true },
-];
+export type { NavLink } from '../../data/site-routes';
+export { NAV_LINKS as navLinks } from '../../data/site-routes';

@@ -1,22 +1,23 @@
+import siteRoutesJson from '../../../src/data/site-routes.json';
+
 export interface Env {
   ORIGIN_BASE: string;
 }
 
-const SPA_ROUTES = new Set([
-  '/',
-  '/about',
-  '/experiences',
-  '/projects',
-  '/contact',
-]);
+type SiteRoute = { path: string };
 
-const ROUTE_MARKDOWN: Record<string, string> = {
-  '/': '/.well-known/markdown/index.md',
-  '/about': '/.well-known/markdown/about.md',
-  '/experiences': '/.well-known/markdown/experiences.md',
-  '/projects': '/.well-known/markdown/projects.md',
-  '/contact': '/.well-known/markdown/contact.md',
-};
+const SITE_ROUTES = new Set(
+  (siteRoutesJson as SiteRoute[]).map((route) => route.path)
+);
+
+const ROUTE_MARKDOWN: Record<string, string> = Object.fromEntries(
+  (siteRoutesJson as SiteRoute[]).map((route) => [
+    route.path,
+    route.path === '/'
+      ? '/.well-known/markdown/index.md'
+      : `/.well-known/markdown/${route.path.slice(1)}.md`,
+  ])
+);
 
 const STATIC_CONTENT_TYPES: Record<string, string> = {
   '/auth.md': 'text/markdown; charset=utf-8',
@@ -57,9 +58,21 @@ function normalizePath(pathname: string): string {
   return pathname;
 }
 
+function isAllowedPath(pathname: string): boolean {
+  if (pathname.includes('..')) return false;
+  if (pathname === '/') return true;
+  if (SITE_ROUTES.has(pathname)) return true;
+  if (pathname.startsWith('/assets/')) return true;
+  if (pathname === '/webmcp-bootstrap.js') return true;
+  if (pathname.startsWith('/.well-known/')) return true;
+  if (pathname === '/sitemap.xml' || pathname === '/robots.txt') return true;
+  if (pathname === '/auth.md') return true;
+  return false;
+}
+
 function originPath(pathname: string): string {
   if (pathname === '/') return 'index.html';
-  if (SPA_ROUTES.has(pathname)) return '404.html';
+  if (SITE_ROUTES.has(pathname)) return `${pathname.slice(1)}/index.html`;
   return pathname.startsWith('/') ? pathname.slice(1) : pathname;
 }
 
@@ -113,7 +126,7 @@ function applyDiscoveryContentType(pathname: string, headers: Headers) {
 }
 
 function applyHtmlContentType(pathname: string, headers: Headers) {
-  if (pathname === '/' || SPA_ROUTES.has(pathname)) {
+  if (pathname === '/' || SITE_ROUTES.has(pathname)) {
     headers.set('Content-Type', 'text/html; charset=utf-8');
   }
 }
@@ -124,7 +137,11 @@ export default {
     const pathname = normalizePath(url.pathname);
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
-      return fetchOrigin(env, pathname, request);
+      return new Response('Method Not Allowed', { status: 405 });
+    }
+
+    if (!isAllowedPath(pathname)) {
+      return new Response('Not Found', { status: 404 });
     }
 
     if (acceptsMarkdown(request)) {
@@ -153,24 +170,19 @@ export default {
     applyDiscoveryContentType(pathname, headers);
     applyHtmlContentType(pathname, headers);
 
-    const status =
-      SPA_ROUTES.has(pathname) && pathname !== '/'
-        ? 404
-        : originResponse.status;
-
     if (pathname === '/') {
       headers.set('Link', HOMEPAGE_LINK_HEADERS);
     }
 
     if (request.method === 'HEAD') {
       return new Response(null, {
-        status,
+        status: originResponse.status,
         headers,
       });
     }
 
     return new Response(originResponse.body, {
-      status,
+      status: originResponse.status,
       headers,
     });
   },

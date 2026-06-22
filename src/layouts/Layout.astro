@@ -1,0 +1,124 @@
+---
+import { Navigation } from '../components/navigation/Navigation';
+import { SwipeNavigation } from '../components/islands/SwipeNavigation';
+import { ExperienceMobile } from '../components/islands/ExperienceMobile';
+import Footer from '../components/footer/Footer.astro';
+import { SITE_URL, SITE_NAME } from '../data/site-routes';
+import '../styles/index.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  showFooter?: boolean;
+}
+
+const {
+  title = SITE_NAME,
+  description = 'Dong-You Tsou is a Computer Science student at NYCU, specializing in backend development, full-stack engineering, and leading developer communities. Experienced in Go, React.js, Python, and modern web technologies.',
+  canonical = `${SITE_URL}${Astro.url.pathname}`,
+  showFooter = true,
+} = Astro.props;
+
+const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/assets/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/assets/favicon.png" />
+    <link rel="apple-touch-icon" href="/assets/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+          ).matches;
+          var theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(theme);
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="backend developer Taiwan, NYCU computer science, React developer, full-stack developer, Dong-You Tsou, software engineering, Go developer, Python developer"
+    />
+    <meta name="author" content="Dong-You Tsou" />
+
+    <meta property="og:title" content={`${title} - Full-Stack Developer`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} - Full-Stack Developer`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="api-catalog" href="/.well-known/api-catalog" />
+    <link rel="describedby" href="/.well-known/agent-skills/index.json" />
+    <link rel="describedby" href="/.well-known/mcp/server-card.json" />
+    <link rel="service-doc" href="/auth.md" type="text/markdown" />
+    <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
+
+    <script src="/webmcp-bootstrap.js" defer></script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dong-You Tsou",
+        "url": "https://dy.tsou.me",
+        "sameAs": [
+          "https://github.com/dytsou",
+          "https://www.linkedin.com/in/dytsou/",
+          "https://resume.tsou.me"
+        ],
+        "jobTitle": "Full-Stack Developer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "NYCU Software Development Club"
+        },
+        "alumniOf": {
+          "@type": "EducationalOrganization",
+          "name": "National Yang Ming Chiao Tung University"
+        },
+        "email": "contact@dy.tsou.me",
+        "telephone": "+886971618820",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Hsinchu",
+          "addressCountry": "Taiwan"
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="min-h-screen">
+      <Navigation client:load currentPath={Astro.url.pathname} />
+      <SwipeNavigation client:load currentPath={Astro.url.pathname} />
+      <ExperienceMobile client:load />
+      <slot />
+      {showFooter && <Footer />}
+    </div>
+  </body>
+</html>

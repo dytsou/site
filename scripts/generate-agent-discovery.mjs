@@ -19,13 +19,9 @@ try {
   // keep default
 }
 
-const siteRoutes = [
-  { path: '/', changefreq: 'weekly', priority: '1.0' },
-  { path: '/about', changefreq: 'monthly', priority: '0.8' },
-  { path: '/experiences', changefreq: 'monthly', priority: '0.8' },
-  { path: '/projects', changefreq: 'weekly', priority: '0.9' },
-  { path: '/contact', changefreq: 'monthly', priority: '0.7' },
-];
+const siteRoutes = JSON.parse(
+  await readFile(path.join(repoRoot, 'src/data/site-routes.json'), 'utf8')
+);
 
 const pageMarkdown = {
   '/': `# Dong-You Tsou
@@ -227,7 +223,9 @@ function buildApiCatalog() {
       linkset: [
         {
           anchor: siteUrl,
-          'service-doc': [{ href: `${siteUrl}/auth.md`, type: 'text/markdown' }],
+          'service-doc': [
+            { href: `${siteUrl}/auth.md`, type: 'text/markdown' },
+          ],
           describedby: [
             { href: `${siteUrl}/.well-known/agent-skills/index.json` },
             { href: `${siteUrl}/.well-known/mcp/server-card.json` },
@@ -343,7 +341,8 @@ async function main() {
 
   const markdownDir = path.join(publicDir, '.well-known/markdown');
   for (const [routePath, markdown] of Object.entries(pageMarkdown)) {
-    const fileName = routePath === '/' ? 'index.md' : `${routePath.slice(1)}.md`;
+    const fileName =
+      routePath === '/' ? 'index.md' : `${routePath.slice(1)}.md`;
     await writeText(path.join(markdownDir, fileName), markdown);
   }
 

@@ -1,0 +1,26 @@
+---
+import Section from '../layout/Section.astro';
+import SectionHeader from '../layout/SectionHeader.astro';
+import { ProjectCarousel } from '../projects/carousel/ProjectCarousel';
+import GitHubActivitySection from './GitHubActivitySection.astro';
+import { PROJECTS_CONTENTS } from '../contents/Projects.generated';
+import '../projects/carousel/ProjectCarousel.css';
+import '../projects/carousel/CarouselDarkMode.css';
+
+const projects = PROJECTS_CONTENTS;
+---
+
+<Section id="projects">
+  <SectionHeader
+    title="Featured Projects"
+    subtitle="A collection of my projects"
+  />
+
+  {
+    projects.length > 0 && (
+      <ProjectCarousel client:visible projects={projects} />
+    )
+  }
+
+  <GitHubActivitySection />
+</Section>

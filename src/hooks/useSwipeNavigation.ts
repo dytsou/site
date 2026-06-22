@@ -1,56 +1,53 @@
 import { useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 interface UseSwipeNavigationOptions {
   routeOrder: string[];
+  currentPath: string;
   minSwipeDistance?: number;
   minScrollDelta?: number;
   enabled?: boolean;
   navigationCooldown?: number;
 }
 
-/**
- * Hook to enable swipe and scroll navigation between routes
- * @param routeOrder - Array of route paths in navigation order
- * @param minSwipeDistance - Minimum horizontal distance in pixels to trigger navigation (default: 50)
- * @param minScrollDelta - Minimum horizontal scroll delta to trigger navigation (default: 50)
- * @param enabled - Whether swipe navigation is enabled (default: true)
- * @param navigationCooldown - Cooldown period in milliseconds between navigations (default: 500)
- */
+function normalizePath(path: string): string {
+  if (path === '/') return '/';
+  return path.endsWith('/') ? path : `${path}/`;
+}
+
 export function useSwipeNavigation({
   routeOrder,
+  currentPath,
   minSwipeDistance = 50,
   minScrollDelta = 50,
   enabled = true,
   navigationCooldown = 500,
 }: UseSwipeNavigationOptions) {
-  const navigate = useNavigate();
-  const location = useLocation();
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const touchEndY = useRef<number | null>(null);
-  const scrollAccumulator = useRef<number>(0);
-  const lastNavigationTime = useRef<number>(0);
-  const isNavigating = useRef<boolean>(false);
+  const scrollAccumulator = useRef(0);
+  const lastNavigationTime = useRef(0);
+  const isNavigating = useRef(false);
+  const normalizedRoutes = routeOrder.map(normalizePath);
+  const normalizedCurrent = normalizePath(currentPath);
 
-  // Reset scroll accumulator and navigation flag when route changes
   useEffect(() => {
     scrollAccumulator.current = 0;
     isNavigating.current = false;
-  }, [location.pathname]);
+  }, [normalizedCurrent]);
 
   useEffect(() => {
     if (!enabled) return;
+    if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      return;
 
     const getCurrentRouteIndex = (): number => {
-      const currentPath = location.pathname;
-      const index = routeOrder.indexOf(currentPath);
+      const index = normalizedRoutes.indexOf(normalizedCurrent);
       return index >= 0 ? index : 0;
     };
 
     const navigateToRoute = (direction: 'left' | 'right') => {
-      // Prevent rapid navigation - enforce cooldown period
       const now = Date.now();
       if (
         isNavigating.current ||
@@ -61,44 +58,38 @@ export function useSwipeNavigation({
 
       const currentIndex = getCurrentRouteIndex();
       let nextIndex: number;
-
       if (direction === 'left') {
-        // Swipe left = next route (wrap around to first if at end)
-        nextIndex = (currentIndex + 1) % routeOrder.length;
+        nextIndex = (currentIndex + 1) % normalizedRoutes.length;
+      } else if (currentIndex === 0) {
+        nextIndex = normalizedRoutes.length - 1;
       } else {
-        // Swipe right = previous route (wrap around to last if at beginning)
-        nextIndex =
-          currentIndex === 0 ? routeOrder.length - 1 : currentIndex - 1;
+        nextIndex = currentIndex - 1;
       }
 
-      const nextRoute = routeOrder[nextIndex];
-      if (nextRoute && nextRoute !== location.pathname) {
+      const nextRoute = normalizedRoutes[nextIndex];
+      if (nextRoute && nextRoute !== normalizedCurrent) {
         isNavigating.current = true;
         lastNavigationTime.current = now;
-        navigate(nextRoute);
-        // Reset scroll accumulator after navigation
+        globalThis.location.assign(nextRoute);
         scrollAccumulator.current = 0;
-
-        // Reset navigation flag after a short delay
         setTimeout(() => {
           isNavigating.current = false;
         }, navigationCooldown);
       }
     };
 
-    const handleTouchStart = (e: TouchEvent) => {
-      // Don't trigger swipe if touching interactive elements or carousels
-      const target = e.target as HTMLElement;
-      if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
+    const isInteractiveTarget = (target: HTMLElement) =>
+      target.tagName === 'A' ||
+      target.tagName === 'BUTTON' ||
+      Boolean(
         target.closest(
           'a, button, [role="button"], .carousel-container, .carousel-wrapper'
         )
-      ) {
-        return;
-      }
+      );
 
+    const handleTouchStart = (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (isInteractiveTarget(target)) return;
       touchStartX.current = e.touches[0].clientX;
       touchStartY.current = e.touches[0].clientY;
     };
@@ -123,22 +114,11 @@ export function useSwipeNavigation({
       const absDeltaX = Math.abs(deltaX);
       const absDeltaY = Math.abs(deltaY);
 
-      // Only trigger if horizontal swipe is more dominant than vertical
-      // This prevents triggering on scroll gestures
       if (absDeltaX > absDeltaY && absDeltaX > minSwipeDistance) {
-        // Reset accumulator to prevent immediate scroll navigation after touch swipe
         scrollAccumulator.current = 0;
-
-        if (deltaX > 0) {
-          // Swipe right = previous route
-          navigateToRoute('right');
-        } else {
-          // Swipe left = next route
-          navigateToRoute('left');
-        }
+        navigateToRoute(deltaX > 0 ? 'right' : 'left');
       }
 
-      // Reset values
       touchStartX.current = null;
       touchStartY.current = null;
       touchEndX.current = null;
@@ -146,57 +126,19 @@ export function useSwipeNavigation({
     };
 
     const handleWheel = (e: WheelEvent) => {
-      // Don't trigger scroll navigation if over interactive elements or carousels
       const target = e.target as HTMLElement;
-      if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest(
-          'a, button, [role="button"], .carousel-container, .carousel-wrapper'
-        )
-      ) {
-        return;
-      }
+      if (isInteractiveTarget(target)) return;
 
-      // Allow wheel on document body/html so global swipe navigation works
-      // (e.g. synthetic events in tests or trackpad on empty area)
-      if (target !== document.body && target !== document.documentElement) {
-        const hasHorizontalScroll = (el: HTMLElement | null): boolean => {
-          if (!el) return false;
-          if (el.scrollWidth > el.clientWidth) return true;
-          return hasHorizontalScroll(el.parentElement);
-        };
+      const absDeltaX = Math.abs(e.deltaX);
+      const absDeltaY = Math.abs(e.deltaY);
 
-        if (hasHorizontalScroll(target)) {
-          return;
-        }
-      }
-
-      const deltaX = e.deltaX;
-      const deltaY = e.deltaY;
-      const absDeltaX = Math.abs(deltaX);
-      const absDeltaY = Math.abs(deltaY);
-
-      // Only trigger if horizontal scroll is more dominant than vertical
-      // This prevents triggering on vertical scroll gestures
       if (absDeltaX > absDeltaY && absDeltaX > 0) {
-        // Accumulate scroll delta for smoother detection
-        scrollAccumulator.current += deltaX;
-
-        // Trigger navigation when accumulated delta exceeds threshold
+        scrollAccumulator.current += e.deltaX;
         if (Math.abs(scrollAccumulator.current) >= minScrollDelta) {
-          if (scrollAccumulator.current > 0) {
-            // Scroll right = previous route
-            navigateToRoute('right');
-          } else {
-            // Scroll left = next route
-            navigateToRoute('left');
-          }
-          // Reset accumulator after navigation
+          navigateToRoute(scrollAccumulator.current > 0 ? 'right' : 'left');
           scrollAccumulator.current = 0;
         }
       } else {
-        // Reset accumulator if vertical scroll is dominant
         scrollAccumulator.current = 0;
       }
     };
@@ -215,11 +157,10 @@ export function useSwipeNavigation({
     };
   }, [
     enabled,
-    location.pathname,
-    minSwipeDistance,
     minScrollDelta,
+    minSwipeDistance,
     navigationCooldown,
-    navigate,
-    routeOrder,
+    normalizedCurrent,
+    normalizedRoutes,
   ]);
 }

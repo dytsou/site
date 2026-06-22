@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { ThemeToggleButton } from './ThemeToggleButton';
 import { MobileMenuToggleButton } from './MobileMenuToggleButton';
 import { DesktopMenu } from './DesktopMenu';
 import { MobileMenu } from './MobileMenu';
 import './Navigation.css';
 
-export function Navigation() {
+interface NavigationProps {
+  currentPath: string;
+}
+
+export function Navigation({ currentPath }: Readonly<NavigationProps>) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -14,15 +17,23 @@ export function Navigation() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   return (
     <nav className={`nav ${isScrolled ? 'nav-scrolled' : 'nav-transparent'}`}>
       <div className="nav-container">
         <div className="nav-content">
-          <Link to="/" className="nav-brand" aria-label="Home">
+          <a href="/" className="nav-brand" aria-label="Home">
             <span className="nav-brand-frame" aria-hidden="true">
               <img
                 src="/assets/favicon.png"
@@ -32,21 +43,25 @@ export function Navigation() {
                 alt=""
               />
             </span>
-          </Link>
+          </a>
 
-          <DesktopMenu />
+          <DesktopMenu currentPath={currentPath} />
 
           <div className="nav-mobile-controls">
             <ThemeToggleButton variant="mobile" iconKey="moon-mobile" />
             <MobileMenuToggleButton
               isOpen={isOpen}
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpen((open) => !open)}
             />
           </div>
         </div>
       </div>
 
-      <MobileMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <MobileMenu
+        isOpen={isOpen}
+        currentPath={currentPath}
+        onClose={() => setIsOpen(false)}
+      />
     </nav>
   );
 }

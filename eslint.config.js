@@ -11,12 +11,14 @@ export default tseslint.config(
       'dist',
       'node_modules',
       'workers',
+      'public',
       '.cache',
       '.pnpm-store',
       '.screenshots',
       '**/.cache/**',
       '**/.pnpm-store/**',
       '**/.screenshots/**',
+      '**/*.astro',
     ],
   },
   {
@@ -47,6 +49,25 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+  {
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+      prettier,
+    ],
+    files: ['**/*.{js,mjs}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.node,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
+    rules: {
       '@typescript-eslint/no-unused-vars': 'off',
     },
   }

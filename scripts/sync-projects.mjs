@@ -2,9 +2,10 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import prettier from 'prettier';
+import { fileExists, githubFetch } from './lib/github-api.mjs';
+import { runScript, withGithubSync } from './lib/github-sync.mjs';
 
 const repoRoot = process.cwd();
-const envPath = path.join(repoRoot, '.env');
 const sourcesPath = path.join(
   repoRoot,
   'src/components/contents/projects.sources.json'
@@ -13,43 +14,6 @@ const outputPath = path.join(
   repoRoot,
   'src/components/contents/Projects.generated.ts'
 );
-
-async function readDotEnv(filePath) {
-  try {
-    const raw = await readFile(filePath, 'utf8');
-    const lines = raw.split(/\r?\n/);
-    const env = {};
-
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
-
-      const eqIndex = trimmed.indexOf('=');
-      if (eqIndex === -1) continue;
-
-      const key = trimmed.slice(0, eqIndex).trim();
-      let value = trimmed.slice(eqIndex + 1).trim();
-
-      if (
-        (value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))
-      ) {
-        value = value.slice(1, -1);
-      }
-
-      if (key) env[key] = value;
-    }
-
-    return env;
-  } catch {
-    return {};
-  }
-}
-
-const dotEnv = await readDotEnv(envPath);
-const githubToken = process.env.GITHUB_TOKEN || dotEnv.GITHUB_TOKEN;
-const offlineMode =
-  process.env.NO_GITHUB_API === '1' || process.env.NO_GITHUB_API === 'true';
 
 async function readSources() {
   const raw = await readFile(sourcesPath, 'utf8');
@@ -60,15 +24,6 @@ async function readSources() {
   }
 
   return parsed;
-}
-
-async function fileExists(filePath) {
-  try {
-    await readFile(filePath, 'utf8');
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 async function stripOrderIndexFromGenerated() {
@@ -96,48 +51,6 @@ function parseRepoUrl(url) {
     owner: parts[0],
     repo: parts[1].replace(/\.git$/, ''),
   };
-}
-
-async function githubFetch(endpoint) {
-  if (offlineMode) {
-    const error = new Error(
-      `Offline mode: skipping GitHub API for ${endpoint}`
-    );
-    error.name = 'GitHubOfflineMode';
-    throw error;
-  }
-
-  const response = await fetch(`https://api.github.com${endpoint}`, {
-    headers: {
-      Accept: 'application/vnd.github+json',
-      ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
-    },
-  });
-
-  if (!response.ok) {
-    const remaining = response.headers.get('x-ratelimit-remaining');
-    const reset = response.headers.get('x-ratelimit-reset');
-
-    if (response.status === 403 && remaining === '0') {
-      const resetSeconds = reset ? Number(reset) : null;
-      const resetAt = resetSeconds ? new Date(resetSeconds * 1000) : null;
-      const resetMessage = resetAt
-        ? ` (rate limit resets at ${resetAt.toISOString()})`
-        : '';
-
-      const error = new Error(
-        `GitHub API rate-limited for ${endpoint}${resetMessage}`
-      );
-      error.name = 'GitHubRateLimitError';
-      throw error;
-    }
-
-    throw new Error(
-      `GitHub API request failed (${response.status}) for ${endpoint}`
-    );
-  }
-
-  return response.json();
 }
 
 function uniquePreservingOrder(items) {
@@ -216,15 +129,19 @@ async function formatGeneratedTypeScript(code, filePath) {
   return prettier.format(code, { ...(config ?? {}), filepath: filePath });
 }
 
-async function buildProject(source) {
+async function buildProject(source, { token, offlineMode }) {
   if (offlineMode) {
     return buildProjectOffline(source);
   }
 
   const { owner, repo } = parseRepoUrl(source.url);
+  const apiOptions = { token, offlineMode };
   const [repoData, languageMap] = await Promise.all([
-    githubFetch(`/repos/${owner}/${repo}`),
-    githubFetch(`/repos/${owner}/${repo}/languages`),
+    githubFetch(`https://api.github.com/repos/${owner}/${repo}`, apiOptions),
+    githubFetch(
+      `https://api.github.com/repos/${owner}/${repo}/languages`,
+      apiOptions
+    ),
   ]);
 
   return {
@@ -238,38 +155,18 @@ async function buildProject(source) {
   };
 }
 
-async function main() {
-  const sources = await readSources();
-  try {
-    const projects = await Promise.all(sources.map(buildProject));
-    const output = renderOutput(projects);
-
-    const formatted = await formatGeneratedTypeScript(output, outputPath);
-    await writeFile(outputPath, formatted);
-    console.log(`Generated ${path.relative(repoRoot, outputPath)}`);
-  } catch (error) {
-    const hasOutput = await fileExists(outputPath);
-    const message = error instanceof Error ? error.message : String(error);
-    const isRateLimited =
-      error instanceof Error && error.name === 'GitHubRateLimitError';
-    const isOfflineMode =
-      error instanceof Error && error.name === 'GitHubOfflineMode';
-
-    if (hasOutput && (isRateLimited || isOfflineMode || !githubToken)) {
-      await stripOrderIndexFromGenerated();
-      console.warn(
-        `Warning: ${message}. Using existing ${path.relative(repoRoot, outputPath)}`
+await runScript(() =>
+  withGithubSync(
+    outputPath,
+    async ({ token, offlineMode }) => {
+      const sources = await readSources();
+      const projects = await Promise.all(
+        sources.map((source) => buildProject(source, { token, offlineMode }))
       );
-      return;
-    }
-
-    throw error;
-  }
-}
-
-try {
-  await main();
-} catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
-}
+      const output = renderOutput(projects);
+      const formatted = await formatGeneratedTypeScript(output, outputPath);
+      await writeFile(outputPath, formatted);
+    },
+    { onFallback: stripOrderIndexFromGenerated }
+  )
+);
