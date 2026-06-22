@@ -12,3 +12,24 @@ export type SiteRoute = {
 export const SITE_ROUTES = routes as SiteRoute[];
 
 export const NAV_ROUTES = SITE_ROUTES.filter((r) => r.path !== '/');
+
+export type NavLink = {
+  path: string;
+  label: string;
+  external?: boolean;
+};
+
+const NAV_LABELS: Record<string, string> = {
+  '/about': 'About',
+  '/experiences': 'Experiences',
+  '/projects': 'Projects',
+  '/contact': 'Contact',
+};
+
+export const NAV_LINKS: NavLink[] = [
+  ...NAV_ROUTES.map((route) => ({
+    path: route.path,
+    label: NAV_LABELS[route.path] ?? route.path,
+  })),
+  { path: 'https://dy.tsou.me/resume', label: 'Resume', external: true },
+];

@@ -1,0 +1,21 @@
+---
+interface Props {
+  id: string;
+  background?: 'white' | 'gray';
+  class?: string;
+}
+
+const { id, background = 'white', class: className = '' } = Astro.props;
+const backgroundClass =
+  background === 'gray' ? 'section-gray' : 'section-white';
+---
+
+<section id={id} class:list={['section-base', backgroundClass, className]}>
+  <div class="section-container">
+    <slot />
+  </div>
+</section>
+
+<style is:global>
+  @import './Section.css';
+</style>

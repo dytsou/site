@@ -1,0 +1,275 @@
+---
+import { NAV_LINKS } from '../../data/site-routes';
+import './Navigation.css';
+
+const pathname = Astro.url.pathname;
+
+function isActive(path: string): boolean {
+  const normalized = path.endsWith('/') ? path : `${path}/`;
+  if (normalized === '/') return pathname === '/';
+  return pathname === normalized || pathname.startsWith(normalized);
+}
+
+function hrefFor(path: string): string {
+  if (path.startsWith('http')) return path;
+  return path.endsWith('/') ? path : `${path}/`;
+}
+---
+
+<nav class="nav nav-transparent" data-mobile-nav>
+  <div class="nav-container">
+    <div class="nav-content">
+      <a href="/" class="nav-brand" aria-label="Home">
+        <span class="nav-brand-frame" aria-hidden="true">
+          <img
+            src="/assets/favicon.png"
+            width={28}
+            height={28}
+            class="nav-brand-icon"
+            alt=""
+          />
+        </span>
+      </a>
+
+      <div class="nav-desktop-menu">
+        {
+          NAV_LINKS.map((link) =>
+            link.external ? (
+              <a
+                href={link.path}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="nav-link"
+              >
+                {link.label}
+                <svg
+                  class="nav-external-link-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                </svg>
+              </a>
+            ) : (
+              <a
+                href={hrefFor(link.path)}
+                class:list={[
+                  'nav-link',
+                  isActive(link.path) && 'nav-link-active',
+                ]}
+              >
+                {link.label}
+              </a>
+            )
+          )
+        }
+        <button
+          type="button"
+          class="nav-theme-toggle"
+          data-theme-toggle
+          aria-label="Switch theme"
+          title="Switch theme"
+        >
+          <svg
+            class="nav-theme-icon nav-theme-icon-light"
+            data-theme-icon="moon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.325.803a6 6 0 0 0 8.268 8.268c.344-.292.825-.078.855.401" />
+          </svg>
+          <svg
+            class="nav-theme-icon nav-theme-icon-dark"
+            data-theme-icon="sun"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2" />
+            <path d="M12 20v2" />
+            <path d="m4.93 4.93 1.41 1.41" />
+            <path d="m17.66 17.66 1.41 1.41" />
+            <path d="M2 12h2" />
+            <path d="M20 12h2" />
+            <path d="m6.34 17.66-1.41 1.41" />
+            <path d="m19.07 4.93-1.41 1.41" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="nav-mobile-controls">
+        <button
+          type="button"
+          class="nav-mobile-toggle"
+          data-theme-toggle
+          aria-label="Switch theme"
+          title="Switch theme"
+        >
+          <svg
+            class="nav-theme-icon nav-theme-icon-light"
+            data-theme-icon="moon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.325.803a6 6 0 0 0 8.268 8.268c.344-.292.825-.078.855.401" />
+          </svg>
+          <svg
+            class="nav-theme-icon nav-theme-icon-dark"
+            data-theme-icon="sun"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2" />
+            <path d="M12 20v2" />
+            <path d="m4.93 4.93 1.41 1.41" />
+            <path d="m17.66 17.66 1.41 1.41" />
+            <path d="M2 12h2" />
+            <path d="M20 12h2" />
+            <path d="m6.34 17.66-1.41 1.41" />
+            <path d="m19.07 4.93-1.41 1.41" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="nav-mobile-toggle"
+          data-mobile-nav-toggle
+          aria-label="Toggle menu"
+          aria-expanded="false"
+        >
+          <svg
+            class="nav-mobile-menu-icon"
+            data-mobile-nav-icon="menu"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="4" x2="20" y1="12" y2="12" />
+            <line x1="4" x2="20" y1="6" y2="6" />
+            <line x1="4" x2="20" y1="18" y2="18" />
+          </svg>
+          <svg
+            class="nav-mobile-menu-icon hidden"
+            data-mobile-nav-icon="close"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="nav-mobile-menu nav-mobile-menu-closed"
+    data-mobile-nav-menu
+    aria-hidden="true"
+  >
+    <div class="nav-mobile-content">
+      {
+        NAV_LINKS.map((link) => (
+          <div class="nav-mobile-link-wrapper nav-mobile-link-hidden">
+            {link.external ? (
+              <a
+                href={link.path}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="nav-mobile-link"
+                data-mobile-nav-link
+              >
+                {link.label}
+                <svg
+                  class="nav-external-link-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                </svg>
+              </a>
+            ) : (
+              <a
+                href={hrefFor(link.path)}
+                class:list={[
+                  'nav-mobile-link',
+                  isActive(link.path) && 'nav-link-active',
+                ]}
+                data-mobile-nav-link
+              >
+                {link.label}
+              </a>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</nav>

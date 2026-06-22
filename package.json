@@ -4,8 +4,14 @@
   "version": "1.9.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "pnpm sync && vite build",
+    "dev": "pnpm generate:agent-discovery && pnpm build:webmcp && astro dev",
+    "build": "pnpm sync && pnpm generate:agent-discovery && pnpm build:webmcp && astro build",
+    "generate:agent-discovery": "node scripts/generate-agent-discovery.mjs",
+    "build:webmcp": "vite build --config vite.webmcp.config.ts",
+    "apply:dns-aid": "node scripts/apply-dns-aid.mjs",
+    "verify:cloudflare-token": "node scripts/verify-cloudflare-token.mjs",
+    "deploy:worker": "node scripts/verify-cloudflare-token.mjs && pnpm exec wrangler deploy --config workers/site-edge/wrangler.toml",
+    "tail:worker": "pnpm exec wrangler tail --config workers/site-edge/wrangler.toml",
     "lint": "eslint .",
     "sync": "pnpm sync:projects && pnpm sync:about-stats && pnpm sync:about-languages",
     "sync:projects": "node scripts/sync-projects.mjs",
@@ -16,7 +22,7 @@
     "sync:about-stats:offline": "NO_GITHUB_API=1 node scripts/sync-about-stats.mjs",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "preview": "vite preview",
+    "preview": "astro preview",
     "deploy": "gh-pages -d dist",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "prepare": "husky"
@@ -54,7 +60,8 @@
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1",
-    "vite": "^8.0.16"
+    "vite": "^8.0.16",
+    "wrangler": "^4.101.0"
   },
   "overrides": {
     "brace-expansion@>=5.0.0 <5.0.6": ">=5.0.6"
