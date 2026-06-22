@@ -98,7 +98,7 @@ export const experiences: ExperienceEntry[] = [
   {
     type: 'research',
     organization: 'Applied Computing and Multimedia Lab',
-    orgUrl: ' http://acm.cs.nycu.edu.tw/',
+    orgUrl: 'https://acm.cs.nycu.edu.tw/',
     period: 'Sep 2024 - Aug 2025',
     location: 'NYCU',
     description: [
