@@ -8,7 +8,11 @@ interface MobileMenuProps {
   onClose: () => void;
 }
 
-export function MobileMenu({ isOpen, currentPath, onClose }: MobileMenuProps) {
+export function MobileMenu({
+  isOpen,
+  currentPath,
+  onClose,
+}: Readonly<MobileMenuProps>) {
   return (
     <div
       className={`nav-mobile-menu ${isOpen ? 'nav-mobile-menu-open' : 'nav-mobile-menu-closed'}`}
