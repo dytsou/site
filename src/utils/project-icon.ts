@@ -127,12 +127,8 @@ export function getProjectIconClasses(project: Project): {
   const match = iconConfigs.find((config) => {
     const { title: titleMatchers = [], tech: techMatchers = [] } =
       config.matchers;
-    const titleMatch =
-      titleMatchers.length > 0 &&
-      titleMatchers.some((matcher) => title.includes(matcher));
-    const techMatch =
-      techMatchers.length > 0 &&
-      techMatchers.some((matcher) => tech.has(matcher));
+    const titleMatch = titleMatchers.some((matcher) => title.includes(matcher));
+    const techMatch = techMatchers.some((matcher) => tech.has(matcher));
     return titleMatch || techMatch;
   });
 
