@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, ComponentType } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { ComponentType } from 'react';
 import type { Project } from '../../../types/projects';
 import './ProjectCard.css';
 import { ProjectCardHeader } from './ProjectCardHeader';
