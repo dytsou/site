@@ -1,5 +1,7 @@
 ---
-import Navigation from '../components/navigation/Navigation.astro';
+import { Navigation } from '../components/navigation/Navigation';
+import { SwipeNavigation } from '../components/islands/SwipeNavigation';
+import { ExperienceMobile } from '../components/islands/ExperienceMobile';
 import Footer from '../components/footer/Footer.astro';
 import { SITE_URL, SITE_NAME } from '../data/site-routes';
 import '../styles/index.css';
@@ -112,33 +114,11 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
 
   <body>
     <div class="min-h-screen">
-      <Navigation />
+      <Navigation client:load currentPath={Astro.url.pathname} />
+      <SwipeNavigation client:load currentPath={Astro.url.pathname} />
+      <ExperienceMobile client:load />
       <slot />
       {showFooter && <Footer />}
     </div>
-
-    <script>
-      import { initTheme } from '../scripts/client/theme';
-      import { initMobileNav } from '../scripts/client/mobile-nav';
-      import { initNavScroll } from '../scripts/client/nav-scroll';
-      import { initSwipeNav } from '../scripts/client/swipe-nav';
-      import { initCarousel } from '../scripts/client/carousel';
-      import { initExpandable } from '../scripts/client/expandable';
-
-      const initAll = () => {
-        initTheme();
-        initMobileNav();
-        initNavScroll();
-        initSwipeNav();
-        initCarousel();
-        initExpandable();
-      };
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initAll);
-      } else {
-        initAll();
-      }
-    </script>
   </body>
 </html>

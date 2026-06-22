@@ -50,14 +50,14 @@ const OPPORTUNITIES = [
                 href={card.url}
                 target={card.platform === 'email' ? undefined : '_blank'}
                 rel={
-                  card.platform === 'email'
-                    ? undefined
-                    : 'noopener noreferrer'
+                  card.platform === 'email' ? undefined : 'noopener noreferrer'
                 }
                 class={`contact-card contact-card-${card.platform} group`}
                 aria-label={`${card.title}${card.platform === 'email' ? '' : ' (opens in a new tab)'}`}
               >
-                <div class={`contact-card-icon contact-card-icon-${card.platform}`}>
+                <div
+                  class={`contact-card-icon contact-card-icon-${card.platform}`}
+                >
                   {card.platform === 'linkedin' && (
                     <svg
                       class="contact-card-icon-svg"

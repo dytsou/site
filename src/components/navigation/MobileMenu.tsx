@@ -4,13 +4,15 @@ import './Navigation.css';
 
 interface MobileMenuProps {
   isOpen: boolean;
+  currentPath: string;
   onClose: () => void;
 }
 
-export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+export function MobileMenu({ isOpen, currentPath, onClose }: MobileMenuProps) {
   return (
     <div
       className={`nav-mobile-menu ${isOpen ? 'nav-mobile-menu-open' : 'nav-mobile-menu-closed'}`}
+      aria-hidden={!isOpen}
     >
       <div className="nav-mobile-content">
         {navLinks.map((link) => (
@@ -20,6 +22,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           >
             <NavLinkComponent
               link={link}
+              currentPath={currentPath}
               variant="mobile"
               onNavigate={onClose}
             />

@@ -1,5 +1,5 @@
-import { SITE_ROUTES, SITE_URL } from '../constants/site';
-import { CONTACT_CARDS } from '../components/contact/ContactLinks';
+import { SITE_ROUTES, SITE_URL } from '../data/site-routes';
+import { CONTACT_CARDS } from '../data/contact-cards';
 import { PROJECTS_CONTENTS } from '../components/contents/Projects.generated';
 
 type WebMcpTool = {
@@ -23,11 +23,6 @@ type ModelContextHost = {
 
 const PAGE_PATHS = SITE_ROUTES.map((route) => route.path);
 
-let navigateToPage: (path: string) => void = (path) => {
-  const url = `${SITE_URL}${path === '/' ? '' : path}`;
-  globalThis.location.assign(url);
-};
-
 let toolsRegistered = false;
 
 export function hasWebMcpModelContext(): boolean {
@@ -48,8 +43,9 @@ function getModelContext(): ModelContext | undefined {
   return undefined;
 }
 
-export function setWebMcpNavigate(navigate: (path: string) => void) {
-  navigateToPage = navigate;
+function navigateToPage(path: string): void {
+  const url = `${SITE_URL}${path === '/' ? '' : path}`;
+  globalThis.location.assign(url);
 }
 
 function buildWebMcpTools(): WebMcpTool[] {
