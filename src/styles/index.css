@@ -1,0 +1,136 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-body:
+      'Source Sans 3', ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display:
+      'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+
+    --bg: rgb(248 250 252);
+    --bg-elev-1: rgb(255 255 255);
+    --border: rgb(226 232 240);
+
+    --text: rgb(15 23 42);
+    --text-muted: rgb(71 85 105);
+
+    --accent: rgb(37 99 235);
+    --accent-2: rgb(6 182 212);
+
+    --focus-ring: rgb(37 99 235 / 0.28);
+
+    --shadow-card: 0 10px 24px rgba(15, 23, 42, 0.08);
+    --shadow-card-hover: 0 14px 34px rgba(15, 23, 42, 0.12);
+  }
+
+  .dark {
+    --bg: rgb(3 7 18);
+    --bg-elev-1: rgb(17 24 39);
+    --border: rgb(30 41 59);
+
+    --text: rgb(226 232 240);
+    --text-muted: rgb(148 163 184);
+
+    --accent: rgb(96 165 250);
+    --accent-2: rgb(34 211 238);
+
+    --focus-ring: rgb(96 165 250 / 0.28);
+
+    --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.35);
+    --shadow-card-hover: 0 16px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    scroll-padding-top: 4rem;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply transition-colors duration-300;
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  /* Ensure proper dark mode for all elements */
+  * {
+    @apply transition-colors duration-300;
+  }
+
+  /* Improve dark mode contrast */
+  .dark {
+    color-scheme: dark;
+  }
+
+  /* Ensure proper contrast for dark mode */
+  .dark img {
+    opacity: 0.9;
+  }
+
+  .dark .shadow-lg {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.3),
+      0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .dark .shadow-xl {
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.3),
+      0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out;
+  }
+}
