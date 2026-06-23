@@ -1,4 +1,4 @@
-import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -53,7 +53,12 @@ async function assertAllRoutesExist(routes) {
 }
 
 async function assertRequiredArtifacts() {
-  const requiredArtifacts = ['sitemap.xml', 'robots.txt'];
+  const requiredArtifacts = [
+    'sitemap.xml',
+    'robots.txt',
+    '_headers',
+    '.well-known/api-catalog',
+  ];
 
   for (const artifact of requiredArtifacts) {
     await assertExists(artifact);
@@ -73,15 +78,6 @@ async function assertRouteTitlesAndScripts(routes) {
       throw new Error(`Duplicate <title> across routes: ${title}`);
     }
     titles.add(title);
-  }
-}
-
-async function ensureNojekyll() {
-  const nojekyllPath = path.join(distDir, '.nojekyll');
-  try {
-    await readFile(nojekyllPath);
-  } catch {
-    await writeFile(nojekyllPath, '');
   }
 }
 
@@ -109,7 +105,6 @@ async function main() {
     throw new Error('Projects page missing carousel markup');
   }
 
-  await ensureNojekyll();
   await assertNoSecretPatterns();
 
   console.log('✓ verify-build passed');

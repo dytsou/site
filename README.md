@@ -4,7 +4,7 @@ A modern, responsive personal portfolio website built with React, TypeScript, an
 
 ## Live Site
 
-Visit the live portfolio at: [https://dytsou.github.io](https://dytsou.github.io)
+Visit the live portfolio at: [https://dy.tsou.me](https://dy.tsou.me)
 
 ## Tech Stack
 
@@ -13,7 +13,7 @@ Visit the live portfolio at: [https://dytsou.github.io](https://dytsou.github.io
 - **Package Manager**: pnpm
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
-- **Deployment**: GitHub Pages
+- **Deployment**: Cloudflare Pages
 
 ## Project Structure
 

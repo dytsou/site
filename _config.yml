@@ -1,5 +1,5 @@
 # ponytail: safety net when GitHub Pages runs Jekyll on this repo (Astro source).
-# Production deploys built dist/ to dytsou.github.io via .github/workflows/deploy.yml.
+# Production deploys built dist/ to Cloudflare Pages via .github/workflows/deploy.yml.
 exclude:
   - src
   - scripts
