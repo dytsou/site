@@ -10,7 +10,7 @@ const siteUrls = [
 
 let lastError;
 
-for (const siteUrl of [...new Set(siteUrls)]) {
+for (const siteUrl of new Set(siteUrls)) {
   try {
     const res = await fetch(siteUrl, {
       headers: { Accept: 'text/markdown' },
@@ -18,20 +18,15 @@ for (const siteUrl of [...new Set(siteUrls)]) {
 
     const contentType = res.headers.get('content-type') ?? '';
     if (!contentType.includes('text/markdown')) {
-      throw new Error(
-        `Expected Content-Type text/markdown for ${siteUrl}, got ${contentType || '(missing)'}`
-      );
+      throw new Error('Expected Content-Type text/markdown');
     }
 
-    const tokens = res.headers.get('x-markdown-tokens');
     const body = await res.text();
     if (!body.trim()) {
-      throw new Error(`Markdown response body was empty for ${siteUrl}`);
+      throw new Error('Markdown response body was empty');
     }
 
-    console.log(
-      `✓ markdown negotiation OK for ${siteUrl} (${contentType}, x-markdown-tokens: ${tokens ?? 'n/a'}, ${body.length} bytes)`
-    );
+    console.log('✓ markdown negotiation OK');
     process.exit(0);
   } catch (error) {
     lastError = error;
