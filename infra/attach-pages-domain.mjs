@@ -28,7 +28,7 @@ if (!listData.success) {
 }
 
 if (listData.result?.some((entry) => entry.name === domain)) {
-  console.log(`✓ ${domain} already attached to ${projectName}`);
+  console.log('✓ custom domain already attached to Pages project');
   process.exit(0);
 }
 
@@ -48,6 +48,4 @@ if (!createData.success) {
   );
 }
 
-console.log(
-  `✓ attached ${domain} to ${projectName} (${createData.result.status})`
-);
+console.log('✓ custom domain attached to Pages project');
