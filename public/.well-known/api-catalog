@@ -12,6 +12,31 @@
           "href": "https://dy.tsou.me/robots.txt",
           "rel": "service-desc",
           "title": "Crawler policy"
+        },
+        {
+          "href": "https://dy.tsou.me/.well-known/oauth-protected-resource",
+          "rel": "oauth-protected-resource",
+          "title": "OAuth protected resource metadata"
+        },
+        {
+          "href": "https://dy.tsou.me/.well-known/oauth-authorization-server",
+          "rel": "oauth-authorization-server",
+          "title": "OAuth authorization server metadata"
+        },
+        {
+          "href": "https://dy.tsou.me/.well-known/mcp/server-card.json",
+          "rel": "mcp-server-card",
+          "title": "MCP server card"
+        },
+        {
+          "href": "https://dy.tsou.me/.well-known/agent-skills/index.json",
+          "rel": "agent-skills",
+          "title": "Agent skills discovery index"
+        },
+        {
+          "href": "https://dy.tsou.me/auth.md",
+          "rel": "agent-auth",
+          "title": "Agent registration and authentication"
         }
       ]
     }

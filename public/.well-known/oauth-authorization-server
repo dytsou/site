@@ -1,0 +1,31 @@
+{
+  "issuer": "https://dy.tsou.me",
+  "authorization_endpoint": "https://dy.tsou.me/oauth2/authorize",
+  "token_endpoint": "https://dy.tsou.me/oauth2/token",
+  "jwks_uri": "https://dy.tsou.me/.well-known/jwks.json",
+  "grant_types_supported": [
+    "client_credentials"
+  ],
+  "response_types_supported": [
+    "token"
+  ],
+  "token_endpoint_auth_methods_supported": [
+    "none"
+  ],
+  "scopes_supported": [
+    "site.read"
+  ],
+  "agent_auth": {
+    "skill": "https://dy.tsou.me/auth.md",
+    "register_uri": "https://dy.tsou.me/agent/identity",
+    "identity_types_supported": [
+      "anonymous"
+    ],
+    "anonymous": {
+      "credential_types_supported": [
+        "none"
+      ]
+    },
+    "claim_uri": "https://dy.tsou.me/agent/identity/claim"
+  }
+}

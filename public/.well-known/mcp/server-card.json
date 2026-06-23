@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "dy.tsou.me",
+    "version": "1.9.1"
+  },
+  "description": "Personal portfolio with in-browser WebMCP tools for navigation, project search, experiences, and contact info.",
+  "url": "https://dy.tsou.me/",
+  "transport": {
+    "type": "webmcp"
+  },
+  "capabilities": {
+    "tools": true
+  }
+}

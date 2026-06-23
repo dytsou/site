@@ -1,0 +1,13 @@
+{
+  "resource": "https://dy.tsou.me/",
+  "resource_name": "Dong-You Tsou",
+  "authorization_servers": [
+    "https://dy.tsou.me"
+  ],
+  "scopes_supported": [
+    "site.read"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ]
+}

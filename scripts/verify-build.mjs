@@ -57,7 +57,14 @@ async function assertRequiredArtifacts() {
     'sitemap.xml',
     'robots.txt',
     '_headers',
+    'auth.md',
     '.well-known/api-catalog',
+    '.well-known/oauth-authorization-server',
+    '.well-known/oauth-protected-resource',
+    '.well-known/jwks.json',
+    '.well-known/mcp/server-card.json',
+    '.well-known/agent-skills/index.json',
+    '.well-known/agent-skills/portfolio-webmcp/SKILL.md',
   ];
 
   for (const artifact of requiredArtifacts) {

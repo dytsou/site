@@ -5,6 +5,8 @@ function wantsMarkdown(request) {
 }
 
 function isHtmlPagePath(pathname) {
+  if (pathname === '/auth.md') return false;
+  if (pathname.startsWith('/.well-known/')) return false;
   if (pathname.endsWith('/')) return true;
   return /\.html?$/i.test(pathname);
 }
