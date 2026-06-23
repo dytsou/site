@@ -99,11 +99,13 @@ const tools: ModelContextTool[] = [
       required: ['path'],
     },
     execute: async (input) => {
-      const path = normalizePath(String(input.path ?? ''));
+      const path = normalizePath(
+        typeof input.path === 'string' ? input.path : ''
+      );
       if (!path) {
         throw new Error(`Invalid path. Use one of: ${SITE_PATHS.join(', ')}`);
       }
-      window.location.assign(path);
+      globalThis.location.assign(path);
       return { navigatedTo: path };
     },
   },
