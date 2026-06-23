@@ -5,52 +5,63 @@
  */
 import process from 'node:process';
 
+const API_ORIGIN = 'https://api.cloudflare.com';
 const ZONE_ID_RE = /^[a-f0-9]{32}$/i;
 const RECORD_ID_RE = /^[a-f0-9]{32}$/i;
 const HOSTNAME_RE =
   /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i;
 const PAGES_TARGET_RE = /^[a-z0-9-]+\.pages\.dev$/i;
 
-function assertZoneId(zoneId) {
+/** @param {unknown} value */
+function sanitizeZoneId(value) {
+  const zoneId = typeof value === 'string' ? value : '';
   if (!ZONE_ID_RE.test(zoneId)) {
     throw new Error('Invalid CLOUDFLARE_ZONE_ID');
   }
   return zoneId;
 }
 
-function assertRecordId(recordId) {
+/** @param {unknown} value */
+function sanitizeRecordId(value) {
+  const recordId = typeof value === 'string' ? value : '';
   if (!RECORD_ID_RE.test(recordId)) {
     throw new Error('Invalid DNS record id');
   }
   return recordId;
 }
 
-function assertHostname(hostname) {
+/** @param {unknown} value */
+function sanitizeHostname(value) {
+  const hostname = typeof value === 'string' ? value : '';
   if (!HOSTNAME_RE.test(hostname)) {
     throw new Error('Invalid CUSTOM_DOMAIN');
   }
   return hostname;
 }
 
-function assertPagesTarget(pagesTarget) {
+/** @param {unknown} value */
+function sanitizePagesTarget(value) {
+  const pagesTarget = typeof value === 'string' ? value : '';
   if (!PAGES_TARGET_RE.test(pagesTarget)) {
     throw new Error('Invalid PAGES_CNAME_TARGET');
   }
   return pagesTarget;
 }
 
-function zoneApiUrl(zoneId, path = '') {
-  const safeZoneId = assertZoneId(zoneId);
-  return new URL(
-    `/client/v4/zones/${safeZoneId}${path}`,
-    'https://api.cloudflare.com'
-  );
+function dnsRecordsCollectionUrl(zoneId) {
+  return new URL(`/client/v4/zones/${zoneId}/dns_records`, API_ORIGIN);
+}
+
+function dnsRecordItemUrl(zoneId, recordId) {
+  const url = dnsRecordsCollectionUrl(zoneId);
+  url.pathname = `${url.pathname}/${recordId}`;
+  return url;
 }
 
 const token = process.env.CLOUDFLARE_API_TOKEN;
 const zoneId = process.env.CLOUDFLARE_ZONE_ID;
-const hostname = assertHostname(process.env.CUSTOM_DOMAIN ?? 'dy.tsou.me');
-const pagesTarget = assertPagesTarget(
+const hostname = sanitizeHostname(process.env.CUSTOM_DOMAIN ?? 'dy.tsou.me');
+const pagesTarget = sanitizePagesTarget(
   process.env.PAGES_CNAME_TARGET ?? 'dy-tsou-me.pages.dev'
 );
 
@@ -61,12 +72,14 @@ if (!token || !zoneId) {
   process.exit(0);
 }
 
+const safeZoneId = sanitizeZoneId(zoneId);
+
 const headers = {
   Authorization: `Bearer ${token}`,
   'Content-Type': 'application/json',
 };
 
-const listUrl = zoneApiUrl(zoneId, '/dns_records');
+const listUrl = dnsRecordsCollectionUrl(safeZoneId);
 listUrl.searchParams.set('name', hostname);
 
 const listRes = await fetch(listUrl, { headers });
@@ -89,10 +102,8 @@ if (existing) {
     process.exit(0);
   }
 
-  const updateUrl = zoneApiUrl(
-    zoneId,
-    `/dns_records/${assertRecordId(existing.id)}`
-  );
+  const safeRecordId = sanitizeRecordId(existing.id);
+  const updateUrl = dnsRecordItemUrl(safeZoneId, safeRecordId);
   const updateRes = await fetch(updateUrl, {
     method: 'PATCH',
     headers,
@@ -106,7 +117,7 @@ if (existing) {
   process.exit(0);
 }
 
-const createUrl = zoneApiUrl(zoneId, '/dns_records');
+const createUrl = dnsRecordsCollectionUrl(safeZoneId);
 const createRes = await fetch(createUrl, {
   method: 'POST',
   headers,
