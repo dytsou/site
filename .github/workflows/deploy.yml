@@ -1,4 +1,4 @@
-name: Deploy to dytsou.github.io
+name: Deploy to Cloudflare Pages
 
 on:
   workflow_run:
@@ -9,10 +9,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  CLOUDFLARE_PAGES_PROJECT_NAME: dy-tsou-me
 
 jobs:
   checks:
@@ -70,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: read
-      contents: write
+      contents: read
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
@@ -99,24 +100,21 @@ jobs:
           echo "✓ Build output verified"
           ls -la dist/ | head -20
 
-      - name: Verify deployment token
+      - name: Verify Cloudflare credentials
         run: |
-          if [ -z "$GH_PAGES_TOKEN" ]; then
-            echo "::error::GH_PAGES_TOKEN secret is not set. Please create a Personal Access Token (PAT) with 'repo' scope and add it as a secret named 'GH_PAGES_TOKEN' in your repository settings."
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::Set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets."
             exit 1
           fi
-          echo "✓ Deployment token is configured"
+          echo "✓ Cloudflare credentials are configured"
         env:
-          GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Deploy to dytsou.github.io
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
-          external_repository: dytsou/dytsou.github.io
-          publish_dir: ./dist
-          publish_branch: main
-          user_name: dytsou
-          user_email: d.y.tsou@gmail.com
-          keep_files: true
-          cname: dy.tsou.me
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ env.CLOUDFLARE_PAGES_PROJECT_NAME }}
+          wranglerVersion: "4"

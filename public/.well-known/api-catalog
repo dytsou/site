@@ -1,0 +1,19 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://dy.tsou.me/",
+      "item": [
+        {
+          "href": "https://dy.tsou.me/sitemap.xml",
+          "rel": "service-desc",
+          "title": "Site pages and update frequency"
+        },
+        {
+          "href": "https://dy.tsou.me/robots.txt",
+          "rel": "service-desc",
+          "title": "Crawler policy"
+        }
+      ]
+    }
+  ]
+}
