@@ -13,7 +13,7 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
       'My personal website, which would be deploy to http://dy.tsou.me',
     html_url: 'https://github.com/dytsou/site',
     stargazers_count: 0,
-    language: 'CSS',
+    language: 'TypeScript',
   },
   {
     name: 'dytsou.github.io',
