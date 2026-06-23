@@ -33,4 +33,4 @@ if (!data.success) {
   throw new Error(message);
 }
 
-console.log(`✓ zone content_converter: ${data.result.value}`);
+console.log('✓ zone content_converter enabled');
