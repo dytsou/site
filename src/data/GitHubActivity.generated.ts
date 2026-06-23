@@ -8,19 +8,19 @@ export type GitHubActivityRepo = {
 
 export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
   {
-    name: 'dytsou.github.io',
-    description: 'My personal website',
-    html_url: 'https://github.com/dytsou/dytsou.github.io',
-    stargazers_count: 0,
-    language: 'HTML',
-  },
-  {
     name: 'site',
     description:
       'My personal website, which would be deploy to http://dy.tsou.me',
     html_url: 'https://github.com/dytsou/site',
     stargazers_count: 0,
     language: 'CSS',
+  },
+  {
+    name: 'dytsou.github.io',
+    description: 'My personal website',
+    html_url: 'https://github.com/dytsou/dytsou.github.io',
+    stargazers_count: 0,
+    language: 'HTML',
   },
   {
     name: 'venn2meet',

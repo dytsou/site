@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+/**
+ * Enable Cloudflare zone Markdown for Agents (content_converter).
+ * Requires Pro+ on the zone; Free plans use functions/_middleware.js instead.
+ */
+import process from 'node:process';
+
+const token = process.env.CLOUDFLARE_API_TOKEN;
+const zoneId = process.env.CLOUDFLARE_ZONE_ID;
+
+if (!token || !zoneId) {
+  console.log(
+    'Skip: set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ZONE_ID to enable zone conversion'
+  );
+  process.exit(0);
+}
+
+const res = await fetch(
+  `https://api.cloudflare.com/client/v4/zones/${zoneId}/settings/content_converter`,
+  {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ value: 'on' }),
+  }
+);
+
+const data = await res.json();
+if (!data.success) {
+  const message = data.errors?.map((e) => e.message).join('; ') ?? 'API error';
+  throw new Error(message);
+}
+
+console.log(`✓ zone content_converter: ${data.result.value}`);
