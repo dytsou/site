@@ -142,6 +142,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy --project-name=${{ env.CLOUDFLARE_PAGES_PROJECT_NAME }}
+          packageManager: npm
           wranglerVersion: "4"
 
       - name: Verify Markdown for Agents
