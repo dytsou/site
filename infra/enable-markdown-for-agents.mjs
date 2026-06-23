@@ -5,6 +5,8 @@
  */
 import process from 'node:process';
 
+const ZONE_ID_RE = /^[a-f0-9]{32}$/i;
+
 const token = process.env.CLOUDFLARE_API_TOKEN;
 const zoneId = process.env.CLOUDFLARE_ZONE_ID;
 
@@ -12,6 +14,11 @@ if (!token || !zoneId) {
   console.log(
     'Skip: set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ZONE_ID to enable zone conversion'
   );
+  process.exit(0);
+}
+
+if (!ZONE_ID_RE.test(zoneId)) {
+  console.log('Skip: invalid CLOUDFLARE_ZONE_ID');
   process.exit(0);
 }
 
@@ -29,8 +36,11 @@ const res = await fetch(
 
 const data = await res.json();
 if (!data.success) {
-  const message = data.errors?.map((e) => e.message).join('; ') ?? 'API error';
-  throw new Error(message);
+  // ponytail: optional Pro+ setting; Pages middleware handles markdown on Free
+  console.log(
+    'Skip: zone content_converter unavailable (Pro+ plan and Zone Settings permission required)'
+  );
+  process.exit(0);
 }
 
 console.log('✓ zone content_converter enabled');
