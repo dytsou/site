@@ -32,7 +32,20 @@
   scale: 1;
 }
 
-/* Hero — stagger existing copy blocks on first paint */
+/* Section headers */
+.section-header > [data-reveal]:nth-child(1) {
+  --reveal-delay: 0ms;
+}
+
+.section-header > [data-reveal]:nth-child(2) {
+  --reveal-delay: 60ms;
+}
+
+.section-header > [data-reveal]:nth-child(3) {
+  --reveal-delay: 120ms;
+}
+
+/* Hero — stagger on first paint */
 .hero-copy > [data-reveal]:nth-of-type(1) {
   --reveal-delay: 0ms;
 }
@@ -53,32 +66,7 @@
   --reveal-delay: 320ms;
 }
 
-/* Experience timeline — sibling stagger */
-.experience-timeline-items > [data-reveal]:nth-child(1) {
-  --reveal-delay: 0ms;
-}
-
-.experience-timeline-items > [data-reveal]:nth-child(2) {
-  --reveal-delay: 90ms;
-}
-
-.experience-timeline-items > [data-reveal]:nth-child(3) {
-  --reveal-delay: 180ms;
-}
-
-.experience-timeline-items > [data-reveal]:nth-child(4) {
-  --reveal-delay: 270ms;
-}
-
-.experience-timeline-items > [data-reveal]:nth-child(5) {
-  --reveal-delay: 360ms;
-}
-
-.experience-timeline-items > [data-reveal]:nth-child(6) {
-  --reveal-delay: 450ms;
-}
-
-/* About — prose reveals on scroll with gentle stagger */
+/* Grid / list stagger — shared 80ms steps */
 .about-prose > [data-reveal]:nth-child(1) {
   --reveal-delay: 0ms;
 }
@@ -91,8 +79,64 @@
   --reveal-delay: 240ms;
 }
 
-#about .section-subtitle[data-reveal] {
-  --reveal-delay: 60ms;
+:is(
+    .stats-grid,
+    .contact-grid,
+    .github-repos-grid,
+    .opportunity-grid,
+    .experience-timeline-items
+  )
+  > [data-reveal]:nth-child(1) {
+  --reveal-delay: 0ms;
+}
+
+:is(
+    .stats-grid,
+    .contact-grid,
+    .github-repos-grid,
+    .opportunity-grid,
+    .experience-timeline-items
+  )
+  > [data-reveal]:nth-child(2) {
+  --reveal-delay: 80ms;
+}
+
+:is(
+    .stats-grid,
+    .contact-grid,
+    .github-repos-grid,
+    .opportunity-grid,
+    .experience-timeline-items
+  )
+  > [data-reveal]:nth-child(3) {
+  --reveal-delay: 160ms;
+}
+
+:is(
+    .stats-grid,
+    .contact-grid,
+    .github-repos-grid,
+    .opportunity-grid,
+    .experience-timeline-items
+  )
+  > [data-reveal]:nth-child(4) {
+  --reveal-delay: 240ms;
+}
+
+:is(
+    .stats-grid,
+    .contact-grid,
+    .github-repos-grid,
+    .opportunity-grid,
+    .experience-timeline-items
+  )
+  > [data-reveal]:nth-child(5) {
+  --reveal-delay: 320ms;
+}
+
+:is(.stats-grid, .contact-grid, .github-repos-grid, .experience-timeline-items)
+  > [data-reveal]:nth-child(6) {
+  --reveal-delay: 400ms;
 }
 
 #about [data-reveal] {

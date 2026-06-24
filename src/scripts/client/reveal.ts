@@ -1,38 +1,101 @@
-/** Open Design Landing scroll-reveal — IntersectionObserver + immediate hero stagger. */
-function initReveal(): void {
+/** Open Design Landing scroll-reveal — IntersectionObserver + auto-tagged blocks. */
+
+const AUTO_REVEAL_SELECTORS = [
+  '.section-header > .section-title',
+  '.section-header > .section-divider',
+  '.section-header > .section-subtitle',
+  '#about .profile-image-container',
+  '#about .stats-card',
+  '#about .language-grid-container',
+  '#experience .education-card',
+  '#experience .experience-timeline-items > div',
+  '#contact .contact-title',
+  '#contact .contact-card',
+  '#contact .opportunity-container',
+  '#projects .carousel-container',
+  '#projects .github-activity-title',
+  '#projects .github-repos-grid > *',
+  '#projects .github-button-container',
+] as const;
+
+let observer: IntersectionObserver | null = null;
+
+function reveal(el: HTMLElement): void {
+  el.setAttribute('data-revealed', 'true');
+}
+
+function ensureObserver(): IntersectionObserver {
+  if (observer) return observer;
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        reveal(entry.target as HTMLElement);
+        observer?.unobserve(entry.target);
+      }
+    },
+    { threshold: 0.08, rootMargin: '0px 0px -6% 0px' }
+  );
+
+  return observer;
+}
+
+function tagAutoReveal(root: ParentNode = document): void {
+  for (const selector of AUTO_REVEAL_SELECTORS) {
+    root.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+      if (el.hasAttribute('data-reveal')) return;
+      if (el.matches('.profile-image-container')) {
+        el.setAttribute('data-reveal', 'left');
+        return;
+      }
+      el.setAttribute('data-reveal', '');
+    });
+  }
+}
+
+function observePending(): void {
   const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
   if (!targets.length) return;
-
-  const reveal = (el: HTMLElement) => {
-    el.dataset.revealed = 'true';
-  };
 
   if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     targets.forEach(reveal);
     return;
   }
 
+  const io = ensureObserver();
+
   targets.forEach((el) => {
     if (el.dataset.reveal === 'immediate') {
       reveal(el);
+      return;
     }
+    if (el.getAttribute('data-revealed') === 'true') return;
+    if (el.dataset.revealObserved === 'true') return;
+    el.dataset.revealObserved = 'true';
+    io.observe(el);
+  });
+}
+
+function initReveal(): void {
+  tagAutoReveal();
+  observePending();
+
+  const root = document.querySelector('.min-h-screen') ?? document.body;
+  let scheduled = false;
+
+  // ponytail: client islands (carousel) mount after first pass — re-tag on DOM changes
+  const mo = new MutationObserver(() => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      tagAutoReveal(document);
+      observePending();
+    });
   });
 
-  const pending = [...targets].filter((el) => el.dataset.revealed !== 'true');
-  if (!pending.length) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        reveal(entry.target as HTMLElement);
-        observer.unobserve(entry.target);
-      }
-    },
-    { threshold: 0.08, rootMargin: '0px 0px -6% 0px' }
-  );
-
-  pending.forEach((el) => observer.observe(el));
+  mo.observe(root, { childList: true, subtree: true });
 }
 
 if (document.readyState === 'loading') {
