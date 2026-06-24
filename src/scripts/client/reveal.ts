@@ -20,8 +20,33 @@ const AUTO_REVEAL_SELECTORS = [
 
 let observer: IntersectionObserver | null = null;
 
+const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function animateCount(el: HTMLElement, target: number, duration = 700): void {
+  if (prefersReducedMotion()) return;
+
+  const start = performance.now();
+  const tick = (now: number) => {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - (1 - t) ** 3;
+    el.textContent = String(Math.round(target * eased));
+    if (t < 1) requestAnimationFrame(tick);
+    else el.textContent = String(target);
+  };
+  requestAnimationFrame(tick);
+}
+
 function reveal(el: HTMLElement): void {
   el.setAttribute('data-revealed', 'true');
+
+  if (el.matches('.stats-card')) {
+    const valueEl = el.querySelector<HTMLElement>('.stats-card-value');
+    const target = Number.parseInt(valueEl?.textContent?.trim() ?? '', 10);
+    if (valueEl && !Number.isNaN(target)) {
+      animateCount(valueEl, target);
+    }
+  }
 }
 
 function ensureObserver(): IntersectionObserver {
@@ -45,10 +70,6 @@ function tagAutoReveal(root: ParentNode = document): void {
   for (const selector of AUTO_REVEAL_SELECTORS) {
     root.querySelectorAll<HTMLElement>(selector).forEach((el) => {
       if (el.hasAttribute('data-reveal')) return;
-      if (el.matches('.profile-image-container')) {
-        el.setAttribute('data-reveal', 'left');
-        return;
-      }
       el.setAttribute('data-reveal', '');
     });
   }
