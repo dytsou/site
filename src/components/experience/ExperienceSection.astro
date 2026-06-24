@@ -114,10 +114,7 @@ import '../experience/Experience.css';
     <div class="experience-timeline-items">
       {
         experiences.map((exp, index) => (
-          <div
-            class="animate-fade-in"
-            style={{ animationDelay: `${index * 70}ms` }}
-          >
+          <div data-reveal>
             <div class="experience-card">
               <div
                 class={`experience-card-dot experience-card-dot-${exp.color}`}

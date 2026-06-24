@@ -2,16 +2,23 @@
 
 /* Button Component Styles */
 .btn-base {
-  @apply font-semibold transition-all rounded-lg;
+  @apply font-semibold rounded-lg;
   @apply inline-flex items-center justify-center;
   @apply select-none;
   min-height: 44px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .btn-base:hover:not(:disabled) {
   box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
 }
 
 .btn-base:active:not(:disabled) {
@@ -117,15 +124,22 @@
 
 /* Icon Button Styles */
 .icon-btn-base {
-  @apply rounded-full transition-all;
+  @apply rounded-full;
   @apply inline-flex items-center justify-center;
   min-width: 44px;
   min-height: 44px;
   box-shadow: var(--shadow-card);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .icon-btn-base:hover:not(:disabled) {
   box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
 }
 
 .icon-btn-base:active:not(:disabled) {
