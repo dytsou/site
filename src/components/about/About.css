@@ -205,10 +205,12 @@
   opacity: 1;
 }
 
-.language-grid-collapsed .language-grid-list-wrapper {
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
+@media (max-width: 767px) {
+  .language-grid-collapsed .language-grid-list-wrapper {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+  }
 }
 
 .language-grid-card {
