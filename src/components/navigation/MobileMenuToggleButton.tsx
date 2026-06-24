@@ -9,7 +9,7 @@ interface MobileMenuToggleButtonProps {
 export function MobileMenuToggleButton({
   isOpen,
   onClick,
-}: MobileMenuToggleButtonProps) {
+}: Readonly<MobileMenuToggleButtonProps>) {
   return (
     <button
       type="button"
