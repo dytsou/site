@@ -10,7 +10,7 @@ interface ThemeToggleButtonProps {
 export function ThemeToggleButton({
   variant = 'desktop',
   iconKey,
-}: ThemeToggleButtonProps) {
+}: Readonly<ThemeToggleButtonProps>) {
   const { theme, toggleTheme } = useTheme();
   const className =
     variant === 'desktop' ? 'nav-theme-toggle' : 'nav-mobile-toggle';
