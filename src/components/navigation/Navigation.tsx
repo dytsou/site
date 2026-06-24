@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ThemeToggleButton } from './ThemeToggleButton';
 import { MobileMenuToggleButton } from './MobileMenuToggleButton';
 import { DesktopMenu } from './DesktopMenu';
@@ -12,15 +12,36 @@ interface NavigationProps {
 export function Navigation({ currentPath }: Readonly<NavigationProps>) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHeadroomHidden, setIsHeadroomHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
+    const reducedMotion = globalThis.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const y = window.scrollY;
+      setIsScrolled(y > 50);
+
+      if (!reducedMotion && !isOpen) {
+        if (y < 10) {
+          setIsHeadroomHidden(false);
+        } else if (y > lastScrollY.current && y > 80) {
+          setIsHeadroomHidden(true);
+        } else if (y < lastScrollY.current) {
+          setIsHeadroomHidden(false);
+        }
+      } else {
+        setIsHeadroomHidden(false);
+      }
+
+      lastScrollY.current = y;
     };
     handleScroll();
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isOpen]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
@@ -30,7 +51,9 @@ export function Navigation({ currentPath }: Readonly<NavigationProps>) {
   }, [isOpen]);
 
   return (
-    <nav className={`nav ${isScrolled ? 'nav-scrolled' : 'nav-transparent'}`}>
+    <nav
+      className={`nav ${isScrolled ? 'nav-scrolled' : 'nav-transparent'} ${isHeadroomHidden ? 'nav-headroom-hidden' : ''}`}
+    >
       <div className="nav-container">
         <div className="nav-content">
           <a href="/" className="nav-brand" aria-label="Home">

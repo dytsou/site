@@ -2,7 +2,28 @@
 
 /* Navigation Component Styles */
 .nav {
-  @apply fixed top-0 left-0 right-0 z-50 transition-all duration-300;
+  @apply fixed top-0 left-0 right-0 z-50;
+  transition:
+    transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+.nav-headroom-hidden {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav {
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .nav-headroom-hidden {
+    transform: none;
+  }
 }
 
 .nav-transparent {
@@ -67,6 +88,25 @@
   @apply text-gray-500;
   @apply hover:text-blue-600 transition-colors font-medium;
   @apply flex items-center gap-1.5;
+  position: relative;
+}
+
+.nav-desktop-menu .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.35rem;
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.18s ease;
+}
+
+.nav-desktop-menu .nav-link-active::after {
+  transform: scaleX(1);
 }
 
 .nav-link:focus-visible {
