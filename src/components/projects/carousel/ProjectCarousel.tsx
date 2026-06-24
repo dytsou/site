@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, type KeyboardEvent } from 'react';
 import type { Project } from '../../../types/projects';
 import { ProjectCard } from '../project-card/ProjectCard';
 import { getProjectIconAndColors } from '../ProjectIconUtils';
@@ -25,18 +25,18 @@ const getCardsPerSlideForWidth = (width: number) => {
 export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [cardsPerSlide, setCardsPerSlide] = useState(() => {
-    if (typeof window === 'undefined') return 1;
-    return getCardsPerSlideForWidth(window.innerWidth);
+    if (globalThis.window === undefined) return 1;
+    return getCardsPerSlideForWidth(globalThis.window.innerWidth);
   });
 
   useEffect(() => {
     const handleResize = () => {
-      setCardsPerSlide(getCardsPerSlideForWidth(window.innerWidth));
+      setCardsPerSlide(getCardsPerSlideForWidth(globalThis.window.innerWidth));
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    globalThis.window.addEventListener('resize', handleResize);
+    return () => globalThis.window.removeEventListener('resize', handleResize);
   }, []);
 
   const slides = useMemo(() => {
@@ -73,30 +73,29 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
     setCurrentSlide(Math.max(0, Math.min(index, slideCount - 1)));
   };
 
+  const handleCarouselKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (slideCount === 0) return;
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prevSlide();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      nextSlide();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goToSlide(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goToSlide(slideCount - 1);
+    }
+  };
+
   return (
     <div className="carousel-container">
-      <div
+      <section
         className="carousel-wrapper"
-        role="region"
         aria-roledescription="carousel"
         aria-label="Featured projects"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (slideCount === 0) return;
-          if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            prevSlide();
-          } else if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            nextSlide();
-          } else if (e.key === 'Home') {
-            e.preventDefault();
-            goToSlide(0);
-          } else if (e.key === 'End') {
-            e.preventDefault();
-            goToSlide(slideCount - 1);
-          }
-        }}
       >
         <div className="carousel-track">
           <div
@@ -104,7 +103,10 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
             style={{ transform: `translateX(-${currentSlideClamped * 100}%)` }}
           >
             {slides.map((slideProjects, slideIndex) => (
-              <div key={slideIndex} className="carousel-slide">
+              <div
+                key={slideProjects.map((project) => project.id).join('/')}
+                className="carousel-slide"
+              >
                 <div
                   className={`carousel-slide-content ${isSingleColumn ? 'single-column' : 'multi-column'}`}
                   style={
@@ -142,8 +144,9 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
           currentSlide={currentSlideClamped}
           totalSlides={slideCount}
           onGoToSlide={goToSlide}
+          onKeyDown={handleCarouselKeyDown}
         />
-      </div>
+      </section>
     </div>
   );
 }

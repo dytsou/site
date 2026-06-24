@@ -1,3 +1,4 @@
+import type { KeyboardEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './ProjectCarousel.css';
 
@@ -7,6 +8,7 @@ interface CarouselControlsProps {
   currentSlide: number;
   totalSlides: number;
   onGoToSlide: (index: number) => void;
+  onKeyDown?: (event: KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 export function CarouselControls({
@@ -15,12 +17,14 @@ export function CarouselControls({
   currentSlide,
   totalSlides,
   onGoToSlide,
+  onKeyDown,
 }: Readonly<CarouselControlsProps>) {
   return (
     <>
       <button
         type="button"
         onClick={onPrev}
+        onKeyDown={onKeyDown}
         className="carousel-control-button carousel-control-prev"
         aria-label="Previous slide"
       >
@@ -30,6 +34,7 @@ export function CarouselControls({
       <button
         type="button"
         onClick={onNext}
+        onKeyDown={onKeyDown}
         className="carousel-control-button carousel-control-next"
         aria-label="Next slide"
       >
@@ -42,6 +47,7 @@ export function CarouselControls({
             key={index}
             type="button"
             onClick={() => onGoToSlide(index)}
+            onKeyDown={onKeyDown}
             className={`carousel-indicator ${
               index === currentSlide
                 ? 'carousel-indicator-active'

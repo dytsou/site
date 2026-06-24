@@ -23,7 +23,7 @@ export function Button({
   className = '',
   disabled = false,
   type = 'button',
-}: ButtonProps) {
+}: Readonly<ButtonProps>) {
   const variantClasses = {
     primary: 'btn-primary',
     secondary: 'btn-secondary',

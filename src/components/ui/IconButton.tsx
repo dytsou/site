@@ -19,7 +19,7 @@ export function IconButton({
   className = '',
   disabled = false,
   'aria-label': ariaLabel,
-}: IconButtonProps) {
+}: Readonly<IconButtonProps>) {
   const variantClasses = {
     primary: 'icon-btn-primary',
     secondary: 'icon-btn-secondary',

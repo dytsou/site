@@ -12,7 +12,7 @@ export function Card({
   className = '',
   hover = false,
   padding = 'md',
-}: CardProps) {
+}: Readonly<CardProps>) {
   const paddingClass = {
     sm: 'card-padding-sm',
     md: 'card-padding-md',
