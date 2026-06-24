@@ -147,14 +147,16 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ./dist --project-name=${{ env.CLOUDFLARE_PAGES_PROJECT_NAME }}
-          packageManager: npm
-          wranglerVersion: "4"
+          node-version: 24
+
+      - name: Deploy to Cloudflare Pages
+        run: npm exec --yes --package=wrangler@4.104.0 -- wrangler pages deploy ./dist --project-name=${{ env.CLOUDFLARE_PAGES_PROJECT_NAME }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Verify Markdown for Agents
         run: node scripts/verify-markdown-negotiation.mjs

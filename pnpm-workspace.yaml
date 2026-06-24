@@ -1,6 +1,7 @@
 allowBuilds:
   esbuild: true
   sharp: true
+  workerd: true
 # Supply-chain settings for pnpm 11+. See https://pnpm.io/settings#minimumreleaseage
 minimumReleaseAge: 1440
 overrides:
