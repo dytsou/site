@@ -23,12 +23,11 @@ export function NavLinkComponent({
   currentPath,
   variant = 'desktop',
   onNavigate,
-}: NavLinkComponentProps) {
+}: Readonly<NavLinkComponentProps>) {
   const isActive = normalizePath(currentPath) === normalizePath(link.path);
-  const className =
-    variant === 'desktop'
-      ? `nav-link ${isActive ? 'nav-link-active' : ''}`
-      : `nav-mobile-link ${isActive ? 'nav-link-active' : ''}`;
+  const baseClass = variant === 'desktop' ? 'nav-link' : 'nav-mobile-link';
+  const activeClass = isActive ? 'nav-link-active' : '';
+  const className = `${baseClass} ${activeClass}`;
 
   if (link.external) {
     return (
