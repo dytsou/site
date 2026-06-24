@@ -19,7 +19,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,json,css,md,astro,mjs}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,json,css,md,astro,mjs}\"",
     "preview": "astro preview",
-    "deploy": "pnpm build && wrangler pages deploy --project-name=dy-tsou-me",
+    "deploy": "pnpm build && wrangler pages deploy ./dist --project-name=dy-tsou-me",
     "typecheck": "astro check",
     "prepare": "husky"
   },

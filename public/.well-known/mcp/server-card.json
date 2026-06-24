@@ -6,7 +6,8 @@
   "description": "Personal portfolio with in-browser WebMCP tools for navigation, project search, experiences, and contact info.",
   "url": "https://dy.tsou.me/",
   "transport": {
-    "type": "webmcp"
+    "type": "webmcp",
+    "endpoint": "https://dy.tsou.me/"
   },
   "capabilities": {
     "tools": true

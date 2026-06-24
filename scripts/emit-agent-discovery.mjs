@@ -46,7 +46,7 @@ async function collectSkills() {
       name: entry.name,
       type: 'skill-md',
       description,
-      url: `/.well-known/agent-skills/${entry.name}/SKILL.md`,
+      url: `${SITE_URL}/.well-known/agent-skills/${entry.name}/SKILL.md`,
       digest: sha256Digest(content),
     });
   }
@@ -98,6 +98,7 @@ function mcpServerCard(version) {
     url: `${SITE_URL}/`,
     transport: {
       type: 'webmcp',
+      endpoint: `${SITE_URL}/`,
     },
     capabilities: {
       tools: true,

@@ -5,8 +5,8 @@
       "name": "portfolio-webmcp",
       "type": "skill-md",
       "description": "Use in-browser WebMCP tools on Dong-You Tsou's personal portfolio at https://dy.tsou.me/.",
-      "url": "/.well-known/agent-skills/portfolio-webmcp/SKILL.md",
-      "digest": "sha256:9955d39de7ce1135455e991d58622b24c958e30117c76785a7217907f0042d1e"
+      "url": "https://dy.tsou.me/.well-known/agent-skills/portfolio-webmcp/SKILL.md",
+      "digest": "sha256:33dc49dad8b8a853fbde26c94fa243cdda62673c32d2194c9c20f6a5cbdf0a34"
     }
   ]
 }

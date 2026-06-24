@@ -100,8 +100,9 @@ jobs:
             echo "::error::dist folder not found after download"
             exit 1
           fi
+          node scripts/verify-agent-discovery.mjs --local
           echo "✓ Build output verified"
-          ls -la dist/ | head -20
+          ls -la dist/.well-known/ | head -20
 
       - name: Verify Cloudflare credentials
         run: |
@@ -141,7 +142,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy --project-name=${{ env.CLOUDFLARE_PAGES_PROJECT_NAME }}
+          command: pages deploy ./dist --project-name=${{ env.CLOUDFLARE_PAGES_PROJECT_NAME }}
           packageManager: npm
           wranglerVersion: "4"
 
@@ -149,3 +150,8 @@ jobs:
         run: node scripts/verify-markdown-negotiation.mjs
         env:
           SITE_URL: https://dy.tsou.me/
+
+      - name: Verify agent discovery endpoints
+        run: node scripts/verify-agent-discovery.mjs
+        env:
+          SITE_URL: https://dy.tsou.me

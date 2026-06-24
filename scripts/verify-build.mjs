@@ -1,4 +1,5 @@
 import { readFile, readdir } from 'node:fs/promises';
+import { spawn } from 'node:child_process';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -70,6 +71,20 @@ async function assertRequiredArtifacts() {
   for (const artifact of requiredArtifacts) {
     await assertExists(artifact);
   }
+
+  await new Promise((resolve, reject) => {
+    const child = spawn(
+      process.execPath,
+      ['scripts/verify-agent-discovery.mjs', '--local'],
+      { cwd: repoRoot, stdio: 'inherit' }
+    );
+    child.on('error', reject);
+    child.on('close', (code) =>
+      code === 0
+        ? resolve()
+        : reject(new Error('agent discovery verify failed'))
+    );
+  });
 }
 
 async function assertRouteTitlesAndScripts(routes) {
