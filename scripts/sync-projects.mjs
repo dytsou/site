@@ -31,7 +31,10 @@ async function stripOrderIndexFromGenerated() {
   if (!hasOutput) return false;
 
   const existing = await readFile(outputPath, 'utf8');
-  const next = existing.replace(/^\s*order_index:\s*\d+,\s*$/gm, '');
+  const next = existing
+    .split('\n')
+    .filter((line) => !line.trimStart().startsWith('order_index:'))
+    .join('\n');
 
   if (next === existing) return false;
 
