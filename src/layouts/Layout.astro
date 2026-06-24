@@ -107,9 +107,6 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
   </head>
 
   <body>
-    <script>
-      import '../scripts/client/webmcp';
-    </script>
     <div class="min-h-screen">
       <Navigation client:load currentPath={Astro.url.pathname} />
       <SwipeNavigation client:load currentPath={Astro.url.pathname} />
@@ -117,5 +114,14 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
       <slot />
       {showFooter && <Footer />}
     </div>
+    <script>
+      import '../scripts/client/webmcp';
+    </script>
+    <script>
+      import '../scripts/client/expandable';
+    </script>
+    <script>
+      import '../scripts/client/reveal';
+    </script>
   </body>
 </html>

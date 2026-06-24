@@ -25,20 +25,25 @@ export function ExperienceMobile() {
         update(expanded);
       };
 
-      const onResize = () => {
+      const syncViewport = () => {
         if (!mq.matches) {
           panel.classList.remove('collapsed');
-          button.textContent = 'Show more';
+          button.hidden = true;
+          return;
         }
+        button.hidden = false;
+        button.textContent = panel.classList.contains('collapsed')
+          ? 'Show more'
+          : 'Show less';
       };
 
       button.addEventListener('click', onClick);
-      mq.addEventListener('change', onResize);
-      onResize();
+      mq.addEventListener('change', syncViewport);
+      syncViewport();
 
       return () => {
         button.removeEventListener('click', onClick);
-        mq.removeEventListener('change', onResize);
+        mq.removeEventListener('change', syncViewport);
       };
     };
 

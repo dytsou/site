@@ -87,19 +87,13 @@
 }
 
 .education-highlights-wrapper {
-  max-height: 2000px;
-  overflow: hidden;
-  transition:
-    max-height 0.4s ease-in-out,
-    opacity 0.3s ease-in-out,
-    margin-top 0.3s ease-in-out;
   opacity: 1;
 }
 
-.education-highlights-wrapper.collapsed {
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
+@media (max-width: 767px) {
+  .education-highlights-wrapper.collapsed {
+    display: none;
+  }
 }
 
 .education-highlights {
@@ -171,7 +165,6 @@
 
 @media (max-width: 767px) {
   .experience-card {
-    @apply pt-8;
     padding-left: 3.75rem;
   }
 }
@@ -184,18 +177,6 @@
   z-index: 2;
   border-color: var(--exp-surface);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--exp-border) 65%, transparent);
-}
-
-@media (max-width: 767px) {
-  .experience-card-dot {
-    @apply w-12 h-12 flex items-center justify-center;
-    transform: translate(-50%, -50%);
-    top: 0;
-  }
-}
-
-.experience-card-dot-icon {
-  @apply w-6 h-6 text-white;
 }
 
 .experience-card-dot-blue {
@@ -215,17 +196,20 @@
 }
 
 .experience-card-content {
-  @apply p-6 sm:p-7 rounded-2xl border transition-shadow transition-transform;
+  @apply p-6 sm:p-7 rounded-2xl border;
   position: relative;
   z-index: 1;
   background-color: var(--exp-surface);
   border-color: var(--exp-border);
   box-shadow: var(--shadow-card);
+  transition:
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
 }
 
 .experience-card-content:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .experience-card-content::before {
@@ -257,7 +241,7 @@
 }
 
 .experience-card-icon-container {
-  @apply p-3 rounded-xl;
+  @apply p-3 rounded-xl shrink-0;
   background-color: color-mix(in srgb, var(--exp-accent) 10%, transparent);
   box-shadow: 0 10px 20px rgba(2, 6, 23, 0.06);
 }
@@ -352,19 +336,13 @@
 }
 
 .experience-card-content-wrapper {
-  max-height: 2000px;
-  overflow: hidden;
-  transition:
-    max-height 0.4s ease-in-out,
-    opacity 0.3s ease-in-out,
-    margin-top 0.3s ease-in-out;
   opacity: 1;
 }
 
-.experience-card-content-wrapper.collapsed {
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
+@media (max-width: 767px) {
+  .experience-card-content-wrapper.collapsed {
+    display: none;
+  }
 }
 
 .experience-card-description {

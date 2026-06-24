@@ -115,9 +115,13 @@ import '../about/About.css';
               type="button"
               class="language-grid-toggle"
               data-expandable-toggle
+              data-expand-label="Expand languages"
+              data-collapse-label="Collapse languages"
               aria-label="Expand languages"
             >
               <svg
+                class="language-grid-toggle-icon"
+                data-expandable-icon="down"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -130,6 +134,22 @@ import '../about/About.css';
                 aria-hidden="true"
               >
                 <path d="m6 9 6 6 6-6"></path>
+              </svg>
+              <svg
+                class="language-grid-toggle-icon hidden"
+                data-expandable-icon="up"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m18 15-6-6-6 6"></path>
               </svg>
             </button>
           </h5>
