@@ -4,7 +4,7 @@ interface ProjectActionsProps {
   githubUrl?: string;
 }
 
-export function ProjectActions({ githubUrl }: ProjectActionsProps) {
+export function ProjectActions({ githubUrl }: Readonly<ProjectActionsProps>) {
   if (!githubUrl) return null;
 
   return (

@@ -12,7 +12,7 @@ export function ProjectTechnologies({
   tags = [],
   isExpanded,
   onToggle,
-}: ProjectTechnologiesProps) {
+}: Readonly<ProjectTechnologiesProps>) {
   const visibleTechnologies = isExpanded
     ? technologies
     : technologies.slice(0, 5);
@@ -32,8 +32,8 @@ export function ProjectTechnologies({
     <div className="project-technologies">
       {visibleTechnologies.length > 0 && (
         <div className="project-technologies-row">
-          {visibleTechnologies.map((tech: string, index: number) => (
-            <TechTag key={index} technology={tech} />
+          {visibleTechnologies.map((tech: string) => (
+            <TechTag key={tech} technology={tech} />
           ))}
           {showToggleInTechRow && showExpand && (
             <button
@@ -62,9 +62,9 @@ export function ProjectTechnologies({
 
       {visibleTags.length > 0 && (
         <div className="project-tags-row">
-          {visibleTags.map((tag: string, index: number) => (
+          {visibleTags.map((tag: string) => (
             <TechTag
-              key={index}
+              key={tag}
               technology={`#${tag}`}
               className="tech-tag-hashtag"
             />

@@ -24,7 +24,7 @@ export function ProjectCard({
   cardStyle,
   isMobile,
   getProjectIconAndColors,
-}: ProjectCardProps) {
+}: Readonly<ProjectCardProps>) {
   const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(
     new Set()
   );

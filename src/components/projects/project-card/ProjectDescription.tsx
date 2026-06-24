@@ -14,7 +14,7 @@ export function ProjectDescription({
   isExpanded,
   shouldShowToggle,
   onToggle,
-}: ProjectDescriptionProps) {
+}: Readonly<ProjectDescriptionProps>) {
   return (
     <div className="project-description-container">
       <p

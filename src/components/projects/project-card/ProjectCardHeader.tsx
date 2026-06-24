@@ -10,7 +10,7 @@ export function ProjectCardHeader({
   Icon,
   iconClass,
   title,
-}: ProjectCardHeaderProps) {
+}: Readonly<ProjectCardHeaderProps>) {
   return (
     <h3 className="project-title">
       <span className="project-title-content">
