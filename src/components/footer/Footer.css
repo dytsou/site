@@ -49,19 +49,12 @@
 }
 
 .footer-section-content {
-  max-height: 2000px;
-  overflow: hidden;
-  transition:
-    max-height 0.4s ease-in-out,
-    opacity 0.3s ease-in-out;
   opacity: 1;
 }
 
 @media (max-width: 767px) {
   .footer-section-collapsed .footer-section-content {
-    max-height: 0;
-    opacity: 0;
-    margin-top: 0;
+    display: none;
   }
 }
 

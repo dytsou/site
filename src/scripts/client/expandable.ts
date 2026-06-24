@@ -19,13 +19,14 @@ function setExpanded(root: HTMLElement, expanded: boolean): void {
     '[data-expandable-toggle]'
   );
   toggle?.setAttribute('aria-expanded', String(expanded));
-  toggle?.setAttribute(
-    'aria-label',
-    expanded ? 'Collapse section' : 'Expand section'
-  );
+  const expandLabel =
+    toggle?.getAttribute('data-expand-label') ?? 'Expand section';
+  const collapseLabel =
+    toggle?.getAttribute('data-collapse-label') ?? 'Collapse section';
+  toggle?.setAttribute('aria-label', expanded ? collapseLabel : expandLabel);
 }
 
-function initExpandableMobile(): void {
+function bindExpandableMobile(): void {
   const mq = globalThis.matchMedia(MOBILE_QUERY);
 
   document
@@ -36,7 +37,8 @@ function initExpandableMobile(): void {
       );
       if (!toggle) return;
 
-      const onToggle = () => {
+      const onToggle = (event: Event) => {
+        event.preventDefault();
         if (!mq.matches) return;
         const collapsed = collapsedClass(root);
         const isCollapsed = collapsed
@@ -51,6 +53,16 @@ function initExpandableMobile(): void {
       mq.addEventListener('change', syncViewport);
       syncViewport();
     });
+}
+
+function initExpandableMobile(): void {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindExpandableMobile, {
+      once: true,
+    });
+    return;
+  }
+  bindExpandableMobile();
 }
 
 initExpandableMobile();
