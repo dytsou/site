@@ -165,7 +165,6 @@
 
 @media (max-width: 767px) {
   .experience-card {
-    @apply pt-8;
     padding-left: 3.75rem;
   }
 }
@@ -178,18 +177,6 @@
   z-index: 2;
   border-color: var(--exp-surface);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--exp-border) 65%, transparent);
-}
-
-@media (max-width: 767px) {
-  .experience-card-dot {
-    @apply w-12 h-12 flex items-center justify-center;
-    transform: translate(-50%, -50%);
-    top: 0;
-  }
-}
-
-.experience-card-dot-icon {
-  @apply w-6 h-6 text-white;
 }
 
 .experience-card-dot-blue {
@@ -251,7 +238,7 @@
 }
 
 .experience-card-icon-container {
-  @apply p-3 rounded-xl;
+  @apply p-3 rounded-xl shrink-0;
   background-color: color-mix(in srgb, var(--exp-accent) 10%, transparent);
   box-shadow: 0 10px 20px rgba(2, 6, 23, 0.06);
 }
