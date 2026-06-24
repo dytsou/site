@@ -15,7 +15,7 @@ export function CarouselControls({
   currentSlide,
   totalSlides,
   onGoToSlide,
-}: CarouselControlsProps) {
+}: Readonly<CarouselControlsProps>) {
   return (
     <>
       <button
