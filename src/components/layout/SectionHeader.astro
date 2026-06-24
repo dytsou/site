@@ -3,15 +3,22 @@ interface Props {
   title: string;
   subtitle?: string;
   class?: string;
+  reveal?: boolean;
 }
 
-const { title, subtitle, class: className = '' } = Astro.props;
+const { title, subtitle, class: className = '', reveal = false } = Astro.props;
 ---
 
 <div class:list={['section-header', className]}>
   <h2 class="section-title">{title}</h2>
   <div class="section-divider"></div>
-  {subtitle && <p class="section-subtitle">{subtitle}</p>}
+  {
+    subtitle && (
+      <p class="section-subtitle" {...(reveal && { 'data-reveal': true })}>
+        {subtitle}
+      </p>
+    )
+  }
 </div>
 
 <style is:global>
