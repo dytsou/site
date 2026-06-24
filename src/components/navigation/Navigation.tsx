@@ -16,7 +16,7 @@ export function Navigation({ currentPath }: Readonly<NavigationProps>) {
   const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia(
+    const reducedMotion = globalThis.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
 

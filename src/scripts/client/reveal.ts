@@ -21,7 +21,7 @@ const AUTO_REVEAL_SELECTORS = [
 let observer: IntersectionObserver | null = null;
 
 const prefersReducedMotion = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function animateCount(el: HTMLElement, target: number, duration = 700): void {
   if (prefersReducedMotion()) return;
