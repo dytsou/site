@@ -20,7 +20,7 @@ async function readSources() {
   const parsed = JSON.parse(raw);
 
   if (!Array.isArray(parsed)) {
-    throw new Error('projects.sources.json must contain an array');
+    throw new TypeError('projects.sources.json must contain an array');
   }
 
   return parsed;
@@ -31,7 +31,7 @@ async function stripOrderIndexFromGenerated() {
   if (!hasOutput) return false;
 
   const existing = await readFile(outputPath, 'utf8');
-  const next = existing.replace(/^\s*order_index:\s*[^,\n]+,\s*$/gm, '');
+  const next = existing.replace(/^\s*order_index:\s*\d+,\s*$/gm, '');
 
   if (next === existing) return false;
 
@@ -126,7 +126,7 @@ export const PROJECTS_CONTENTS: Project[] = ${contents} as Project[];
 
 async function formatGeneratedTypeScript(code, filePath) {
   const config = await prettier.resolveConfig(filePath);
-  return prettier.format(code, { ...(config ?? {}), filepath: filePath });
+  return prettier.format(code, { ...config, filepath: filePath });
 }
 
 async function buildProject(source, { token, offlineMode }) {
