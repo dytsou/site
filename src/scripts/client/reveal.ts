@@ -38,7 +38,7 @@ function animateCount(el: HTMLElement, target: number, duration = 700): void {
 }
 
 function reveal(el: HTMLElement): void {
-  el.setAttribute('data-revealed', 'true');
+  el.dataset.revealed = 'true';
 
   if (el.matches('.stats-card')) {
     const valueEl = el.querySelector<HTMLElement>('.stats-card-value');
@@ -69,8 +69,8 @@ function ensureObserver(): IntersectionObserver {
 function tagAutoReveal(root: ParentNode = document): void {
   for (const selector of AUTO_REVEAL_SELECTORS) {
     root.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      if (el.hasAttribute('data-reveal')) return;
-      el.setAttribute('data-reveal', '');
+      if (el.dataset.reveal !== undefined) return;
+      el.dataset.reveal = '';
     });
   }
 }
@@ -91,7 +91,7 @@ function observePending(): void {
       reveal(el);
       return;
     }
-    if (el.getAttribute('data-revealed') === 'true') return;
+    if (el.dataset.revealed === 'true') return;
     if (el.dataset.revealObserved === 'true') return;
     el.dataset.revealObserved = 'true';
     io.observe(el);
