@@ -44,7 +44,7 @@ export function useSwipeNavigation({
 
     const getCurrentRouteIndex = (): number => {
       const index = normalizedRoutes.indexOf(normalizedCurrent);
-      return index >= 0 ? index : 0;
+      return Math.max(index, 0);
     };
 
     const navigateToRoute = (direction: 'left' | 'right') => {
