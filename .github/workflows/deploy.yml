@@ -54,6 +54,7 @@ jobs:
         with:
           name: dist
           path: dist
+          include-hidden-files: true
           retention-days: 1
           if-no-files-found: error
 
@@ -93,6 +94,15 @@ jobs:
         with:
           name: dist
           path: dist
+
+      - name: Restore agent discovery in dist
+        run: |
+          if [ ! -f dist/.well-known/oauth-authorization-server ]; then
+            echo "dist/.well-known missing from artifact; regenerating"
+            node scripts/emit-agent-discovery.mjs
+            cp -R public/.well-known dist/
+            cp public/auth.md dist/
+          fi
 
       - name: Verify build output
         run: |
