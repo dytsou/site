@@ -7,7 +7,6 @@ import './ProjectCarousel.css';
 
 interface ProjectCarouselProps {
   projects: Project[];
-  featured?: boolean;
 }
 
 const CARD_STYLES = [
@@ -23,7 +22,7 @@ const getCardsPerSlideForWidth = (width: number) => {
   return 1;
 };
 
-export function ProjectCarousel({ projects }: ProjectCarouselProps) {
+export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [cardsPerSlide, setCardsPerSlide] = useState(() => {
     if (typeof window === 'undefined') return 1;
