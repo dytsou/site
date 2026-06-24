@@ -87,19 +87,13 @@
 }
 
 .education-highlights-wrapper {
-  max-height: 2000px;
-  overflow: hidden;
-  transition:
-    max-height 0.4s ease-in-out,
-    opacity 0.3s ease-in-out,
-    margin-top 0.3s ease-in-out;
   opacity: 1;
 }
 
-.education-highlights-wrapper.collapsed {
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
+@media (max-width: 767px) {
+  .education-highlights-wrapper.collapsed {
+    display: none;
+  }
 }
 
 .education-highlights {
@@ -352,19 +346,13 @@
 }
 
 .experience-card-content-wrapper {
-  max-height: 2000px;
-  overflow: hidden;
-  transition:
-    max-height 0.4s ease-in-out,
-    opacity 0.3s ease-in-out,
-    margin-top 0.3s ease-in-out;
   opacity: 1;
 }
 
-.experience-card-content-wrapper.collapsed {
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
+@media (max-width: 767px) {
+  .experience-card-content-wrapper.collapsed {
+    display: none;
+  }
 }
 
 .experience-card-description {
