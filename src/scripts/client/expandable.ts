@@ -19,10 +19,8 @@ function setExpanded(root: HTMLElement, expanded: boolean): void {
     '[data-expandable-toggle]'
   );
   toggle?.setAttribute('aria-expanded', String(expanded));
-  const expandLabel =
-    toggle?.getAttribute('data-expand-label') ?? 'Expand section';
-  const collapseLabel =
-    toggle?.getAttribute('data-collapse-label') ?? 'Collapse section';
+  const expandLabel = toggle?.dataset.expandLabel ?? 'Expand section';
+  const collapseLabel = toggle?.dataset.collapseLabel ?? 'Collapse section';
   toggle?.setAttribute('aria-label', expanded ? collapseLabel : expandLabel);
 }
 
