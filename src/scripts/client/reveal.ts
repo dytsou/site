@@ -13,14 +13,12 @@ function initReveal(): void {
   }
 
   targets.forEach((el) => {
-    if (el.getAttribute('data-reveal') === 'immediate') {
+    if (el.dataset.reveal === 'immediate') {
       reveal(el);
     }
   });
 
-  const pending = [...targets].filter(
-    (el) => el.getAttribute('data-revealed') !== 'true'
-  );
+  const pending = [...targets].filter((el) => el.dataset.revealed !== 'true');
   if (!pending.length) return;
 
   const observer = new IntersectionObserver(
