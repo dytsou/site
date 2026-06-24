@@ -3,9 +3,11 @@ function initReveal(): void {
   const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
   if (!targets.length) return;
 
-  const reveal = (el: HTMLElement) => el.setAttribute('data-revealed', 'true');
+  const reveal = (el: HTMLElement) => {
+    el.dataset.revealed = 'true';
+  };
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     targets.forEach(reveal);
     return;
   }
