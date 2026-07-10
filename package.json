@@ -24,10 +24,10 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.7",
+    "@astrojs/react": "^6.0.0",
     "@tailwindcss/vite": "^4.3.1",
-    "astro": "^6.4.8",
-    "lucide-react": "^1.21.0",
+    "astro": "^7.0.3",
+    "lucide-react": "^1.23.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
@@ -46,12 +46,12 @@
     "globals": "^17.6.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.7",
-    "postcss": "^8.5.15",
+    "postcss": "^8.5.16",
     "prettier": "^3.8.4",
     "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.61.1",
+    "typescript-eslint": "^8.62.1",
     "wrangler": "4.104.0"
   },
   "overrides": {
