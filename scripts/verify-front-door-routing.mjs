@@ -17,25 +17,28 @@ assert.equal(matchesPrefix('/cal', '/cal/'), true);
 assert.equal(matchesPrefix('/calendar/', '/cal/'), false);
 assert.equal(matchesPrefix('/resume/', '/resume/'), true);
 
+// Assert routing logic against whatever backend the manifest currently
+// points at, so the test survives backend cutovers (e.g. cal.tsou.me ->
+// dy-tsou-cal.pages.dev) without edits.
 const calRoute = matchRoute('/cal/asset/favicon.png', manifest);
 assert.equal(calRoute?.pathPrefix, '/cal/');
 assert.equal(
   buildTarget('https://dy.tsou.me/cal/asset/favicon.png', calRoute),
-  'https://cal.tsou.me/asset/favicon.png'
+  `${calRoute.backend}/asset/favicon.png`
 );
 
 const resumeRoute = matchRoute('/resume/', manifest);
 assert.equal(resumeRoute?.pathPrefix, '/resume/');
 assert.equal(
   buildTarget('https://dy.tsou.me/resume/', resumeRoute),
-  'https://resume.tsou.me/'
+  `${resumeRoute.backend}/`
 );
 
 const rootRoute = matchRoute('/about/', manifest);
 assert.equal(rootRoute?.pathPrefix, '/');
 assert.equal(
   buildTarget('https://dy.tsou.me/about/', rootRoute),
-  'https://dy-tsou-me.pages.dev/about/'
+  `${rootRoute.backend}/about/`
 );
 
 console.log('✓ verify-front-door-routing passed');
