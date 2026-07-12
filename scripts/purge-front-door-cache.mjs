@@ -3,6 +3,14 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 /**
+ * @param {string} origin
+ * @returns {string}
+ */
+export function purgeHostFromOrigin(origin) {
+  return new URL(origin).hostname;
+}
+
+/**
  * @param {Array<{ pathPrefix: string }>} manifest
  * @param {string} origin
  */
@@ -19,6 +27,7 @@ export function purgeUrlsFromManifest(manifest, origin) {
 }
 
 async function selfCheck() {
+  assert.equal(purgeHostFromOrigin('https://dy.tsou.me'), 'dy.tsou.me');
   const urls = purgeUrlsFromManifest(
     [{ pathPrefix: '/resume/' }, { pathPrefix: '/cal/' }, { pathPrefix: '/' }],
     'https://dy.tsou.me'
@@ -48,9 +57,10 @@ const manifest = JSON.parse(
   await readFile('src/data/route-manifest.json', 'utf8')
 );
 const files = purgeUrlsFromManifest(manifest, origin);
+const host = purgeHostFromOrigin(origin);
 
 if (dryRun) {
-  console.log('purge-front-door-cache: dry-run', files.join(', '));
+  console.log(`purge-front-door-cache: dry-run host=${host}`, files.join(', '));
   process.exit(0);
 }
 
@@ -86,7 +96,7 @@ try {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ files }),
+      body: JSON.stringify({ hosts: [host] }),
     }
   );
   data = await res.json();
@@ -97,4 +107,4 @@ try {
 if (!data.success) {
   warn('api-rejected');
 }
-console.log(`purge-front-door-cache: purged ${files.length} URL(s)`);
+console.log(`purge-front-door-cache: purged host ${host}`);
