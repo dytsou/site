@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           repository: dytsou/cloudflare-subpath-deploy
-          ref: v0.1.1
+          ref: v0.1.2
           path: action-lib
 
       - name: Validate route manifest

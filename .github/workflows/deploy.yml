@@ -137,7 +137,7 @@ jobs:
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
 
       - name: Deploy Pages and register front-door routes
-        uses: dytsou/cloudflare-subpath-deploy@6d8684632ee03bd45b2b4dc735b37a993ea2112b # v0.1.1
+        uses: dytsou/cloudflare-subpath-deploy@842331aa01a5ca5ceaeb5286bf2bc37fe74c3bd1 # v0.1.2 (@v0)
         with:
           output-dir: dist
           manifest-repo: dytsou/site
