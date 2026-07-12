@@ -115,7 +115,7 @@ jobs:
           ls -la dist/.well-known/ | head -20
 
       - name: Deploy Pages and register front-door routes
-        uses: dytsou/cloudflare-subpath-deploy@842331aa01a5ca5ceaeb5286bf2bc37fe74c3bd1 # v0.1.2 (@v0)
+        uses: dytsou/cloudflare-subpath-deploy@v1 # v1.0.0
         with:
           output-dir: dist
           manifest-repo: dytsou/site
