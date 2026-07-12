@@ -9,6 +9,7 @@
     "verify:route-manifest": "node scripts/verify-route-manifest.mjs",
     "verify:deploy-contract": "node scripts/verify-deploy-contract.mjs",
     "verify:front-door": "node scripts/verify-front-door-routing.mjs",
+    "verify:worker": "wrangler deploy --dry-run --config workers/front-door/wrangler.toml",
     "lint": "eslint .",
     "sync": "pnpm sync:projects && pnpm sync:about-stats && pnpm sync:about-languages && pnpm sync:github-activity",
     "sync:projects": "node scripts/sync-projects.mjs",
