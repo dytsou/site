@@ -1,0 +1,46 @@
+name: Redeploy Front Door
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - src/data/route-manifest.json
+      - workers/front-door/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Checkout Action lib
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          repository: dytsou/cloudflare-subpath-deploy
+          ref: v0.1.0
+          path: action-lib
+
+      - name: Validate route manifest
+        run: node scripts/verify-route-manifest.mjs
+
+      - name: Validate front-door routing
+        run: node scripts/verify-front-door-routing.mjs
+
+      - name: Deploy front-door Worker
+        run: node action-lib/lib/deploy-worker.mjs
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Smoke canonical routes
+        run: node action-lib/lib/smoke-routes.mjs --canonical
+        env:
+          SITE_URL: https://dy.tsou.me

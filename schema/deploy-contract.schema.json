@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Deploy contract",
+  "type": "object",
+  "required": [
+    "ownerRepo",
+    "canonicalPath",
+    "canonicalUrl",
+    "pagesProject",
+    "outputDir",
+    "basePath"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ownerRepo": {
+      "type": "string",
+      "pattern": "^[^/]+/[^/]+$"
+    },
+    "canonicalPath": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "canonicalUrl": {
+      "type": "string",
+      "pattern": "^https://"
+    },
+    "previewUrl": {
+      "type": "string",
+      "pattern": "^https://"
+    },
+    "pagesProject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outputDir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "basePath": {
+      "type": "string",
+      "pattern": "^/"
+    }
+  }
+}
