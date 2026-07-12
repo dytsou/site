@@ -26,6 +26,26 @@ export function matchRoute(pathname, manifest) {
 }
 
 /**
+ * Bare subpath mount without trailing slash (/cal) should redirect to the
+ * manifest canonical prefix (/cal/) so clients never see two URLs.
+ * @param {string} pathname
+ * @param {Route[]} manifest
+ * @returns {string | null}
+ */
+export function canonicalTrailingSlashRedirect(pathname, manifest) {
+  const sorted = [...manifest].sort(
+    (a, b) => b.pathPrefix.length - a.pathPrefix.length
+  );
+  for (const route of sorted) {
+    const { pathPrefix } = route;
+    if (pathPrefix === '/' || !pathPrefix.endsWith('/')) continue;
+    const bare = pathPrefix.slice(0, -1);
+    if (pathname === bare) return pathPrefix;
+  }
+  return null;
+}
+
+/**
  * Cloudflare edge-caches HTML whose Cache-Control carries `public` (even with
  * `max-age=0, must-revalidate`), keyed by exact URL. That makes trailing-slash
  * variants (/cal vs /cal/) independent cache entries and pins stale deploys.

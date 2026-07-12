@@ -37,6 +37,13 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
+      - name: Purge front-door edge cache
+        run: node scripts/purge-front-door-cache.mjs
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          SITE_URL: https://dy.tsou.me
+
       # Canonical smoke is a real gate: it fails on 5xx/404/empty body but
       # skips on 403 (Cloudflare challenges CI IPs), so no continue-on-error.
       - name: Smoke canonical routes

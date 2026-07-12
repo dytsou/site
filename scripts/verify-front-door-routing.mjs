@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
   buildTarget,
+  canonicalTrailingSlashRedirect,
   matchRoute,
   matchesPrefix,
   isEdgeCacheableContent,
@@ -18,6 +19,12 @@ assert.equal(matchesPrefix('/cal/', '/cal/'), true);
 assert.equal(matchesPrefix('/cal', '/cal/'), true);
 assert.equal(matchesPrefix('/calendar/', '/cal/'), false);
 assert.equal(matchesPrefix('/resume/', '/resume/'), true);
+
+assert.equal(canonicalTrailingSlashRedirect('/cal', manifest), '/cal/');
+assert.equal(canonicalTrailingSlashRedirect('/resume', manifest), '/resume/');
+assert.equal(canonicalTrailingSlashRedirect('/cal/', manifest), null);
+assert.equal(canonicalTrailingSlashRedirect('/cal/foo', manifest), null);
+assert.equal(canonicalTrailingSlashRedirect('/about', manifest), null);
 
 // Assert routing logic against whatever backend the manifest currently
 // points at, so the test survives backend cutovers (e.g. cal.tsou.me ->
