@@ -15,7 +15,7 @@ export function purgeUrlsFromManifest(manifest, origin) {
     urls.add(`${base}${pathPrefix}`);
     urls.add(`${base}${pathPrefix.slice(0, -1)}`);
   }
-  return [...urls].sort();
+  return [...urls].sort((a, b) => a.localeCompare(b));
 }
 
 async function selfCheck() {
