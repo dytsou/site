@@ -1,1 +1,1 @@
-export const FALLBACK_PUBLIC_REPOS: number | undefined = 71;
+export const FALLBACK_PUBLIC_REPOS: number | undefined = 73;

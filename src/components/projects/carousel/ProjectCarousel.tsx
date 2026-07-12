@@ -24,10 +24,8 @@ const getCardsPerSlideForWidth = (width: number) => {
 
 export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [cardsPerSlide, setCardsPerSlide] = useState(() => {
-    if (globalThis.window === undefined) return 1;
-    return getCardsPerSlideForWidth(globalThis.window.innerWidth);
-  });
+  // ponytail: always 1 on SSR/first paint; useEffect sets viewport-aware layout after hydration.
+  const [cardsPerSlide, setCardsPerSlide] = useState(1);
 
   useEffect(() => {
     const handleResize = () => {

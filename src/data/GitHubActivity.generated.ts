@@ -8,6 +8,30 @@ export type GitHubActivityRepo = {
 
 export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
   {
+    name: 'resume',
+    description:
+      'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to GitHub Pages.',
+    html_url: 'https://github.com/dytsou/resume',
+    stargazers_count: 0,
+    language: 'JavaScript',
+  },
+  {
+    name: 'cal',
+    description:
+      'A simple calendar application that displays multiple calendar feeds using Open Web Calendar.',
+    html_url: 'https://github.com/dytsou/cal',
+    stargazers_count: 0,
+    language: 'JavaScript',
+  },
+  {
+    name: 'static-page-template',
+    description:
+      'Template for static pages on dy.tsou.me via cloudflare-subpath-deploy',
+    html_url: 'https://github.com/dytsou/static-page-template',
+    stargazers_count: 0,
+    language: 'HTML',
+  },
+  {
     name: 'site',
     description:
       'My personal website, which would be deploy to http://dy.tsou.me',
@@ -16,40 +40,17 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     language: 'TypeScript',
   },
   {
-    name: 'dytsou.github.io',
-    description: 'My personal website',
-    html_url: 'https://github.com/dytsou/dytsou.github.io',
-    stargazers_count: 0,
-    language: 'HTML',
-  },
-  {
-    name: 'venn2meet',
+    name: 'cloudflare-subpath-deploy-playground',
     description: '',
-    html_url: 'https://github.com/dytsou/venn2meet',
+    html_url: 'https://github.com/dytsou/cloudflare-subpath-deploy-playground',
     stargazers_count: 0,
-    language: 'TypeScript',
+    language: null,
   },
   {
-    name: 'sdcBillook',
-    description: 'A react billook created in SDC',
-    html_url: 'https://github.com/dytsou/sdcBillook',
+    name: 'cloudflare-subpath-deploy',
+    description: '',
+    html_url: 'https://github.com/dytsou/cloudflare-subpath-deploy',
     stargazers_count: 0,
     language: 'JavaScript',
-  },
-  {
-    name: 'github-readme-stats',
-    description:
-      'Dynamically generated stats for GitHub READMEs with Cloudflare worker',
-    html_url: 'https://github.com/dytsou/github-readme-stats',
-    stargazers_count: 2,
-    language: 'JavaScript',
-  },
-  {
-    name: 'intern-corner-scheduler',
-    description:
-      'A web interface using OR-Tools CP-SAT to generate round-table seating across rounds with fixed hosts, balanced tables, and pair-wise constraints.',
-    html_url: 'https://github.com/dytsou/intern-corner-scheduler',
-    stargazers_count: 0,
-    language: 'Python',
   },
 ];

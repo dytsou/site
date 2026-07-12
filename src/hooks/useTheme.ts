@@ -1,28 +1,39 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 
 export type Theme = 'light' | 'dark';
 
-function readTheme(): Theme {
-  if (typeof document === 'undefined') return 'light';
+const listeners = new Set<() => void>();
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+function getThemeSnapshot(): Theme {
   return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+}
+
+function getServerThemeSnapshot(): Theme {
+  return 'light';
 }
 
 function applyTheme(theme: Theme): void {
   document.documentElement.classList.remove('light', 'dark');
   document.documentElement.classList.add(theme);
   localStorage.setItem('theme', theme);
+  listeners.forEach((listener) => listener());
 }
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>(readTheme);
+  const theme = useSyncExternalStore(
+    subscribe,
+    getThemeSnapshot,
+    getServerThemeSnapshot
+  );
 
   const toggleTheme = useCallback(() => {
-    setTheme((current) => {
-      const next: Theme = current === 'light' ? 'dark' : 'light';
-      applyTheme(next);
-      return next;
-    });
-  }, []);
+    applyTheme(theme === 'light' ? 'dark' : 'light');
+  }, [theme]);
 
   return { theme, toggleTheme };
 }
