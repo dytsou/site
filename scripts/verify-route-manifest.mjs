@@ -6,7 +6,7 @@ import {
   isHttpsUrl,
   isOwnerRepo,
   isSlashPath,
-  resolveSafeRepoPath,
+  toSafeRepoPath,
   runVerifier,
 } from './lib/verify-helpers.mjs';
 
@@ -46,14 +46,11 @@ function validateEntry(entry, index) {
 }
 
 async function main() {
-  const schemaPath = resolveSafeRepoPath(
+  const schemaPath = toSafeRepoPath(
     repoRoot,
     'schema/route-manifest.schema.json'
   );
-  const manifestPath = resolveSafeRepoPath(
-    repoRoot,
-    'src/data/route-manifest.json'
-  );
+  const manifestPath = toSafeRepoPath(repoRoot, 'src/data/route-manifest.json');
 
   await readFile(schemaPath, 'utf8');
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));

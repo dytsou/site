@@ -7,7 +7,7 @@ import {
   isHttpsUrl,
   isOwnerRepo,
   isSlashPath,
-  resolveSafeRepoPath,
+  toSafeRepoPath,
   runVerifier,
 } from './lib/verify-helpers.mjs';
 
@@ -40,35 +40,35 @@ function validateContract(contract) {
   }
 }
 
-async function assertSafeOutputDir(outputDir, contractOutputDir) {
-  assert(
-    outputDir === contractOutputDir,
-    'output-dir must match contract outputDir'
-  );
-  const resolved = resolveSafeRepoPath(repoRoot, outputDir);
+async function assertOutputDirExists(contractOutputDir) {
+  const safeOutputDir = toSafeRepoPath(repoRoot, contractOutputDir);
 
   try {
-    await access(resolved);
+    await access(safeOutputDir);
   } catch {
     throw new Error('output-dir does not exist');
   }
 
-  await access(path.join(resolved, 'index.html'));
+  await access(path.join(safeOutputDir, 'index.html'));
 }
 
 async function main() {
   const contractRel = process.argv[2] ?? 'deploy-contract.json';
-  const contractPath = resolveSafeRepoPath(repoRoot, contractRel);
+  const contractPath = toSafeRepoPath(repoRoot, contractRel);
 
   await readFile(
-    resolveSafeRepoPath(repoRoot, 'schema/deploy-contract.schema.json'),
+    toSafeRepoPath(repoRoot, 'schema/deploy-contract.schema.json'),
     'utf8'
   );
   const contract = JSON.parse(await readFile(contractPath, 'utf8'));
   validateContract(contract);
 
   if (outputDirArg) {
-    await assertSafeOutputDir(outputDirArg, contract.outputDir);
+    assert(
+      outputDirArg === contract.outputDir,
+      'output-dir must match contract outputDir'
+    );
+    await assertOutputDirExists(contract.outputDir);
   }
 
   console.log('✓ verify-deploy-contract passed');

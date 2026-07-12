@@ -1,5 +1,7 @@
 import path from 'node:path';
 
+const FORBIDDEN_SEGMENTS = new Set(['..', '.']);
+
 export function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
@@ -16,19 +18,39 @@ export function isSlashPath(value) {
   return typeof value === 'string' && value.startsWith('/');
 }
 
-/** @param {string} repoRoot @param {string} relativePath */
-export function resolveSafeRepoPath(repoRoot, relativePath) {
-  assert(!path.isAbsolute(relativePath), 'path must be relative');
-  assert(!relativePath.includes('..'), 'path must not contain ..');
-  const resolved = path.resolve(repoRoot, relativePath);
-  const rootPrefix = repoRoot.endsWith(path.sep)
-    ? repoRoot
-    : `${repoRoot}${path.sep}`;
+/**
+ * Resolve a repo-relative path after segment validation (no path.resolve on raw input).
+ * @param {string} repoRoot
+ * @param {string} relativePath
+ */
+export function toSafeRepoPath(repoRoot, relativePath) {
   assert(
-    resolved === repoRoot || resolved.startsWith(rootPrefix),
+    typeof relativePath === 'string' && relativePath.length > 0,
+    'path required'
+  );
+  assert(!path.isAbsolute(relativePath), 'path must be relative');
+
+  const segments = relativePath
+    .split(/[/\\]/)
+    .filter((segment) => segment.length > 0);
+  for (const segment of segments) {
+    assert(!FORBIDDEN_SEGMENTS.has(segment), 'invalid path segment');
+  }
+
+  const rootResolved = path.resolve(repoRoot);
+  const candidate =
+    segments.length === 0
+      ? rootResolved
+      : path.resolve(path.join(rootResolved, ...segments));
+  const rootPrefix = rootResolved.endsWith(path.sep)
+    ? rootResolved
+    : `${rootResolved}${path.sep}`;
+
+  assert(
+    candidate === rootResolved || candidate.startsWith(rootPrefix),
     'path must stay inside workspace'
   );
-  return resolved;
+  return candidate;
 }
 
 export async function runVerifier(name, main) {
