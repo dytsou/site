@@ -119,7 +119,10 @@ jobs:
         with:
           output-dir: dist
           manifest-repo: dytsou/site
-          create-pr: "false"
+          # Site owns the manifest (maintained in-repo via PR) and the Worker
+          # bundles the committed copy at deploy time, so skip the circular
+          # self-upsert that would push to protected main.
+          register-route: "false"
           deploy-worker: "true"
           cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
