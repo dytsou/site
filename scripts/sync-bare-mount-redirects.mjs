@@ -5,17 +5,6 @@ import { readFile } from 'node:fs/promises';
 const MANAGED_REF_PREFIX = 'subpath-deploy-bare-';
 
 /**
- * Cloudflare zone and ruleset IDs are 32-char lowercase hex. Validate before
- * interpolating into an API URL path so an unexpected/tainted API response
- * cannot redirect the request elsewhere (SSRF guard).
- * @param {unknown} id
- * @returns {boolean}
- */
-export function isCloudflareId(id) {
-  return typeof id === 'string' && /^[0-9a-f]{32}$/.test(id);
-}
-
-/**
  * @param {Array<{ pathPrefix: string }>} manifest
  * @param {string} origin
  */
@@ -83,10 +72,6 @@ async function selfCheck() {
   );
   assert.equal(merged.length, 3);
   assert.equal(merged.find((r) => r.ref === 'user-rule')?.expression, 'x');
-  assert.equal(isCloudflareId('a'.repeat(32)), true);
-  assert.equal(isCloudflareId('A'.repeat(32)), false);
-  assert.equal(isCloudflareId('../evil'), false);
-  assert.equal(isCloudflareId(undefined), false);
   console.log('sync-bare-mount-redirects: self-check ok');
 }
 
@@ -151,28 +136,21 @@ try {
 }
 
 const rules = mergeManagedRedirectRules(entrypoint?.rules ?? [], managed);
-const body = {
-  name: entrypoint?.name ?? 'Redirect rules ruleset',
-  kind: 'zone',
-  phase: 'http_request_dynamic_redirect',
-  rules,
-};
 
-if (!isCloudflareId(zoneId)) {
-  warn('api-rejected');
-}
-const existingRulesetId = isCloudflareId(entrypoint?.id) ? entrypoint.id : null;
-
+// Update the phase entry point directly. Its URL path is constant (only the
+// env-provided zone id is interpolated, exactly like the GET above), so no
+// API-response value is ever placed in the request path — avoids building a
+// URL from tainted data.
 let data;
 try {
-  const url = existingRulesetId
-    ? `https://api.cloudflare.com/client/v4/zones/${zoneId}/rulesets/${existingRulesetId}`
-    : `https://api.cloudflare.com/client/v4/zones/${zoneId}/rulesets`;
-  const res = await fetch(url, {
-    method: existingRulesetId ? 'PUT' : 'POST',
-    headers,
-    body: JSON.stringify(body),
-  });
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/zones/${zoneId}/rulesets/phases/http_request_dynamic_redirect/entrypoint`,
+    {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ rules }),
+    }
+  );
   data = await res.json();
 } catch {
   warn('request-failed');
