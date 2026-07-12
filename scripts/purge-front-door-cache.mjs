@@ -54,20 +54,43 @@ if (dryRun) {
   process.exit(0);
 }
 
-assert(zoneId, 'CLOUDFLARE_ZONE_ID is required');
-assert(token, 'CLOUDFLARE_API_TOKEN is required');
+// Purge is belt-and-suspenders on top of HTML `no-store`: the edge already
+// revalidates page HTML every request, so a missing/underscoped token or a
+// transient API error should warn (::warning:: for GitHub Actions) but never
+// fail an otherwise-successful deploy. The token needs Zone → Cache Purge.
+// ponytail: best-effort by design; run with the correct token to hard-verify.
+function warn(message) {
+  console.log(`::warning::purge-front-door-cache: ${message}`);
+  process.exit(0);
+}
 
-const res = await fetch(
-  `https://api.cloudflare.com/client/v4/zones/${zoneId}/purge_cache`,
-  {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ files }),
-  }
-);
-const data = await res.json();
-assert(data.success, `purge failed: ${JSON.stringify(data.errors ?? data)}`);
+if (!zoneId || !token) {
+  warn('CLOUDFLARE_ZONE_ID / CLOUDFLARE_API_TOKEN unset; skipped purge');
+}
+
+let data;
+try {
+  const res = await fetch(
+    `https://api.cloudflare.com/client/v4/zones/${zoneId}/purge_cache`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ files }),
+    }
+  );
+  data = await res.json();
+} catch (error) {
+  warn(`request failed: ${error.message}`);
+}
+
+if (!data.success) {
+  warn(
+    `API rejected purge (token needs Zone → Cache Purge): ${JSON.stringify(
+      data.errors ?? data
+    )}`
+  );
+}
 console.log(`purge-front-door-cache: purged ${files.length} URL(s)`);
