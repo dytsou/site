@@ -4,7 +4,12 @@ import {
   wantsMarkdown,
   isHtmlPagePath,
 } from './markdown.js';
-import { buildTarget, matchRoute, preventHtmlEdgeCache } from './routing.js';
+import {
+  buildTarget,
+  canonicalTrailingSlashRedirect,
+  matchRoute,
+  preventHtmlEdgeCache,
+} from './routing.js';
 
 const FETCH_TIMEOUT_MS = 30_000;
 
@@ -42,6 +47,12 @@ export default {
    */
   async fetch(request, env) {
     const url = new URL(request.url);
+    const redirectPath = canonicalTrailingSlashRedirect(url.pathname, manifest);
+    if (redirectPath) {
+      url.pathname = redirectPath;
+      return Response.redirect(url.toString(), 308);
+    }
+
     const route = matchRoute(url.pathname, manifest);
     if (!route) {
       return new Response('Not Found', { status: 404 });
