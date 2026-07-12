@@ -1,19 +1,19 @@
 [
   {
-    "pathPrefix": "/cal/",
-    "backend": "https://cal.tsou.me",
-    "stripPrefix": "/cal",
-    "ownerRepo": "dytsou/cal",
-    "kind": "page",
-    "previewUrl": "https://cal.tsou.me"
-  },
-  {
     "pathPrefix": "/resume/",
     "backend": "https://resume.tsou.me",
     "stripPrefix": "/resume",
     "ownerRepo": "dytsou/resume",
     "kind": "page",
     "previewUrl": "https://resume.tsou.me"
+  },
+  {
+    "pathPrefix": "/cal/",
+    "backend": "https://dy-tsou-cal.pages.dev",
+    "stripPrefix": "/cal",
+    "ownerRepo": "dytsou/cal",
+    "kind": "page",
+    "previewUrl": "https://cal.tsou.me"
   },
   {
     "pathPrefix": "/",
