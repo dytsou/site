@@ -26,6 +26,38 @@ export function matchRoute(pathname, manifest) {
 }
 
 /**
+ * Cloudflare edge-caches HTML whose Cache-Control carries `public` (even with
+ * `max-age=0, must-revalidate`), keyed by exact URL. That makes trailing-slash
+ * variants (/cal vs /cal/) independent cache entries and pins stale deploys.
+ * Force the edge to never store page HTML so the front door always revalidates
+ * against the backend. Hashed assets (css/js/png) keep their edge cache. The
+ * browser's own Cache-Control is untouched — Cloudflare consumes and strips
+ * Cloudflare-CDN-Cache-Control before the response reaches the client.
+ * @param {string} contentType
+ */
+export function isEdgeCacheableContent(contentType) {
+  return !(contentType ?? '').includes('text/html');
+}
+
+/**
+ * Returns a response that Cloudflare's edge will not cache when it carries HTML.
+ * @param {Response} response
+ * @returns {Response}
+ */
+export function preventHtmlEdgeCache(response) {
+  if (isEdgeCacheableContent(response.headers.get('content-type') ?? '')) {
+    return response;
+  }
+  const headers = new Headers(response.headers);
+  headers.set('Cloudflare-CDN-Cache-Control', 'no-store');
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
+/**
  * @param {string} requestUrl
  * @param {Route} route
  */

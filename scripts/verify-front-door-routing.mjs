@@ -5,6 +5,8 @@ import {
   buildTarget,
   matchRoute,
   matchesPrefix,
+  isEdgeCacheableContent,
+  preventHtmlEdgeCache,
 } from '../workers/front-door/src/routing.js';
 
 const manifest = JSON.parse(
@@ -40,5 +42,34 @@ assert.equal(
   buildTarget('https://dy.tsou.me/about/', rootRoute),
   `${rootRoute.backend}/about/`
 );
+
+// HTML must be marked non-cacheable at the edge so trailing-slash variants
+// (/cal vs /cal/) never serve independent stale entries; hashed assets stay
+// edge-cacheable.
+assert.equal(isEdgeCacheableContent('text/html; charset=utf-8'), false);
+assert.equal(isEdgeCacheableContent('text/css'), true);
+assert.equal(isEdgeCacheableContent(''), true);
+
+const htmlResponse = preventHtmlEdgeCache(
+  new Response('<!doctype html>', {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      'cache-control': 'public, max-age=0, must-revalidate',
+    },
+  })
+);
+assert.equal(
+  htmlResponse.headers.get('Cloudflare-CDN-Cache-Control'),
+  'no-store'
+);
+assert.equal(
+  htmlResponse.headers.get('cache-control'),
+  'public, max-age=0, must-revalidate'
+);
+
+const assetResponse = preventHtmlEdgeCache(
+  new Response('body{}', { headers: { 'content-type': 'text/css' } })
+);
+assert.equal(assetResponse.headers.get('Cloudflare-CDN-Cache-Control'), null);
 
 console.log('✓ verify-front-door-routing passed');

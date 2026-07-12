@@ -4,7 +4,7 @@ import {
   wantsMarkdown,
   isHtmlPagePath,
 } from './markdown.js';
-import { buildTarget, matchRoute } from './routing.js';
+import { buildTarget, matchRoute, preventHtmlEdgeCache } from './routing.js';
 
 const FETCH_TIMEOUT_MS = 30_000;
 
@@ -73,6 +73,6 @@ export default {
       return negotiateMarkdown(request, upstream, env);
     }
 
-    return upstream;
+    return preventHtmlEdgeCache(upstream);
   },
 };
