@@ -1,0 +1,9 @@
+[
+  {
+    "pathPrefix": "/",
+    "backend": "https://dy-tsou-me.pages.dev",
+    "stripPrefix": "",
+    "ownerRepo": "dytsou/site",
+    "kind": "site"
+  }
+]
