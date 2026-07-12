@@ -1,3 +1,4 @@
+// ponytail: canonical markdown negotiation moves to workers/front-door after Phase 2 cutover
 const MAX_HTML_BYTES = 2_097_152;
 
 function wantsMarkdown(request) {
