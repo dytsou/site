@@ -59,13 +59,21 @@ if (dryRun) {
 // transient API error should warn (::warning:: for GitHub Actions) but never
 // fail an otherwise-successful deploy. The token needs Zone → Cache Purge.
 // ponytail: best-effort by design; run with the correct token to hard-verify.
-function warn(message) {
-  console.log(`::warning::purge-front-door-cache: ${message}`);
+/** @param {'missing-secrets' | 'request-failed' | 'api-rejected'} reason */
+function warn(reason) {
+  const messages = {
+    'missing-secrets':
+      'CLOUDFLARE_ZONE_ID / CLOUDFLARE_API_TOKEN unset; skipped purge',
+    'request-failed': 'purge request failed; skipped purge',
+    'api-rejected':
+      'API rejected purge (token needs Zone → Cache Purge); skipped purge',
+  };
+  console.log(`::warning::purge-front-door-cache: ${messages[reason]}`);
   process.exit(0);
 }
 
 if (!zoneId || !token) {
-  warn('CLOUDFLARE_ZONE_ID / CLOUDFLARE_API_TOKEN unset; skipped purge');
+  warn('missing-secrets');
 }
 
 let data;
@@ -82,15 +90,11 @@ try {
     }
   );
   data = await res.json();
-} catch (error) {
-  warn(`request failed: ${error.message}`);
+} catch {
+  warn('request-failed');
 }
 
 if (!data.success) {
-  warn(
-    `API rejected purge (token needs Zone → Cache Purge): ${JSON.stringify(
-      data.errors ?? data
-    )}`
-  );
+  warn('api-rejected');
 }
 console.log(`purge-front-door-cache: purged ${files.length} URL(s)`);
