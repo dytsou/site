@@ -128,6 +128,13 @@ jobs:
           cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           manifest-repo-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Sync bare-mount zone redirects
+        run: node scripts/sync-bare-mount-redirects.mjs
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          SITE_URL: https://dy.tsou.me
+
       - name: Purge front-door edge cache
         run: node scripts/purge-front-door-cache.mjs
         env:

@@ -50,6 +50,9 @@ jobs:
       - name: Verify front-door purge URL builder
         run: node scripts/purge-front-door-cache.mjs --self-check
 
+      - name: Verify bare-mount redirect rule builder
+        run: node scripts/sync-bare-mount-redirects.mjs --self-check
+
       - name: Dry-run front-door Worker deploy
         run: pnpm verify:worker
 

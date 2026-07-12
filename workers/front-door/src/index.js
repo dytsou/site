@@ -50,7 +50,14 @@ export default {
     const redirectPath = canonicalTrailingSlashRedirect(url.pathname, manifest);
     if (redirectPath) {
       url.pathname = redirectPath;
-      return Response.redirect(url.toString(), 308);
+      return new Response(null, {
+        status: 308,
+        headers: {
+          Location: url.toString(),
+          'Cache-Control': 'no-store',
+          'Cloudflare-CDN-Cache-Control': 'no-store',
+        },
+      });
     }
 
     const route = matchRoute(url.pathname, manifest);
