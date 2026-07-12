@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -137,7 +137,7 @@ jobs:
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
 
       - name: Deploy Pages and register front-door routes
-        uses: dytsou/cloudflare-subpath-deploy@v0
+        uses: dytsou/cloudflare-subpath-deploy@06b11238c92e2367628248f6720579c52dfed825 # v0.1.0
         with:
           output-dir: dist
           manifest-repo: dytsou/site

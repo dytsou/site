@@ -1,18 +1,16 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises';
-import path from 'node:path';
 import process from 'node:process';
+import {
+  assert,
+  isHttpsUrl,
+  isOwnerRepo,
+  isSlashPath,
+  resolveSafeRepoPath,
+  runVerifier,
+} from './lib/verify-helpers.mjs';
 
 const repoRoot = process.cwd();
-const schemaPath = path.join(repoRoot, 'schema/route-manifest.schema.json');
-const manifestPath = path.join(repoRoot, 'src/data/route-manifest.json');
-
-const OWNER_REPO_PATTERN = /^[^/]+\/[^/]+$/;
-const HTTPS_PATTERN = /^https:\/\//;
-
-function assert(condition, message) {
-  if (!condition) throw new Error(message);
-}
 
 function validateEntry(entry, index) {
   assert(
@@ -20,11 +18,11 @@ function validateEntry(entry, index) {
     `entry ${index} must be an object`
   );
   assert(
-    typeof entry.pathPrefix === 'string' && entry.pathPrefix.startsWith('/'),
+    isSlashPath(entry.pathPrefix),
     `entry ${index}: pathPrefix must start with /`
   );
   assert(
-    typeof entry.backend === 'string' && HTTPS_PATTERN.test(entry.backend),
+    isHttpsUrl(entry.backend),
     `entry ${index}: backend must be https URL`
   );
   assert(
@@ -32,8 +30,7 @@ function validateEntry(entry, index) {
     `entry ${index}: stripPrefix required`
   );
   assert(
-    typeof entry.ownerRepo === 'string' &&
-      OWNER_REPO_PATTERN.test(entry.ownerRepo),
+    isOwnerRepo(entry.ownerRepo),
     `entry ${index}: ownerRepo must be owner/repo`
   );
   assert(
@@ -42,14 +39,22 @@ function validateEntry(entry, index) {
   );
   if (entry.previewUrl !== undefined) {
     assert(
-      typeof entry.previewUrl === 'string' &&
-        HTTPS_PATTERN.test(entry.previewUrl),
+      isHttpsUrl(entry.previewUrl),
       `entry ${index}: previewUrl must be https URL`
     );
   }
 }
 
 async function main() {
+  const schemaPath = resolveSafeRepoPath(
+    repoRoot,
+    'schema/route-manifest.schema.json'
+  );
+  const manifestPath = resolveSafeRepoPath(
+    repoRoot,
+    'src/data/route-manifest.json'
+  );
+
   await readFile(schemaPath, 'utf8');
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   assert(Array.isArray(manifest), 'route-manifest must be a JSON array');
@@ -70,9 +75,4 @@ async function main() {
   console.log('✓ verify-route-manifest passed');
 }
 
-try {
-  await main();
-} catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
-}
+await runVerifier('verify-route-manifest', main);
