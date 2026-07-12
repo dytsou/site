@@ -1,7 +1,7 @@
 [
   {
     "pathPrefix": "/resume/",
-    "backend": "https://resume.tsou.me",
+    "backend": "https://dy-tsou-resume.pages.dev",
     "stripPrefix": "/resume",
     "ownerRepo": "dytsou/resume",
     "kind": "page",
