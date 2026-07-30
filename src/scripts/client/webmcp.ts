@@ -20,7 +20,7 @@ type ModelContextTool = {
 };
 
 type ModelContext = {
-  registerTool: (
+  registerTool?: (
     tool: ModelContextTool,
     options?: { signal?: AbortSignal }
   ) => Promise<void>;
@@ -65,8 +65,8 @@ function searchProjects(query: string, featuredOnly = false) {
     const haystack = [
       project.title,
       project.description,
-      ...project.technologies,
-      ...project.tags,
+      ...(project.technologies ?? []),
+      ...(project.tags ?? []),
     ]
       .join(' ')
       .toLowerCase();
@@ -206,9 +206,9 @@ const tools: ModelContextTool[] = [
 ];
 
 async function registerTools(modelContext: ModelContext, signal: AbortSignal) {
-  if ('registerTool' in modelContext) {
+  if (modelContext.registerTool) {
     await Promise.all(
-      tools.map((tool) => modelContext.registerTool(tool, { signal }))
+      tools.map((tool) => modelContext.registerTool!(tool, { signal }))
     );
     return;
   }
