@@ -6,3 +6,5 @@ allowBuilds:
 minimumReleaseAge: 1440
 overrides:
   esbuild: '>=0.28.1'
+  fast-uri: '>=3.1.4'
+  svgo: '>=4.0.2'
