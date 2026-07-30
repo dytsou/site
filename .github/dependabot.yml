@@ -19,10 +19,15 @@ updates:
           - "astro"
           - "@astrojs/*"
           - "react"
+          - "react-dom"
           - "lucide-react"
           - "typescript-eslint"
           - "typescript"
           - "postcss"
+    ignore:
+      # typescript-eslint does not support TS 7.0 yet (typescript-eslint#10940)
+      - dependency-name: "typescript"
+        versions: [">=7.0.0"]
     open-pull-requests-limit: 10
     commit-message:
       prefix: "chore"
