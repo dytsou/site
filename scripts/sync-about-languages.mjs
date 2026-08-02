@@ -80,6 +80,12 @@ function renderOutput(languages) {
 `;
 }
 
+function throwTopLangsUnavailable(message) {
+  throw Object.assign(new Error(message), {
+    name: 'TopLangsUnavailableError',
+  });
+}
+
 await runScript(() =>
   withGithubSync(outputPath, async ({ offlineMode }) => {
     if (offlineMode) {
@@ -93,13 +99,15 @@ await runScript(() =>
       headers: { Accept: 'image/svg+xml,text/plain,*/*' },
     });
     if (!response.ok) {
-      throw new Error(`top-langs fetch failed (${response.status}) for ${url}`);
+      throwTopLangsUnavailable(
+        `top-langs fetch failed (${response.status}) for ${url}`
+      );
     }
 
     const svg = await response.text();
     const names = parseLangNamesFromSvg(svg);
     if (names.length === 0) {
-      throw new Error('top-langs SVG contained no language names');
+      throwTopLangsUnavailable('top-langs SVG contained no language names');
     }
 
     const svgColors = parseLangColorsFromSvg(svg);
