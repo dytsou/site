@@ -1,7 +1,7 @@
 {
   "name": "dytsou@personal-site",
   "private": true,
-  "version": "2.1.3",
+  "version": "2.2.0",
   "type": "module",
   "scripts": {
     "dev": "node scripts/emit-site-routes.mjs && node scripts/emit-agent-discovery.mjs && astro dev",
