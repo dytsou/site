@@ -1,11 +1,11 @@
 /*
   Content-icon stroke draw (Icon Animator–inspired).
-  - Enter: ancestor [data-revealed='true']
-  - Hover replay: .stroke-icon-host:hover (all hosts)
-  - Keyboard replay: a.stroke-icon-host:focus-visible (Contact links)
-  - Pre-reveal hover still draws (carousel late-mount fail-safe)
-  - Uniform dash via pathLength="1" on stroked children (markup or stroke-icon.ts)
-  - Layout boxes unchanged — only dashoffset animates (R8)
+  - Enter: one-shot .stroke-icon--play (added by stroke-icon.ts on reveal)
+  - Hover replay: .stroke-icon-host:hover
+  - Keyboard replay: a.stroke-icon-host:focus-visible (Contact)
+  - Revealed resting state is static dashoffset 0 (no permanent animation —
+    so hover leave does not restart a 900ms enter)
+  - Uniform dash via pathLength="1" on stroked children
 */
 
 .stroke-icon :is(path, circle, rect, line, polyline, polygon) {
@@ -22,21 +22,26 @@
   }
 }
 
-/* Resting drawn after reveal; enter animation plays when data-revealed lands */
+/* After reveal (and after enter animation ends): stay drawn, no animation */
 [data-revealed='true']
   .stroke-icon
   :is(path, circle, rect, line, polyline, polygon) {
   stroke-dashoffset: 0;
-  animation: stroke-icon-draw 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Hover / Contact focus-visible replay (and pre-reveal fail-safe) */
+.stroke-icon.stroke-icon--play
+  :is(path, circle, rect, line, polyline, polygon) {
+  animation: stroke-icon-draw var(--stroke-icon-duration, 900ms)
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .stroke-icon-host:hover
   .stroke-icon
   :is(path, circle, rect, line, polyline, polygon),
 a.stroke-icon-host:focus-visible
   .stroke-icon
   :is(path, circle, rect, line, polyline, polygon) {
+  --stroke-icon-duration: 400ms;
   animation: stroke-icon-draw 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
