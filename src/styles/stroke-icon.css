@@ -31,7 +31,7 @@
 
 .stroke-icon.stroke-icon--play
   :is(path, circle, rect, line, polyline, polygon) {
-  animation: stroke-icon-draw var(--stroke-icon-duration, 1.6s)
+  animation: stroke-icon-draw var(--stroke-icon-duration, 1.2s)
     cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
