@@ -88,7 +88,7 @@ export function ProjectCard({
 
   return (
     <div
-      className={`project-card ${isMobile ? 'project-card-mobile' : ''} ${cardStyle}`}
+      className={`project-card stroke-icon-host ${isMobile ? 'project-card-mobile' : ''} ${cardStyle}`}
     >
       <div className="project-card-content">
         <div className="project-card-main">

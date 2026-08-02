@@ -53,10 +53,10 @@ import '../about/About.css';
       </div>
 
       <div class="stats-grid">
-        <div class="stats-card stats-card-blue">
+        <div class="stats-card stats-card-blue stroke-icon-host">
           <div class="stats-card-header">
             <svg
-              class="stats-card-icon stats-card-icon-blue"
+              class="stats-card-icon stats-card-icon-blue stroke-icon"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -68,8 +68,8 @@ import '../about/About.css';
               stroke-linejoin="round"
               aria-hidden="true"
             >
-              <path d="m16 18 6-6-6-6"></path>
-              <path d="m8 6-6 6 6 6"></path>
+              <path pathLength="1" d="m16 18 6-6-6-6"></path>
+              <path pathLength="1" d="m8 6-6 6 6 6"></path>
             </svg>
             <div class="stats-card-value stats-card-value-blue">
               {FALLBACK_PUBLIC_REPOS}
@@ -77,10 +77,10 @@ import '../about/About.css';
           </div>
           <div class="stats-card-label">Public Repos</div>
         </div>
-        <div class="stats-card stats-card-cyan">
+        <div class="stats-card stats-card-cyan stroke-icon-host">
           <div class="stats-card-header">
             <svg
-              class="stats-card-icon stats-card-icon-cyan"
+              class="stats-card-icon stats-card-icon-cyan stroke-icon"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -92,8 +92,9 @@ import '../about/About.css';
               stroke-linejoin="round"
               aria-hidden="true"
             >
-              <path d="M12 7v14"></path>
+              <path pathLength="1" d="M12 7v14"></path>
               <path
+                pathLength="1"
                 d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
               ></path>
             </svg>

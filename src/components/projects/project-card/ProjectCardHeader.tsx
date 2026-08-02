@@ -14,7 +14,7 @@ export function ProjectCardHeader({
   return (
     <h3 className="project-title">
       <span className="project-title-content">
-        <Icon className={`project-icon ${iconClass}`} />
+        <Icon className={`project-icon stroke-icon ${iconClass}`} />
         <span>{title}</span>
       </span>
     </h3>
