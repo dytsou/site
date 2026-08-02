@@ -159,19 +159,36 @@ import '../about/About.css';
             <div class="language-grid-list">
               {
                 FALLBACK_LANGUAGES.map((lang) => {
-                  const iconUrl = languageIconUrl(lang.name);
+                  const icon = languageIcon(lang.name);
                   return (
                     <div class="language-item">
-                      {iconUrl ? (
+                      {icon?.kind === 'img' ? (
                         <img
                           class="language-logo"
-                          src={iconUrl}
+                          src={icon.src}
                           alt=""
                           width="20"
                           height="20"
                           loading="lazy"
                           decoding="async"
                         />
+                      ) : icon?.kind === 'terminal' ? (
+                        <svg
+                          class="language-logo language-logo-terminal"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <polyline points="4 17 10 11 4 5" />
+                          <line x1="12" x2="20" y1="19" y2="19" />
+                        </svg>
                       ) : (
                         <div
                           class="language-dot"
