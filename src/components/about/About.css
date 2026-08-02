@@ -295,6 +295,10 @@
   @apply w-5 h-5 shrink-0 object-contain;
 }
 
+.language-logo-terminal {
+  color: var(--accent);
+}
+
 .language-dot-blue {
   @apply bg-blue-500;
 }

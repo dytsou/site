@@ -4,7 +4,6 @@ const LANGUAGE_ICON_SLUGS: Record<string, string> = {
   JavaScript: 'javascript',
   TypeScript: 'typescript',
   Python: 'python',
-  Shell: 'bash',
   CSS: 'css3',
   C: 'c',
   'C++': 'cplusplus',
@@ -17,9 +16,17 @@ const LANGUAGE_ICON_SLUGS: Record<string, string> = {
   Swift: 'swift',
 };
 
-export function languageIconUrl(name: string): string | null {
+export type LanguageIcon = { kind: 'img'; src: string } | { kind: 'terminal' };
+
+export function languageIcon(name: string): LanguageIcon | null {
+  // Devicon bash mark is near-black and disappears on dark surfaces — use a terminal glyph instead
+  if (name === 'Shell') return { kind: 'terminal' };
+
   const slug = LANGUAGE_ICON_SLUGS[name];
   if (!slug) return null;
-  // pin version so logos don't silently change
-  return `https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/${slug}/${slug}-original.svg`;
+  return {
+    kind: 'img',
+    // pin version so logos don't silently change
+    src: `https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/icons/${slug}/${slug}-original.svg`,
+  };
 }
