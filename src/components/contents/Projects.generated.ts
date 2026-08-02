@@ -22,8 +22,8 @@ export const PROJECTS_CONTENTS: Project[] = [
     featured: true,
   },
   {
-    id: 'dytsou/NextMeeting',
-    title: 'NextMeeting',
+    id: 'dytsou/ProxiMeeting',
+    title: 'ProxiMeeting',
     description:
       'A macOS menu bar app that shows your next meeting at a glance.',
     technologies: ['Swift', 'Shell', 'Makefile'],
@@ -42,6 +42,16 @@ export const PROJECTS_CONTENTS: Project[] = [
     featured: true,
   },
   {
+    id: 'dytsou/vaehor',
+    title: 'Vaehor',
+    description:
+      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
+    technologies: ['TypeScript', 'JavaScript', 'CSS', 'Shell'],
+    tags: ['google-drive', 'media-streaming', 'nextjs', 'self-hosted'],
+    github_url: 'https://github.com/dytsou/vaehor',
+    featured: true,
+  },
+  {
     id: 'MCHackathon2025/CAIender-frontend',
     title: 'CAIender',
     description:
@@ -50,15 +60,6 @@ export const PROJECTS_CONTENTS: Project[] = [
     tags: ['ai', 'helper', 'hackathon'],
     github_url: 'https://github.com/MCHackathon2025/CAIender-frontend',
     featured: true,
-  },
-  {
-    id: 'dytsou/shorten-url',
-    title: 'Shorten URL',
-    description: 'A modern, fast URL shortener built with Cloudflare Workers',
-    technologies: ['JavaScript'],
-    tags: ['cloudflare-workers', 'shorten-urls'],
-    github_url: 'https://github.com/dytsou/shorten-url',
-    featured: false,
   },
   {
     id: 'dytsou/github-readme-stats',
@@ -77,6 +78,25 @@ export const PROJECTS_CONTENTS: Project[] = [
     featured: true,
   },
   {
+    id: 'dytsou/when2meet-to-gcal',
+    title: 'When2meet to Google Calendar',
+    description:
+      'Tampermonkey userscript: on a when2meet, see the best continuous full-attendance windows and open a prefilled Google Calendar event.',
+    technologies: ['JavaScript'],
+    tags: [],
+    github_url: 'https://github.com/dytsou/when2meet-to-gcal',
+    featured: false,
+  },
+  {
+    id: 'dytsou/shorten-url',
+    title: 'Shorten URL',
+    description: 'A modern, fast URL shortener built with Cloudflare Workers',
+    technologies: ['JavaScript'],
+    tags: ['cloudflare-workers', 'shorten-urls'],
+    github_url: 'https://github.com/dytsou/shorten-url',
+    featured: false,
+  },
+  {
     id: 'dytsou/raycast-rsync-extension',
     title: 'Raycast Rsync Extension',
     description:
@@ -84,6 +104,16 @@ export const PROJECTS_CONTENTS: Project[] = [
     technologies: ['TypeScript', 'JavaScript'],
     tags: ['raycast-extension', 'rsync', 'transfer-files'],
     github_url: 'https://github.com/dytsou/raycast-rsync-extension',
+    featured: false,
+  },
+  {
+    id: 'dytsou/claude-code-notify',
+    title: 'Claude Code Notify',
+    description:
+      'Interactive approval notifications for Claude Code permission requests',
+    technologies: ['Python', 'Shell', 'Makefile'],
+    tags: ['claude-code', 'notification-service'],
+    github_url: 'https://github.com/dytsou/claude-code-notify',
     featured: false,
   },
   {
@@ -114,16 +144,6 @@ export const PROJECTS_CONTENTS: Project[] = [
     technologies: ['Python', 'JavaScript', 'CSS', 'Makefile'],
     tags: ['round-table', 'scheduler'],
     github_url: 'https://github.com/dytsou/intern-corner-scheduler',
-    featured: false,
-  },
-  {
-    id: 'dytsou/GenAI-Studio',
-    title: 'GenAI Studio',
-    description:
-      'A local-first AI chat workspace built with React + TypeScript + Vite',
-    technologies: ['TypeScript', 'CSS', 'JavaScript', 'HTML'],
-    tags: ['chat-application', 'react', 'typescript', 'vite'],
-    github_url: 'https://github.com/dytsou/GenAI-Studio',
     featured: false,
   },
 ] as Project[];

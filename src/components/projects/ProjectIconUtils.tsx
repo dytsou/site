@@ -19,6 +19,8 @@ import {
   ArrowRightLeft,
   Users,
   Calendar,
+  HardDrive,
+  Bell,
 } from 'lucide-react';
 import type { ComponentType } from 'react';
 import type { Project } from '../../types/projects';
@@ -58,7 +60,31 @@ const iconConfigs: IconConfig[] = [
     Icon: Calendar,
     bgClass: 'project-icon-bg-cal',
     iconClass: 'project-icon-cal',
+    matchers: { title: ['proximeeting', 'nextmeeting', 'meeting'] },
+  },
+  {
+    Icon: HardDrive,
+    bgClass: 'project-icon-bg-flutter',
+    iconClass: 'project-icon-flutter',
+    matchers: { title: ['vaehor'] },
+  },
+  {
+    Icon: CalendarDays,
+    bgClass: 'project-icon-bg-calendar',
+    iconClass: 'project-icon-calendar',
+    matchers: { title: ['when2meet'] },
+  },
+  {
+    Icon: Calendar,
+    bgClass: 'project-icon-bg-cal',
+    iconClass: 'project-icon-cal',
     matchers: { title: ['cal'] },
+  },
+  {
+    Icon: Bell,
+    bgClass: 'project-icon-bg-ballquest',
+    iconClass: 'project-icon-ballquest',
+    matchers: { title: ['notify', 'claude code'] },
   },
   {
     Icon: Link2,
