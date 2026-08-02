@@ -10,14 +10,16 @@ function playEnterOn(svg: Element): void {
   if (prefersReducedMotion()) return;
 
   svg.classList.remove('stroke-icon--play');
-  void (svg as SVGElement).getBoundingClientRect();
-  svg.classList.add('stroke-icon--play');
+  // Restart CSS animation after a frame so the remove can take effect.
+  requestAnimationFrame(() => {
+    svg.classList.add('stroke-icon--play');
 
-  const onEnd = () => {
-    svg.classList.remove('stroke-icon--play');
-    svg.removeEventListener('animationend', onEnd);
-  };
-  svg.addEventListener('animationend', onEnd);
+    const onEnd = () => {
+      svg.classList.remove('stroke-icon--play');
+      svg.removeEventListener('animationend', onEnd);
+    };
+    svg.addEventListener('animationend', onEnd);
+  });
 }
 
 function playEnterIn(scope: ParentNode): void {
@@ -51,7 +53,7 @@ function initStrokeIcons(): void {
         mutation.type === 'attributes' &&
         mutation.attributeName === 'data-revealed' &&
         mutation.target instanceof Element &&
-        mutation.target.getAttribute('data-revealed') === 'true'
+        mutation.target.dataset.revealed === 'true'
       ) {
         prepStrokeIcons(mutation.target);
         if (!prefersReducedMotion()) playEnterIn(mutation.target);

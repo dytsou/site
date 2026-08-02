@@ -42,7 +42,7 @@ async function readTopLangsUrl() {
 /** Compact card lists langs column-first in SVG order = rank order. */
 function parseLangNamesFromSvg(svg) {
   const names = [];
-  const re = /data-testid="lang-name"[^>]*>\s*([^<]+?)\s*</g;
+  const re = /data-testid="lang-name"[^>]*>([^<]*)</g;
   let match = re.exec(svg);
   while (match) {
     const name = match[1].trim();
@@ -55,13 +55,17 @@ function parseLangNamesFromSvg(svg) {
 function parseLangColorsFromSvg(svg) {
   /** @type {Map<string, string>} */
   const colors = new Map();
-  // Each lang row: <circle ... fill="#..." /> ... <text data-testid="lang-name">Name</text>
-  const re =
-    /<circle[^>]*\sfill="(#[0-9a-fA-F]+)"[^>]*>[\s\S]*?data-testid="lang-name"[^>]*>\s*([^<]+?)\s*</g;
-  let match = re.exec(svg);
+  // Nearest lang-name after each filled circle (index scan — no [\s\S]*? backtracking).
+  const circleRe = /<circle\b[^>]*\bfill="(#[0-9A-Fa-f]+)"[^>]*>/gi;
+  const nameRe = /data-testid="lang-name"[^>]*>([^<]*)</;
+  let match = circleRe.exec(svg);
   while (match) {
-    colors.set(match[2].trim(), match[1]);
-    match = re.exec(svg);
+    const nameMatch = nameRe.exec(svg.slice(match.index + match[0].length));
+    if (nameMatch) {
+      const name = nameMatch[1].trim();
+      if (name) colors.set(name, match[1]);
+    }
+    match = circleRe.exec(svg);
   }
   return colors;
 }
