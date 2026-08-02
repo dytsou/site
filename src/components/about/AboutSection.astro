@@ -3,6 +3,7 @@ import Section from '../layout/Section.astro';
 import SectionHeader from '../layout/SectionHeader.astro';
 import { FALLBACK_PUBLIC_REPOS } from '../about/AboutStats.generated';
 import { FALLBACK_LANGUAGES } from '../about/language-grid/Languages.generated';
+import { languageIconUrl } from '../about/language-grid/languageIcons';
 import '../about/About.css';
 ---
 
@@ -157,24 +158,39 @@ import '../about/About.css';
           <div class="language-grid-list-wrapper" data-expandable-content>
             <div class="language-grid-list">
               {
-                FALLBACK_LANGUAGES.map((lang) => (
-                  <div class="language-item">
-                    <div
-                      class="language-dot"
-                      style={{ backgroundColor: lang.color || '#9ca3af' }}
-                    />
-                    <div
-                      class:list={[
-                        'language-name',
-                        lang.name.length > 10
-                          ? 'language-name-xs'
-                          : 'language-name-sm',
-                      ]}
-                    >
-                      {lang.name}
+                FALLBACK_LANGUAGES.map((lang) => {
+                  const iconUrl = languageIconUrl(lang.name);
+                  return (
+                    <div class="language-item">
+                      {iconUrl ? (
+                        <img
+                          class="language-logo"
+                          src={iconUrl}
+                          alt=""
+                          width="20"
+                          height="20"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : (
+                        <div
+                          class="language-dot"
+                          style={{ backgroundColor: lang.color || '#9ca3af' }}
+                        />
+                      )}
+                      <div
+                        class:list={[
+                          'language-name',
+                          lang.name.length > 10
+                            ? 'language-name-xs'
+                            : 'language-name-sm',
+                        ]}
+                      >
+                        {lang.name}
+                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               }
             </div>
           </div>
