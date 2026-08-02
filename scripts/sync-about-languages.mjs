@@ -56,7 +56,7 @@ function parseLangColorsFromSvg(svg) {
   /** @type {Map<string, string>} */
   const colors = new Map();
   // Nearest lang-name after each filled circle (index scan — no [\s\S]*? backtracking).
-  const circleRe = /<circle\b[^>]*\bfill="(#[0-9A-Fa-f]+)"[^>]*>/gi;
+  const circleRe = /<circle\b[^>]*\bfill="(#[0-9a-f]+)"[^>]*>/gi;
   const nameRe = /data-testid="lang-name"[^>]*>([^<]*)</;
   let match = circleRe.exec(svg);
   while (match) {
