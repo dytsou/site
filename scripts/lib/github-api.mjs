@@ -121,5 +121,7 @@ export function isRetriableGithubError(error, hasToken) {
     error instanceof Error && error.name === 'GitHubRateLimitError';
   const isOfflineMode =
     error instanceof Error && error.name === 'GitHubOfflineMode';
-  return isRateLimited || isOfflineMode || !hasToken;
+  const isTopLangsUnavailable =
+    error instanceof Error && error.name === 'TopLangsUnavailableError';
+  return isRateLimited || isOfflineMode || isTopLangsUnavailable || !hasToken;
 }

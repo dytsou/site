@@ -1,0 +1,53 @@
+/*
+  Content-icon stroke draw (Icon Animator–inspired).
+  - Enter: one-shot .stroke-icon--play (added by stroke-icon.ts on reveal)
+  - Hover replay: .stroke-icon-host:hover
+  - Keyboard replay: a.stroke-icon-host:focus-visible (Contact)
+  - Revealed resting state is static dashoffset 0 (no permanent animation —
+    so hover leave does not restart enter)
+  - Uniform dash via pathLength="1" on stroked children
+*/
+
+.stroke-icon :is(path, circle, rect, line, polyline, polygon) {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+@keyframes stroke-icon-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* After reveal (and after enter animation ends): stay drawn, no animation */
+[data-revealed='true']
+  .stroke-icon
+  :is(path, circle, rect, line, polyline, polygon) {
+  stroke-dashoffset: 0;
+}
+
+.stroke-icon.stroke-icon--play
+  :is(path, circle, rect, line, polyline, polygon) {
+  animation: stroke-icon-draw var(--stroke-icon-duration, 1.2s)
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.stroke-icon-host:hover
+  .stroke-icon
+  :is(path, circle, rect, line, polyline, polygon),
+a.stroke-icon-host:focus-visible
+  .stroke-icon
+  :is(path, circle, rect, line, polyline, polygon) {
+  --stroke-icon-duration: 0.9s;
+  animation: stroke-icon-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stroke-icon :is(path, circle, rect, line, polyline, polygon) {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+}

@@ -291,6 +291,14 @@
   @apply w-2 h-2 rounded-full shadow-sm;
 }
 
+.language-logo {
+  @apply w-5 h-5 shrink-0 object-contain;
+}
+
+.language-logo-terminal {
+  color: var(--accent);
+}
+
 .language-dot-blue {
   @apply bg-blue-500;
 }

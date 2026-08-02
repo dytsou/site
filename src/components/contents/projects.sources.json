@@ -13,9 +13,15 @@
     "tags": ["erp", "golang-system", "rest-api", "docker", "postgresql"]
   },
   {
-    "url": "https://github.com/dytsou/NextMeeting",
-    "title": "NextMeeting",
+    "url": "https://github.com/dytsou/ProxiMeeting",
+    "title": "ProxiMeeting",
     "featured": true
+  },
+  {
+    "url": "https://github.com/dytsou/vaehor",
+    "title": "Vaehor",
+    "featured": true,
+    "tags": ["google-drive", "media-streaming", "nextjs", "self-hosted"]
   },
   {
     "url": "https://github.com/MCHackathon2025/CAIender-frontend",
@@ -24,18 +30,28 @@
     "tags": ["ai", "helper", "hackathon"]
   },
   {
-    "url": "https://github.com/dytsou/shorten-url",
-    "title": "Shorten URL",
-    "featured": false
-  },
-  {
     "url": "https://github.com/dytsou/github-readme-stats",
     "title": "GitHub README Stats",
     "featured": true
   },
   {
+    "url": "https://github.com/dytsou/when2meet-to-gcal",
+    "title": "When2meet to Google Calendar",
+    "featured": false
+  },
+  {
+    "url": "https://github.com/dytsou/shorten-url",
+    "title": "Shorten URL",
+    "featured": false
+  },
+  {
     "url": "https://github.com/dytsou/raycast-rsync-extension",
     "title": "Raycast Rsync Extension",
+    "featured": false
+  },
+  {
+    "url": "https://github.com/dytsou/claude-code-notify",
+    "title": "Claude Code Notify",
     "featured": false
   },
   {
@@ -52,11 +68,6 @@
   {
     "url": "https://github.com/dytsou/intern-corner-scheduler",
     "title": "Intern Corner Scheduler",
-    "featured": false
-  },
-  {
-    "url": "https://github.com/dytsou/GenAI-Studio",
-    "title": "GenAI Studio",
     "featured": false
   }
 ]

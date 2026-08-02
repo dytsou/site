@@ -1,6 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { fetchOwnedPublicRepos, githubFetch } from './lib/github-api.mjs';
 import { runScript, withGithubSync } from './lib/github-sync.mjs';
 
 const repoRoot = process.cwd();
@@ -17,7 +16,7 @@ const LANGUAGE_COLORS = {
   JavaScript: '#f1e05a',
   TypeScript: '#3178c6',
   Go: '#00ADD8',
-  CSS: '#563d7c',
+  CSS: '#663399',
   HTML: '#e34c26',
   Rust: '#dea584',
   Ruby: '#701516',
@@ -26,52 +25,49 @@ const LANGUAGE_COLORS = {
   Swift: '#F05138',
 };
 
-function mapWithConcurrency(items, limit, fn) {
-  const results = new Array(items.length);
-  let idx = 0;
+const DEFAULT_TOP_LANGS_URL =
+  'https://github-readme-stats.tsou.me/api/top-langs/?username=dytsou&hide=jupyter%20notebook,cmake,tex&langs_count=8&size_weight=0.4&count_weight=0.6&hide_progress=true&theme=tokyonight';
 
-  const workers = new Array(Math.min(limit, items.length))
-    .fill(0)
-    .map(async () => {
-      while (idx < items.length) {
-        const current = idx;
-        idx += 1;
-        results[current] = await fn(items[current], current);
-      }
-    });
-
-  return Promise.all(workers).then(() => results);
-}
-
-async function readExcludedLanguages() {
+async function readTopLangsUrl() {
   const configPath = path.join(repoRoot, 'src/config/githubLanguages.ts');
-
   try {
     const raw = await readFile(configPath, 'utf8');
-    const anchor = 'EXCLUDED_GITHUB_LANGUAGES';
-    const anchorIndex = raw.indexOf(anchor);
-    if (anchorIndex === -1) return [];
-
-    const startBracket = raw.indexOf('[', anchorIndex);
-    if (startBracket === -1) return [];
-
-    const endBracket = raw.indexOf(']', startBracket);
-    if (endBracket === -1) return [];
-
-    const inside = raw.slice(startBracket + 1, endBracket);
-    const values = [];
-    const re = /'([^']*)'|"([^"]*)"/g;
-    let match = re.exec(inside);
-
-    while (match) {
-      values.push(match[1] ?? match[2]);
-      match = re.exec(inside);
-    }
-
-    return values.filter(Boolean);
+    const match = raw.match(/GITHUB_TOP_LANGS_URL\s*=\s*'([^']+)'/);
+    return match?.[1] ?? DEFAULT_TOP_LANGS_URL;
   } catch {
-    return [];
+    return DEFAULT_TOP_LANGS_URL;
   }
+}
+
+/** Compact card lists langs column-first in SVG order = rank order. */
+function parseLangNamesFromSvg(svg) {
+  const names = [];
+  const re = /data-testid="lang-name"[^>]*>([^<]*)</g;
+  let match = re.exec(svg);
+  while (match) {
+    const name = match[1].trim();
+    if (name) names.push(name);
+    match = re.exec(svg);
+  }
+  return names;
+}
+
+function parseLangColorsFromSvg(svg) {
+  /** @type {Map<string, string>} */
+  const colors = new Map();
+  // Nearest lang-name after each filled circle (index scan — no [\s\S]*? backtracking).
+  const circleRe = /<circle\b[^>]*\bfill="(#[0-9a-f]+)"[^>]*>/gi;
+  const nameRe = /data-testid="lang-name"[^>]*>([^<]*)</;
+  let match = circleRe.exec(svg);
+  while (match) {
+    const nameMatch = nameRe.exec(svg.slice(match.index + match[0].length));
+    if (nameMatch) {
+      const name = nameMatch[1].trim();
+      if (name) colors.set(name, match[1]);
+    }
+    match = circleRe.exec(svg);
+  }
+  return colors;
 }
 
 function renderOutput(languages) {
@@ -84,30 +80,42 @@ function renderOutput(languages) {
 `;
 }
 
+function throwTopLangsUnavailable(message) {
+  throw Object.assign(new Error(message), {
+    name: 'TopLangsUnavailableError',
+  });
+}
+
 await runScript(() =>
-  withGithubSync(outputPath, async ({ apiOptions }) => {
-    const username = 'dytsou';
-    const excluded = new Set(await readExcludedLanguages());
-    const repos = await fetchOwnedPublicRepos(username, apiOptions);
-    const totals = new Map();
+  withGithubSync(outputPath, async ({ offlineMode }) => {
+    if (offlineMode) {
+      throw Object.assign(new Error('Offline mode: skipping top-langs fetch'), {
+        name: 'GitHubOfflineMode',
+      });
+    }
 
-    await mapWithConcurrency(repos, 6, async (repo) => {
-      const data = await githubFetch(repo.languages_url, apiOptions);
-      for (const [lang, bytes] of Object.entries(data)) {
-        if (excluded.has(lang)) continue;
-        totals.set(lang, (totals.get(lang) ?? 0) + bytes);
-      }
+    const url = await readTopLangsUrl();
+    const response = await fetch(url, {
+      headers: { Accept: 'image/svg+xml,text/plain,*/*' },
     });
+    if (!response.ok) {
+      throwTopLangsUnavailable(
+        `top-langs fetch failed (${response.status}) for ${url}`
+      );
+    }
 
-    const top = [...totals.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8)
-      .map(([name]) => name);
+    const svg = await response.text();
+    const names = parseLangNamesFromSvg(svg);
+    if (names.length === 0) {
+      throwTopLangsUnavailable('top-langs SVG contained no language names');
+    }
 
-    const languages = top.map((name) => ({
+    const svgColors = parseLangColorsFromSvg(svg);
+    const languages = names.map((name) => ({
       name,
-      color: LANGUAGE_COLORS[name] ?? 'var(--accent)',
+      color: svgColors.get(name) ?? LANGUAGE_COLORS[name] ?? 'var(--accent)',
     }));
+
     await writeFile(outputPath, renderOutput(languages));
   })
 );
