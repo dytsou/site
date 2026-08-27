@@ -34,7 +34,7 @@ export const experiences: ExperienceEntry[] = [
     organization: 'LINE Taiwan Limited',
     orgUrl: 'https://www.line.me/',
     period: 'Mar 2026 - Present',
-    location: 'Taiwan',
+    location: 'Taipei, Taiwan',
     description: [
       'Built high-performance LINE Shopping RESTful/gRPC microservices using Spring Boot, Redis, and Kafka to ensure service reliability',
       'Collaborated in a 20-member Scrum team and aligned API contracts and dependencies across multiple product squads',
