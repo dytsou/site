@@ -180,19 +180,23 @@
 }
 
 .experience-card-dot-blue {
-  @apply bg-blue-600;
+  background-color: #2563eb;
 }
 
 .experience-card-dot-cyan {
-  @apply bg-cyan-500;
+  background-color: #0891b2;
 }
 
 .experience-card-dot-green {
-  @apply bg-green-600;
+  background-color: #16a34a;
 }
 
 .experience-card-dot-purple {
-  @apply bg-purple-600;
+  background-color: #9333ea;
+}
+
+.experience-card-dot-yellow {
+  background-color: #d97706;
 }
 
 .experience-card-content {
@@ -251,19 +255,23 @@
 }
 
 .experience-card-icon-blue {
-  @apply text-blue-600 dark:text-blue-400;
+  color: #2563eb;
 }
 
 .experience-card-icon-cyan {
-  @apply text-cyan-600 dark:text-cyan-400;
+  color: #0891b2;
 }
 
 .experience-card-icon-green {
-  @apply text-green-600 dark:text-green-400;
+  color: #16a34a;
 }
 
 .experience-card-icon-purple {
-  @apply text-purple-600 dark:text-purple-400;
+  color: #9333ea;
+}
+
+.experience-card-icon-yellow {
+  color: #d97706;
 }
 
 .experience-card-info {
@@ -280,19 +288,23 @@
 }
 
 .experience-card-organization-title-blue {
-  @apply text-blue-600 dark:text-blue-400;
+  color: #2563eb;
 }
 
 .experience-card-organization-title-cyan {
-  @apply text-cyan-600 dark:text-cyan-400;
+  color: #0891b2;
 }
 
 .experience-card-organization-title-green {
-  @apply text-green-600 dark:text-green-400;
+  color: #16a34a;
 }
 
 .experience-card-organization-title-purple {
-  @apply text-purple-600 dark:text-purple-400;
+  color: #9333ea;
+}
+
+.experience-card-organization-title-yellow {
+  color: #d97706;
 }
 
 .experience-card-org-link {
@@ -355,19 +367,73 @@
 }
 
 .experience-card-description-bullet-blue {
-  @apply text-blue-600 dark:text-blue-400;
+  color: #2563eb;
 }
 
 .experience-card-description-bullet-cyan {
-  @apply text-cyan-600 dark:text-cyan-400;
+  color: #0891b2;
 }
 
 .experience-card-description-bullet-green {
-  @apply text-green-600 dark:text-green-400;
+  color: #16a34a;
 }
 
 .experience-card-description-bullet-purple {
-  @apply text-purple-600 dark:text-purple-400;
+  color: #9333ea;
+}
+
+.experience-card-description-bullet-yellow {
+  color: #d97706;
+}
+
+.dark .experience-card-dot-blue {
+  background-color: #6f99b2;
+}
+
+.dark .experience-card-icon-blue,
+.dark .experience-card-organization-title-blue,
+.dark .experience-card-description-bullet-blue {
+  color: #9bbbd0;
+}
+
+.dark .experience-card-dot-cyan {
+  background-color: #69aaa8;
+}
+
+.dark .experience-card-icon-cyan,
+.dark .experience-card-organization-title-cyan,
+.dark .experience-card-description-bullet-cyan {
+  color: #91c8c5;
+}
+
+.dark .experience-card-dot-green {
+  background-color: #62a982;
+}
+
+.dark .experience-card-icon-green,
+.dark .experience-card-organization-title-green,
+.dark .experience-card-description-bullet-green {
+  color: #8fc8a9;
+}
+
+.dark .experience-card-dot-purple {
+  background-color: #9e87bd;
+}
+
+.dark .experience-card-icon-purple,
+.dark .experience-card-organization-title-purple,
+.dark .experience-card-description-bullet-purple {
+  color: #c1addb;
+}
+
+.dark .experience-card-dot-yellow {
+  background-color: #c49a50;
+}
+
+.dark .experience-card-icon-yellow,
+.dark .experience-card-organization-title-yellow,
+.dark .experience-card-description-bullet-yellow {
+  color: #e1bf78;
 }
 
 /* Experience Posts */
