@@ -14,16 +14,44 @@ updates:
       semver-minor-days: 2
       semver-major-days: 7
     groups:
-      app-and-tooling:
+      astro:
         patterns:
           - "astro"
           - "@astrojs/*"
+      react:
+        patterns:
           - "react"
           - "react-dom"
           - "lucide-react"
-          - "typescript-eslint"
+          - "@types/react"
+          - "@types/react-dom"
+      typescript:
+        patterns:
           - "typescript"
+          - "typescript-eslint"
+      tailwindcss:
+        patterns:
+          - "@tailwindcss/*"
+          - "tailwindcss"
           - "postcss"
+          - "autoprefixer"
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@eslint/*"
+      prettier:
+        patterns:
+          - "prettier"
+          - "prettier-plugin-astro"
+      babel:
+        patterns:
+          - "@babel/core"
+          - "globals"
+      dev-tools:
+        patterns:
+          - "husky"
+          - "lint-staged"
     ignore:
       # typescript-eslint does not support TS 7.0 yet (typescript-eslint#10940)
       - dependency-name: "typescript"
