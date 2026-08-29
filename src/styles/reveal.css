@@ -140,6 +140,14 @@
   --reveal-delay: 400ms;
 }
 
+/* Experience cards - faster transition for scroll-based reveal/hide */
+.experience-timeline-items > [data-reveal] {
+  transition:
+    opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    translate 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    scale 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 /* Section divider — width draw-in (overrides generic reveal translate) */
 .section-divider[data-reveal] {
   translate: none;

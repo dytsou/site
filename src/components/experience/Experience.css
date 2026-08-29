@@ -118,31 +118,35 @@
 }
 
 .experience-timeline-line {
-  @apply absolute top-0 bottom-0 w-0.5;
+  @apply absolute top-0;
   left: var(--timeline-x);
   transform: translateX(-50%);
   z-index: 0;
   pointer-events: none;
-  /* Fallback (always supported): use higher-contrast muted text */
-  color: var(--exp-text-muted);
-  background-color: currentColor;
-  opacity: 0.55;
+  width: 3px;
+  height: 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--exp-accent),
+    var(--exp-accent),
+    transparent
+  );
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--exp-accent) 50%, transparent);
+  will-change: height;
 }
 
 .dark .experience-timeline-line {
-  opacity: 0.45;
-}
-
-@supports (background: color-mix(in srgb, white 50%, transparent)) {
-  .experience-timeline-line {
-    opacity: 1;
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--exp-text-muted) 20%, transparent),
-      color-mix(in srgb, var(--exp-text-muted) 78%, transparent),
-      color-mix(in srgb, var(--exp-text-muted) 20%, transparent)
-    );
-  }
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--exp-accent) 85%, white),
+    color-mix(in srgb, var(--exp-accent) 85%, white),
+    transparent
+  );
+  box-shadow: 0 0 12px 2px
+    color-mix(in srgb, var(--exp-accent) 40%, transparent);
 }
 
 @media (max-width: 767px) {

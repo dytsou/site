@@ -98,9 +98,73 @@ function observePending(): void {
   });
 }
 
+function initTimelineLine(): void {
+  const timeline = document.querySelector('.experience-timeline');
+  const line = document.querySelector(
+    '.experience-timeline-line'
+  ) as HTMLElement | null;
+  if (!timeline || !line) return;
+
+  const updateLineProgress = () => {
+    const timelineRect = timeline.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const timelineHeight = timeline.offsetHeight;
+
+    const scrolled = viewportHeight - timelineRect.top;
+    const progress = Math.max(0, Math.min(1, scrolled / timelineHeight));
+
+    line.style.height = `${progress * timelineHeight}px`;
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateLineProgress();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  updateLineProgress();
+}
+
+function initCardReveal(): void {
+  const cards = document.querySelectorAll<HTMLElement>(
+    '#experience .experience-timeline-items > div'
+  );
+
+  const updateCards = () => {
+    const viewportHeight = window.innerHeight;
+    cards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      const isVisible = rect.top < viewportHeight && rect.bottom > 0;
+      card.dataset.revealed = isVisible ? 'true' : 'false';
+    });
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateCards();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  updateCards();
+}
+
 function initReveal(): void {
   tagAutoReveal();
   observePending();
+  initTimelineLine();
+  initCardReveal();
 
   const root = document.querySelector('.min-h-screen') ?? document.body;
   let scheduled = false;
