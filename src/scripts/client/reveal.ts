@@ -132,16 +132,62 @@ function initTimelineLine(): void {
 }
 
 function initCardReveal(): void {
+  const timeline = document.querySelector('.experience-timeline');
+  const line = document.querySelector(
+    '.experience-timeline-line'
+  ) as HTMLElement | null;
   const cards = document.querySelectorAll<HTMLElement>(
     '#experience .experience-timeline-items > div'
   );
 
-  const updateCards = () => {
+  let lastLineHeight = -1;
+  const cardVisibilityMap = new Map<HTMLElement, boolean>();
+
+  const updateDotStates = () => {
+    if (!timeline || !line) return;
+
+    const lineHeight = parseFloat(line.style.height) || 0;
+
+    if (lineHeight === lastLineHeight) return;
+    lastLineHeight = lineHeight;
+
+    cards.forEach((card) => {
+      const dot = card.querySelector('.experience-card-dot');
+      if (!dot) return;
+
+      const cardRect = card.getBoundingClientRect();
+      const timelineRect = timeline.getBoundingClientRect();
+      const dotRelativeTop = cardRect.top - timelineRect.top + 32;
+
+      dot.classList.remove('is-lit', 'is-past');
+
+      if (lineHeight >= dotRelativeTop) {
+        dot.classList.add('is-past');
+      }
+
+      if (lineHeight >= dotRelativeTop && lineHeight < dotRelativeTop + 80) {
+        dot.classList.remove('is-past');
+        dot.classList.add('is-lit');
+      }
+    });
+  };
+
+  const updateCardVisibility = () => {
     const viewportHeight = window.innerHeight;
     cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
       const isVisible = rect.top < viewportHeight && rect.bottom > 0;
-      card.dataset.revealed = isVisible ? 'true' : 'false';
+      const wasVisible = cardVisibilityMap.get(card) ?? false;
+
+      if (wasVisible !== isVisible) {
+        cardVisibilityMap.set(card, isVisible);
+        card.dataset.revealed = isVisible ? 'true' : 'false';
+
+        const dot = card.querySelector('.experience-card-dot');
+        if (dot) {
+          dot.classList.remove('is-lit', 'is-past');
+        }
+      }
     });
   };
 
@@ -149,7 +195,12 @@ function initCardReveal(): void {
   const onScroll = () => {
     if (!ticking) {
       requestAnimationFrame(() => {
-        updateCards();
+        updateCardVisibility();
+        const lineHeight = parseFloat(line?.style.height || '0') || 0;
+        if (lineHeight !== lastLineHeight) {
+          lastLineHeight = lineHeight;
+          updateDotStates();
+        }
         ticking = false;
       });
       ticking = true;
@@ -157,7 +208,8 @@ function initCardReveal(): void {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  updateCards();
+  updateCardVisibility();
+  updateDotStates();
 }
 
 function initReveal(): void {
