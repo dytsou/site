@@ -46,7 +46,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     title: 'Vaehor',
     description:
       'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
-    technologies: ['TypeScript', 'JavaScript', 'CSS', 'Shell'],
+    technologies: ['TypeScript', 'CSS', 'JavaScript', 'Shell'],
     tags: ['google-drive', 'media-streaming', 'nextjs', 'self-hosted'],
     github_url: 'https://github.com/dytsou/vaehor',
     featured: true,
@@ -130,8 +130,8 @@ export const PROJECTS_CONTENTS: Project[] = [
     id: 'dytsou/resume',
     title: 'Resume Builder',
     description:
-      'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to GitHub Pages.',
-    technologies: ['JavaScript', 'TeX', 'TypeScript', 'CSS'],
+      'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to Cloudflare Pages.',
+    technologies: ['JavaScript', 'TeX', 'CSS', 'TypeScript'],
     tags: ['html-converter', 'node-js', 'resume-builder'],
     github_url: 'https://github.com/dytsou/resume',
     featured: false,
