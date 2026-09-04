@@ -52,7 +52,7 @@ function initStrokeIcons(): void {
       if (
         mutation.type === 'attributes' &&
         mutation.attributeName === 'data-revealed' &&
-        mutation.target instanceof Element &&
+        mutation.target instanceof HTMLElement &&
         mutation.target.dataset.revealed === 'true'
       ) {
         prepStrokeIcons(mutation.target);
