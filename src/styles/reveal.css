@@ -140,12 +140,22 @@
   --reveal-delay: 400ms;
 }
 
-/* Experience cards - faster transition for scroll-based reveal/hide */
+/* Experience cards — restrained Apple-style collapsed reveal */
 .experience-timeline-items > [data-reveal] {
+  opacity: 0;
+  translate: 0 20px;
+  scale: 0.94;
+  transform-origin: center top;
   transition:
-    opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
-    translate 400ms cubic-bezier(0.22, 1, 0.36, 1),
-    scale 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 680ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    translate 680ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    scale 680ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+.experience-timeline-items > [data-reveal][data-revealed='true'] {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
 }
 
 /* Section divider — width draw-in (overrides generic reveal translate) */

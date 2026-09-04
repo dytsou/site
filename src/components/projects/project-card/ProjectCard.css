@@ -11,8 +11,17 @@
 /* Card Container */
 .project-card {
   @apply flex flex-col justify-between rounded-xl overflow-hidden transition-all duration-300 ease-out;
-  @apply shadow-md hover:shadow-lg;
-  @apply ring-1 ring-black/5 dark:ring-white/10;
+  border: 1px solid color-mix(in srgb, var(--projects-border) 88%, transparent);
+  box-shadow: 0 1px 4px rgb(15 23 42 / 0.045);
+}
+
+.project-card:hover {
+  border-color: color-mix(
+    in srgb,
+    var(--projects-border) 54%,
+    var(--projects-accent)
+  );
+  box-shadow: var(--shadow-card-hover);
 }
 
 .project-card-mobile {
@@ -152,27 +161,46 @@
 }
 
 .project-action-github {
-  background-color: rgb(15 23 42);
-  color: rgb(248 250 252);
-  box-shadow: 0 0 0 1px rgb(30 41 59);
+  background-color: var(--projects-text);
+  color: var(--projects-surface);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--projects-text) 82%, var(--projects-border));
 }
 
 .project-action-github:hover {
-  background-color: rgb(30 41 59);
+  background-color: color-mix(
+    in srgb,
+    var(--projects-text) 84%,
+    var(--projects-accent)
+  );
 }
 
 .dark .project-action-github {
-  background-color: rgb(15 23 42);
-  color: rgb(248 250 252);
-  box-shadow: 0 0 0 1px rgb(51 65 85);
+  background-color: var(--projects-text);
+  color: var(--projects-surface);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--projects-text) 82%, var(--projects-border));
 }
 
 .dark .project-action-github:hover {
-  background-color: rgb(30 41 59);
+  background-color: color-mix(
+    in srgb,
+    var(--projects-text) 84%,
+    var(--projects-accent)
+  );
 }
 
 .project-action-demo {
-  @apply bg-blue-600 text-white hover:bg-blue-700;
+  background-color: var(--projects-accent);
+  color: var(--projects-surface);
+}
+
+.project-action-demo:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--projects-accent) 84%,
+    var(--projects-text)
+  );
 }
 
 .project-action-icon {

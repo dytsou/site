@@ -126,27 +126,14 @@
   width: 3px;
   height: 0;
   border-radius: 999px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--exp-accent),
-    var(--exp-accent),
-    transparent
-  );
-  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--exp-accent) 50%, transparent);
+  background: var(--exp-border);
+  box-shadow: none;
   will-change: height;
 }
 
 .dark .experience-timeline-line {
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    color-mix(in srgb, var(--exp-accent) 85%, white),
-    color-mix(in srgb, var(--exp-accent) 85%, white),
-    transparent
-  );
-  box-shadow: 0 0 12px 2px
-    color-mix(in srgb, var(--exp-accent) 40%, transparent);
+  background: var(--exp-border);
+  box-shadow: none;
 }
 
 @media (max-width: 767px) {
@@ -217,7 +204,8 @@
 
 .experience-card-content:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--exp-border) 58%, var(--exp-accent));
+  transform: none;
 }
 
 .experience-card-content::before {
@@ -236,12 +224,12 @@
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: radial-gradient(
-    600px 220px at 10% -15%,
-    color-mix(in srgb, var(--exp-accent) 10%, transparent),
-    transparent 65%
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--exp-accent) 3%, transparent),
+    transparent 42%
   );
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .experience-card-header {
@@ -251,7 +239,8 @@
 .experience-card-icon-container {
   @apply p-3 rounded-xl shrink-0;
   background-color: color-mix(in srgb, var(--exp-accent) 10%, transparent);
-  box-shadow: 0 10px 20px rgba(2, 6, 23, 0.06);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--exp-accent) 18%, var(--exp-border));
 }
 
 .experience-card-icon {
@@ -391,53 +380,53 @@
 }
 
 .dark .experience-card-dot-blue {
-  background-color: #6f99b2;
+  background-color: #60a5fa;
 }
 
 .dark .experience-card-icon-blue,
 .dark .experience-card-organization-title-blue,
 .dark .experience-card-description-bullet-blue {
-  color: #9bbbd0;
+  color: #93c5fd;
 }
 
 .dark .experience-card-dot-cyan {
-  background-color: #69aaa8;
+  background-color: #22d3ee;
 }
 
 .dark .experience-card-icon-cyan,
 .dark .experience-card-organization-title-cyan,
 .dark .experience-card-description-bullet-cyan {
-  color: #91c8c5;
+  color: #67e8f9;
 }
 
 .dark .experience-card-dot-green {
-  background-color: #62a982;
+  background-color: #4ade80;
 }
 
 .dark .experience-card-icon-green,
 .dark .experience-card-organization-title-green,
 .dark .experience-card-description-bullet-green {
-  color: #8fc8a9;
+  color: #86efac;
 }
 
 .dark .experience-card-dot-purple {
-  background-color: #9e87bd;
+  background-color: #c084fc;
 }
 
 .dark .experience-card-icon-purple,
 .dark .experience-card-organization-title-purple,
 .dark .experience-card-description-bullet-purple {
-  color: #c1addb;
+  color: #d8b4fe;
 }
 
 .dark .experience-card-dot-yellow {
-  background-color: #c49a50;
+  background-color: #fbbf24;
 }
 
 .dark .experience-card-icon-yellow,
 .dark .experience-card-organization-title-yellow,
 .dark .experience-card-description-bullet-yellow {
-  color: #e1bf78;
+  color: #fde68a;
 }
 
 /* Experience Posts */

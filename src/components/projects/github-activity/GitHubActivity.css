@@ -26,12 +26,8 @@
 /* Repository Card */
 .repo-card {
   @apply p-6 rounded-xl border transition-all;
-  background-color: color-mix(
-    in srgb,
-    var(--projects-surface) 88%,
-    transparent
-  );
-  border-color: color-mix(in srgb, var(--projects-border) 85%, transparent);
+  background-color: var(--projects-surface);
+  border-color: var(--projects-border);
   box-shadow: var(--shadow-card);
 }
 
@@ -42,7 +38,7 @@
     var(--projects-accent)
   );
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .repo-card-header {
@@ -138,24 +134,40 @@
 .github-button {
   @apply inline-flex items-center gap-2 px-6 py-3 rounded-lg transition-colors font-semibold;
   /* Light mode: near-black pill (GitHub-like) */
-  background-color: rgb(15 23 42);
-  color: rgb(248 250 252);
-  box-shadow: 0 0 0 1px rgb(30 41 59);
+  background-color: var(--projects-text);
+  color: var(--projects-surface);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--projects-text) 82%, var(--projects-border));
 }
 
 .github-button:hover {
-  background-color: rgb(30 41 59);
+  background-color: color-mix(
+    in srgb,
+    var(--projects-text) 84%,
+    var(--projects-accent)
+  );
+}
+
+.github-button:focus-visible,
+.github-repos-toggle-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus-ring);
 }
 
 /* Dark mode: avoid mixing --text (light) into bg; use solid slate + light label */
 .dark .github-button {
-  background-color: rgb(15 23 42);
-  color: rgb(248 250 252);
-  box-shadow: 0 0 0 1px rgb(51 65 85);
+  background-color: var(--projects-text);
+  color: var(--projects-surface);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--projects-text) 82%, var(--projects-border));
 }
 
 .dark .github-button:hover {
-  background-color: rgb(30 41 59);
+  background-color: color-mix(
+    in srgb,
+    var(--projects-text) 84%,
+    var(--projects-accent)
+  );
 }
 
 .github-button-icon {
