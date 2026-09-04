@@ -99,7 +99,7 @@ function observePending(): void {
 }
 
 function initTimelineLine(): void {
-  const timeline = document.querySelector('.experience-timeline');
+  const timeline = document.querySelector<HTMLElement>('.experience-timeline');
   const line = document.querySelector(
     '.experience-timeline-line'
   ) as HTMLElement | null;
