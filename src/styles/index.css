@@ -16,8 +16,8 @@
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
 
-    --bg: rgb(245 247 249);
-    --bg-elev-1: rgb(255 255 255);
+    --bg: rgb(232 240 249);
+    --bg-elev-1: rgb(243 248 253);
     --border: rgb(209 213 219);
 
     --text: rgb(10 14 18);
@@ -29,7 +29,7 @@
     --focus-ring: rgb(0 32 214 / 0.25);
 
     --shadow-card:
-      0 1px 0 rgb(255 255 255 / 0.75), 0 5px 16px rgb(15 23 42 / 0.055);
+      0 1px 0 rgb(255 255 255 / 0.8), 0 5px 16px rgb(15 23 42 / 0.055);
     --shadow-card-hover:
       0 1px 0 rgb(255 255 255 / 0.8), 0 8px 22px rgb(15 23 42 / 0.085);
   }
