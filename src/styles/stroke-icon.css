@@ -1,10 +1,9 @@
 /*
   Content-icon stroke draw (Icon Animator–inspired).
   - Enter: one-shot .stroke-icon--play (added by stroke-icon.ts on reveal)
-  - Hover replay: .stroke-icon-host:hover
-  - Keyboard replay: a.stroke-icon-host:focus-visible (Contact)
+  - Hover/focus: subtle partial replay that keeps the icon visible
   - Revealed resting state is static dashoffset 0 (no permanent animation —
-    so hover leave does not restart enter)
+    so hover can replay without a blank-frame flash)
   - Uniform dash via pathLength="1" on stroked children
 */
 
@@ -19,6 +18,19 @@
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes stroke-icon-replay {
+  0%,
+  100% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+  }
+
+  38% {
+    stroke-dashoffset: 0.28;
+    stroke-opacity: 0.56;
   }
 }
 
@@ -41,8 +53,7 @@
 a.stroke-icon-host:focus-visible
   .stroke-icon
   :is(path, circle, rect, line, polyline, polygon) {
-  --stroke-icon-duration: 0.9s;
-  animation: stroke-icon-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: stroke-icon-replay 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

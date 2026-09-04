@@ -29,11 +29,8 @@
 
 .contact-panel {
   @apply p-8;
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--contact-accent) 6%, transparent),
-    color-mix(in srgb, var(--contact-surface) 94%, transparent)
-  );
+  background-color: var(--contact-surface);
+  border-top-color: var(--contact-accent);
 }
 
 .contact-title {
@@ -71,7 +68,7 @@
 
 .contact-card:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .contact-card:focus-visible {
@@ -83,10 +80,11 @@
 
 .contact-card-linkedin {
   border: 2px solid color-mix(in srgb, var(--contact-border) 65%, transparent);
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--contact-accent) 10%, transparent),
-    color-mix(in srgb, var(--contact-surface) 92%, transparent)
+  background-color: var(--contact-surface);
+  border-top-color: color-mix(
+    in srgb,
+    var(--contact-accent) 72%,
+    var(--contact-border)
   );
 }
 
@@ -97,10 +95,11 @@
 
 .contact-card-email {
   border: 2px solid color-mix(in srgb, var(--contact-border) 65%, transparent);
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--contact-accent-2) 10%, transparent),
-    color-mix(in srgb, var(--contact-surface) 92%, transparent)
+  background-color: var(--contact-surface);
+  border-top-color: color-mix(
+    in srgb,
+    var(--contact-accent-2) 72%,
+    var(--contact-border)
   );
 }
 
@@ -115,7 +114,7 @@
 }
 
 .contact-card-icon {
-  @apply p-3 md:p-4 rounded-full group-hover:scale-105 transition-transform;
+  @apply p-3 md:p-4 rounded-full transition-colors;
 }
 
 .contact-card-icon-linkedin {
@@ -168,11 +167,8 @@
 /* Opportunity List */
 .opportunity-container {
   @apply p-8;
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--contact-accent) 8%, transparent),
-    color-mix(in srgb, var(--contact-accent-2) 8%, transparent)
-  );
+  background-color: var(--contact-surface);
+  border-top-color: var(--contact-accent-2);
 }
 
 .opportunity-title {
@@ -188,12 +184,17 @@
   @apply flex items-center gap-3 p-3 rounded-lg border transition-shadow transition-transform;
   background-color: color-mix(in srgb, var(--contact-surface) 88%, transparent);
   border-color: color-mix(in srgb, var(--contact-border) 80%, transparent);
-  box-shadow: 0 8px 16px rgba(2, 6, 23, 0.06);
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.045);
 }
 
 .opportunity-item:hover {
-  box-shadow: 0 12px 22px rgba(2, 6, 23, 0.1);
-  transform: translateY(-1px);
+  border-color: color-mix(
+    in srgb,
+    var(--contact-border) 58%,
+    var(--contact-accent)
+  );
+  box-shadow: 0 2px 7px rgb(15 23 42 / 0.065);
+  transform: none;
 }
 
 .opportunity-dot {
@@ -209,11 +210,11 @@
 }
 
 .opportunity-dot-green {
-  @apply bg-green-600;
+  @apply bg-sky-700;
 }
 
 .opportunity-dot-purple {
-  @apply bg-purple-600;
+  @apply bg-indigo-700;
 }
 
 .opportunity-label {

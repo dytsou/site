@@ -16,14 +16,9 @@
 
 .carousel-wrapper {
   @apply relative overflow-hidden rounded-2xl;
-  background-color: color-mix(
-    in srgb,
-    var(--projects-surface) 82%,
-    transparent
-  );
+  background-color: var(--projects-surface);
   box-shadow: var(--shadow-card);
-  border: 1px solid color-mix(in srgb, var(--projects-border) 85%, transparent);
-  backdrop-filter: blur(10px);
+  border: 1px solid var(--projects-border);
 }
 
 .carousel-track {
@@ -73,41 +68,36 @@
 
 /* Card Style Variants */
 .card-style-primary {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--projects-accent) 10%, transparent),
-    color-mix(in srgb, var(--projects-accent-2) 10%, transparent)
+  background-color: color-mix(
+    in srgb,
+    var(--projects-accent) 5%,
+    var(--projects-surface)
   );
 }
 
 .card-style-secondary {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--projects-accent-2) 10%, transparent),
-    color-mix(in srgb, var(--projects-accent) 10%, transparent)
+  background-color: color-mix(
+    in srgb,
+    var(--projects-accent-2) 7%,
+    var(--projects-surface)
   );
 }
 
 .card-style-tertiary {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--projects-accent) 10%, transparent),
-    color-mix(in srgb, var(--projects-text) 6%, transparent)
+  background-color: color-mix(
+    in srgb,
+    var(--projects-text) 3%,
+    var(--projects-surface)
   );
 }
 
 /* Carousel Controls Styles */
 .carousel-control-button {
   @apply absolute top-1/2 -translate-y-1/2 grid place-items-center z-10 rounded-full shadow-lg transition-all;
-  background-color: color-mix(
-    in srgb,
-    var(--projects-surface) 88%,
-    transparent
-  );
+  background-color: var(--projects-surface);
   border: 1px solid color-mix(in srgb, var(--projects-border) 75%, transparent);
   width: 44px;
   height: 44px;
-  backdrop-filter: blur(10px);
 }
 
 .carousel-control-prev {
@@ -166,13 +156,13 @@
 @media (hover: hover) and (pointer: fine) {
   .carousel-control-button {
     opacity: 0.35;
-    transform: translateY(-50%) scale(0.98);
+    transform: translateY(-50%);
   }
 
   .carousel-wrapper:hover .carousel-control-button,
   .carousel-wrapper:focus-within .carousel-control-button {
     opacity: 1;
-    transform: translateY(-50%) scale(1);
+    transform: translateY(-50%);
   }
 }
 

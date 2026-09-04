@@ -58,36 +58,9 @@
   @apply relative;
 }
 
-.profile-image-wrapper::before {
-  content: '';
-  position: absolute;
-  inset: -18%;
-  border-radius: 9999px;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      420px 420px at 40% 25%,
-      color-mix(in srgb, var(--about-accent) 18%, transparent),
-      transparent 65%
-    ),
-    radial-gradient(
-      380px 380px at 65% 60%,
-      color-mix(in srgb, var(--about-accent-2) 16%, transparent),
-      transparent 68%
-    );
-  opacity: 0.9;
-  filter: blur(2px);
-}
-
 .profile-image-frame {
   @apply w-full aspect-square max-w-md mx-auto rounded-2xl overflow-hidden;
-  background:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--about-accent) 14%, transparent),
-      color-mix(in srgb, var(--about-accent-2) 14%, transparent)
-    ),
-    var(--about-surface);
+  background: var(--about-surface);
   border: 1px solid var(--about-border);
   box-shadow: var(--shadow-card);
   transform: translateZ(0);
@@ -99,7 +72,12 @@
 
 .profile-image-frame:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  border-color: color-mix(
+    in srgb,
+    var(--about-border) 58%,
+    var(--about-accent)
+  );
+  transform: none;
 }
 
 .profile-image-frame:focus-within {
@@ -178,7 +156,12 @@
 
 .stats-card:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  border-color: color-mix(
+    in srgb,
+    var(--about-border) 58%,
+    var(--about-accent)
+  );
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -221,24 +204,23 @@
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background:
-    radial-gradient(
-      560px 200px at 14% -18%,
-      color-mix(in srgb, var(--about-accent) 9%, transparent),
-      transparent 66%
-    ),
-    radial-gradient(
-      520px 190px at 86% 112%,
-      color-mix(in srgb, var(--about-accent-2) 8%, transparent),
-      transparent 70%
-    );
-  opacity: 0.9;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--about-accent) 3%, transparent),
+    transparent 38%
+  );
+  opacity: 1;
   z-index: -1;
 }
 
 .language-grid-card:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  border-color: color-mix(
+    in srgb,
+    var(--about-border) 58%,
+    var(--about-accent)
+  );
+  transform: none;
 }
 
 .language-grid-title {
@@ -279,12 +261,17 @@
   @apply flex items-center gap-3 p-3 rounded-lg border transition-shadow transition-transform;
   background-color: color-mix(in srgb, var(--about-surface) 88%, transparent);
   border-color: color-mix(in srgb, var(--about-border) 85%, transparent);
-  box-shadow: 0 8px 16px rgba(2, 6, 23, 0.06);
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.045);
 }
 
 .language-item:hover {
-  box-shadow: 0 12px 22px rgba(2, 6, 23, 0.1);
-  transform: translateY(-1px);
+  border-color: color-mix(
+    in srgb,
+    var(--about-border) 58%,
+    var(--about-accent)
+  );
+  box-shadow: 0 2px 7px rgb(15 23 42 / 0.065);
+  transform: none;
 }
 
 .language-dot {

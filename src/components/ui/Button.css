@@ -7,7 +7,8 @@
   @apply select-none;
   min-height: 44px;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.2);
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease,
@@ -17,12 +18,13 @@
 }
 
 .btn-base:hover:not(:disabled) {
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-1px);
+  box-shadow: 0 2px 0 rgb(39 36 31 / 0.12);
+  transform: none;
 }
 
 .btn-base:active:not(:disabled) {
-  transform: translateY(1px);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.12);
+  transform: none;
 }
 
 .btn-base:disabled {
@@ -39,7 +41,9 @@
 
 /* Card Component Styles */
 .card-base {
-  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-all;
+  @apply border transition-all;
+  background-color: var(--bg-elev-1);
+  border-color: var(--border);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
 }
@@ -50,7 +54,8 @@
 
 .card-hover:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--border) 62%, var(--accent));
+  transform: none;
 }
 
 .card-padding-sm {
@@ -68,38 +73,58 @@
 /* TechTag Component Styles */
 .tech-tag {
   @apply px-2 py-1 rounded-full text-xs font-semibold;
-  background-color: color-mix(in srgb, var(--border) 34%, transparent);
+  background-color: color-mix(in srgb, var(--bg) 78%, var(--bg-elev-1));
   color: var(--text);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--border) 78%, transparent);
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 .dark .tech-tag {
-  background-color: color-mix(in srgb, white 10%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in srgb, white 14%, transparent);
+  background-color: color-mix(in srgb, var(--bg) 72%, var(--bg-elev-1));
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 .tech-tag-hashtag {
-  background-color: color-mix(in srgb, rgb(192 38 211) 16%, transparent);
-  color: color-mix(in srgb, rgb(112 26 117) 92%, var(--text));
-  box-shadow: 0 0 0 1px color-mix(in srgb, rgb(192 38 211) 28%, transparent);
+  background-color: color-mix(in srgb, var(--accent-2) 14%, var(--bg-elev-1));
+  color: color-mix(in srgb, var(--accent-2) 74%, var(--text));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-2) 36%, var(--border));
 }
 
 .dark .tech-tag-hashtag {
-  background-color: color-mix(in srgb, rgb(217 70 239) 22%, transparent);
-  color: color-mix(in srgb, rgb(250 232 255) 92%, var(--text));
-  box-shadow: 0 0 0 1px color-mix(in srgb, rgb(217 70 239) 22%, transparent);
+  background-color: color-mix(in srgb, var(--accent-2) 16%, var(--bg-elev-1));
+  color: color-mix(in srgb, var(--accent-2) 82%, var(--text));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-2) 34%, var(--border));
 }
 
 .btn-primary {
-  @apply bg-blue-600 hover:bg-blue-700 text-white;
+  background-color: var(--accent);
+  color: var(--bg-elev-1);
+}
+
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--accent) 86%, var(--text));
 }
 
 .btn-secondary {
-  @apply bg-cyan-500 hover:bg-cyan-600 text-white;
+  background-color: var(--accent-2);
+  color: rgb(246 250 251);
+}
+
+.dark .btn-secondary {
+  color: rgb(20 29 34);
+}
+
+.btn-secondary:hover {
+  background-color: color-mix(in srgb, var(--accent-2) 86%, var(--text));
 }
 
 .btn-outline {
-  @apply bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-300 dark:border-gray-600;
+  background-color: var(--bg-elev-1);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-outline:hover {
+  background-color: color-mix(in srgb, var(--bg) 72%, var(--bg-elev-1));
 }
 
 .btn-sm {
@@ -128,7 +153,8 @@
   @apply inline-flex items-center justify-center;
   min-width: 44px;
   min-height: 44px;
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.18);
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease,
@@ -138,12 +164,13 @@
 }
 
 .icon-btn-base:hover:not(:disabled) {
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-1px);
+  box-shadow: 0 2px 0 rgb(39 36 31 / 0.1);
+  transform: none;
 }
 
 .icon-btn-base:active:not(:disabled) {
-  transform: translateY(1px);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.12);
+  transform: none;
 }
 
 .icon-btn-base:disabled {
@@ -159,23 +186,55 @@
 }
 
 .icon-btn-primary {
-  @apply bg-blue-600 hover:bg-blue-700 text-white;
+  background-color: var(--accent);
+  color: var(--bg-elev-1);
+}
+
+.icon-btn-primary:hover {
+  background-color: color-mix(in srgb, var(--accent) 86%, var(--text));
 }
 
 .icon-btn-secondary {
-  @apply bg-cyan-500 hover:bg-cyan-600 text-white;
+  background-color: var(--accent-2);
+  color: rgb(246 250 251);
+}
+
+.dark .icon-btn-secondary {
+  color: rgb(20 29 34);
+}
+
+.icon-btn-secondary:hover {
+  background-color: color-mix(in srgb, var(--accent-2) 86%, var(--text));
 }
 
 .icon-btn-tertiary {
-  @apply bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white;
+  background-color: var(--bg-elev-1);
+  color: var(--text);
 }
 
 .icon-btn-outline {
-  @apply bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-300 dark:border-gray-600;
+  background-color: var(--bg-elev-1);
+  color: var(--text);
+  border-color: var(--border);
 }
 
 .icon-btn-ghost {
-  @apply bg-gray-900 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 text-white dark:text-white;
+  background-color: var(--text);
+  color: var(--bg-elev-1);
+}
+
+.dark .icon-btn-ghost {
+  background-color: rgb(9 13 18);
+  color: var(--text);
+}
+
+.icon-btn-tertiary:hover,
+.icon-btn-outline:hover {
+  background-color: color-mix(in srgb, var(--bg) 72%, var(--bg-elev-1));
+}
+
+.icon-btn-ghost:hover {
+  background-color: color-mix(in srgb, var(--text) 84%, var(--accent));
 }
 
 .icon-btn-sm {
