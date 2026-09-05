@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, type KeyboardEvent } from 'react';
+import { useState, useEffect, useMemo, useId, type KeyboardEvent } from 'react';
 import type { Project } from '../../../types/projects';
 import { ProjectCard } from '../project-card/ProjectCard';
 import { getProjectIconAndColors } from '../ProjectIconUtils';
@@ -24,6 +24,7 @@ const getCardsPerSlideForWidth = (width: number) => {
 
 export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const carouselId = useId();
   // ponytail: always 1 on SSR/first paint; useEffect sets viewport-aware layout after hydration.
   const [cardsPerSlide, setCardsPerSlide] = useState(1);
 
@@ -58,12 +59,12 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
 
   const nextSlide = () => {
     if (slideCount === 0) return;
-    setCurrentSlide((prev) => (prev + 1) % slideCount);
+    setCurrentSlide((currentSlideClamped + 1) % slideCount);
   };
 
   const prevSlide = () => {
     if (slideCount === 0) return;
-    setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
+    setCurrentSlide((currentSlideClamped - 1 + slideCount) % slideCount);
   };
 
   const goToSlide = (index: number) => {
@@ -103,7 +104,13 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
             {slides.map((slideProjects, slideIndex) => (
               <div
                 key={slideProjects.map((project) => project.id).join('/')}
+                id={`${carouselId}-slide-${slideIndex + 1}`}
                 className="carousel-slide"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${slideIndex + 1} of ${slideCount}`}
+                aria-hidden={slideIndex !== currentSlideClamped}
+                inert={slideIndex !== currentSlideClamped || undefined}
               >
                 <div
                   className={`carousel-slide-content ${isSingleColumn ? 'single-column' : 'multi-column'}`}
@@ -136,6 +143,10 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
           </div>
         </div>
 
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          Showing projects {currentSlideClamped + 1} of {slideCount}
+        </p>
+
         <CarouselControls
           onPrev={prevSlide}
           onNext={nextSlide}
@@ -143,6 +154,7 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
           totalSlides={slideCount}
           onGoToSlide={goToSlide}
           onKeyDown={handleCarouselKeyDown}
+          carouselId={carouselId}
         />
       </section>
     </div>
