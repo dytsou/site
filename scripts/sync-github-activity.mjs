@@ -34,12 +34,17 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = ${body};
 `;
 }
 
+async function formatGeneratedTypeScript(code) {
+  const config = await prettier.resolveConfig(outputPath);
+  return prettier.format(code, { ...config, filepath: outputPath });
+}
+
 await runScript(() =>
   withGithubSync(outputPath, async ({ apiOptions }) => {
     const ownedRepos = await fetchOwnedPublicRepos(username, apiOptions);
     const repos = ownedRepos.slice(0, 6).map(pickRepoFields);
     const output = renderOutput(repos);
-    const formatted = await prettier.format(output, { parser: 'typescript' });
+    const formatted = await formatGeneratedTypeScript(output);
     await writeFile(outputPath, formatted);
   })
 );
