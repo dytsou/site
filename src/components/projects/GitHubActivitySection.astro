@@ -8,10 +8,16 @@ const repos = GITHUB_ACTIVITY_REPOS.slice(0, 6);
 
 {
   repos.length > 0 && (
-    <div class="github-activity">
+    <div class="github-activity" data-github-activity>
       <h3 class="github-activity-title">Recent GitHub Activity</h3>
+      <p
+        class="github-activity-status sr-only"
+        data-github-activity-status
+        aria-live="polite"
+        aria-atomic="true"
+      />
 
-      <div class="github-repos-grid">
+      <div class="github-repos-grid" data-github-repos>
         {repos.map((repo) => (
           <RepoCard repo={repo} />
         ))}
@@ -46,3 +52,7 @@ const repos = GITHUB_ACTIVITY_REPOS.slice(0, 6);
     </div>
   )
 }
+
+<script>
+  import '../../scripts/client/github-activity';
+</script>
