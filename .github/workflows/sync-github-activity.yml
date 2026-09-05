@@ -1,0 +1,53 @@
+name: Sync GitHub Activity
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-github-activity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          token: ${{ github.token }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync GitHub activity
+        run: pnpm sync:github-activity
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          token: ${{ github.token }}
+          commit-message: 'chore: sync GitHub activity data'
+          branch: automation/sync-github-activity
+          delete-branch: true
+          title: 'chore: sync GitHub activity data'
+          body: |
+            ## Summary
+            - refresh the generated GitHub activity feed from the GitHub API
+            - keep the Recent GitHub Activity fallback data current
+
+            ## Test plan
+            - [x] `pnpm sync:github-activity`
+          add-paths: |
+            src/data/GitHubActivity.generated.ts
