@@ -8,48 +8,48 @@ export type GitHubActivityRepo = {
 
 export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
   {
-    name: 'site',
+    name: 'vaehor',
     description:
-      'My personal website, which would be deploy to http://dy.tsou.me',
-    html_url: 'https://github.com/dytsou/site',
+      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
+    html_url: 'https://github.com/dytsou/vaehor',
     stargazers_count: 0,
     language: 'TypeScript',
   },
   {
-    name: 'homebrew-proximeeting',
-    description: '',
-    html_url: 'https://github.com/dytsou/homebrew-proximeeting',
+    name: 'sdcBillook',
+    description: 'A react billook created in SDC',
+    html_url: 'https://github.com/dytsou/sdcBillook',
     stargazers_count: 0,
-    language: 'Ruby',
-  },
-  {
-    name: 'github-readme-stats',
-    description:
-      'Dynamically generated stats for GitHub READMEs with Cloudflare worker',
-    html_url: 'https://github.com/dytsou/github-readme-stats',
-    stargazers_count: 2,
     language: 'JavaScript',
   },
   {
-    name: 'ProxiMeeting',
-    description:
-      'A macOS menu bar app that shows your next meeting at a glance.',
-    html_url: 'https://github.com/dytsou/ProxiMeeting',
+    name: 'shorten-url',
+    description: 'A modern, fast URL shortener built with Cloudflare Workers',
+    html_url: 'https://github.com/dytsou/shorten-url',
     stargazers_count: 1,
-    language: 'Swift',
+    language: 'JavaScript',
   },
   {
-    name: 'intern-corner-scheduler',
+    name: 'raycast-rsync-extension',
     description:
-      'A web interface using OR-Tools CP-SAT to generate round-table seating across rounds with fixed hosts, balanced tables, and pair-wise constraints.',
-    html_url: 'https://github.com/dytsou/intern-corner-scheduler',
-    stargazers_count: 0,
-    language: 'Python',
+      'Transfer files between local and remote servers using rsync with SSH config integration',
+    html_url: 'https://github.com/dytsou/raycast-rsync-extension',
+    stargazers_count: 1,
+    language: 'TypeScript',
   },
   {
-    name: 'software-testing-hw3',
-    description: 'HW3 of Software Testing Fall 2025 (S. K. Huang)',
-    html_url: 'https://github.com/dytsou/software-testing-hw3',
+    name: 'when2meet-to-gcal',
+    description:
+      'Tampermonkey userscript: on a when2meet, see the best continuous full-attendance windows and open a prefilled Google Calendar event.',
+    html_url: 'https://github.com/dytsou/when2meet-to-gcal',
+    stargazers_count: 1,
+    language: 'JavaScript',
+  },
+  {
+    name: 'resume',
+    description:
+      'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to Cloudflare Pages.',
+    html_url: 'https://github.com/dytsou/resume',
     stargazers_count: 0,
     language: 'JavaScript',
   },
