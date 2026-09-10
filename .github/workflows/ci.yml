@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Verify favicon generation
+        run: pnpm test:favicons
+
       - name: Run formatter
         run: pnpm format
 
