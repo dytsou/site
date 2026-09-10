@@ -8,6 +8,14 @@ export type GitHubActivityRepo = {
 
 export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
   {
+    name: 'site',
+    description:
+      'My personal website, which would be deploy to http://dy.tsou.me',
+    html_url: 'https://github.com/dytsou/site',
+    stargazers_count: 0,
+    language: 'TypeScript',
+  },
+  {
     name: 'vaehor',
     description:
       'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
@@ -22,14 +30,6 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     html_url: 'https://github.com/dytsou/cal',
     stargazers_count: 0,
     language: 'JavaScript',
-  },
-  {
-    name: 'site',
-    description:
-      'My personal website, which would be deploy to http://dy.tsou.me',
-    html_url: 'https://github.com/dytsou/site',
-    stargazers_count: 0,
-    language: 'TypeScript',
   },
   {
     name: 'sdcBillook',
