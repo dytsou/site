@@ -8,6 +8,22 @@ export type GitHubActivityRepo = {
 
 export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
   {
+    name: 'vaehor',
+    description:
+      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
+    html_url: 'https://github.com/dytsou/vaehor',
+    stargazers_count: 0,
+    language: 'TypeScript',
+  },
+  {
+    name: 'cal',
+    description:
+      'A simple calendar application that displays multiple calendar feeds using Open Web Calendar.',
+    html_url: 'https://github.com/dytsou/cal',
+    stargazers_count: 0,
+    language: 'JavaScript',
+  },
+  {
     name: 'site',
     description:
       'My personal website, which would be deploy to http://dy.tsou.me',
@@ -16,41 +32,25 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     language: 'TypeScript',
   },
   {
-    name: 'homebrew-proximeeting',
-    description: '',
-    html_url: 'https://github.com/dytsou/homebrew-proximeeting',
+    name: 'sdcBillook',
+    description: 'A react billook created in SDC',
+    html_url: 'https://github.com/dytsou/sdcBillook',
     stargazers_count: 0,
-    language: 'Ruby',
-  },
-  {
-    name: 'github-readme-stats',
-    description:
-      'Dynamically generated stats for GitHub READMEs with Cloudflare worker',
-    html_url: 'https://github.com/dytsou/github-readme-stats',
-    stargazers_count: 2,
     language: 'JavaScript',
   },
   {
-    name: 'ProxiMeeting',
-    description:
-      'A macOS menu bar app that shows your next meeting at a glance.',
-    html_url: 'https://github.com/dytsou/ProxiMeeting',
+    name: 'shorten-url',
+    description: 'A modern, fast URL shortener built with Cloudflare Workers',
+    html_url: 'https://github.com/dytsou/shorten-url',
     stargazers_count: 1,
-    language: 'Swift',
-  },
-  {
-    name: 'intern-corner-scheduler',
-    description:
-      'A web interface using OR-Tools CP-SAT to generate round-table seating across rounds with fixed hosts, balanced tables, and pair-wise constraints.',
-    html_url: 'https://github.com/dytsou/intern-corner-scheduler',
-    stargazers_count: 0,
-    language: 'Python',
-  },
-  {
-    name: 'software-testing-hw3',
-    description: 'HW3 of Software Testing Fall 2025 (S. K. Huang)',
-    html_url: 'https://github.com/dytsou/software-testing-hw3',
-    stargazers_count: 0,
     language: 'JavaScript',
+  },
+  {
+    name: 'raycast-rsync-extension',
+    description:
+      'Transfer files between local and remote servers using rsync with SSH config integration',
+    html_url: 'https://github.com/dytsou/raycast-rsync-extension',
+    stargazers_count: 1,
+    language: 'TypeScript',
   },
 ];
