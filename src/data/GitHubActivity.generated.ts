@@ -8,30 +8,6 @@ export type GitHubActivityRepo = {
 
 export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
   {
-    name: 'site',
-    description:
-      'My personal website, which would be deploy to http://dy.tsou.me',
-    html_url: 'https://github.com/dytsou/site',
-    stargazers_count: 0,
-    language: 'TypeScript',
-  },
-  {
-    name: 'vaehor',
-    description:
-      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
-    html_url: 'https://github.com/dytsou/vaehor',
-    stargazers_count: 0,
-    language: 'TypeScript',
-  },
-  {
-    name: 'cal',
-    description:
-      'A simple calendar application that displays multiple calendar feeds using Open Web Calendar.',
-    html_url: 'https://github.com/dytsou/cal',
-    stargazers_count: 0,
-    language: 'JavaScript',
-  },
-  {
     name: 'sdcBillook',
     description: 'A react billook created in SDC',
     html_url: 'https://github.com/dytsou/sdcBillook',
@@ -39,10 +15,19 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     language: 'JavaScript',
   },
   {
-    name: 'shorten-url',
-    description: 'A modern, fast URL shortener built with Cloudflare Workers',
-    html_url: 'https://github.com/dytsou/shorten-url',
-    stargazers_count: 1,
+    name: 'intern-corner-scheduler',
+    description:
+      'A web interface using OR-Tools CP-SAT to generate round-table seating across rounds with fixed hosts, balanced tables, and pair-wise constraints.',
+    html_url: 'https://github.com/dytsou/intern-corner-scheduler',
+    stargazers_count: 0,
+    language: 'Python',
+  },
+  {
+    name: 'resume',
+    description:
+      'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to Cloudflare Pages.',
+    html_url: 'https://github.com/dytsou/resume',
+    stargazers_count: 0,
     language: 'JavaScript',
   },
   {
@@ -52,5 +37,19 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     html_url: 'https://github.com/dytsou/raycast-rsync-extension',
     stargazers_count: 1,
     language: 'TypeScript',
+  },
+  {
+    name: 'shorten-url',
+    description: 'A modern, fast URL shortener built with Cloudflare Workers',
+    html_url: 'https://github.com/dytsou/shorten-url',
+    stargazers_count: 1,
+    language: 'JavaScript',
+  },
+  {
+    name: 'st2025',
+    description: 'NYCU Software Testing Fall-2025 by S.K. Huang',
+    html_url: 'https://github.com/dytsou/st2025',
+    stargazers_count: 0,
+    language: 'JavaScript',
   },
 ];
