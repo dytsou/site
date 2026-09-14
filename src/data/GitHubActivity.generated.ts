@@ -8,34 +8,19 @@ export type GitHubActivityRepo = {
 
 export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
   {
-    name: 'sdcBillook',
-    description: 'A react billook created in SDC',
-    html_url: 'https://github.com/dytsou/sdcBillook',
+    name: 'site',
+    description:
+      'My personal website, which would be deploy to http://dy.tsou.me',
+    html_url: 'https://github.com/dytsou/site',
     stargazers_count: 0,
-    language: 'JavaScript',
+    language: 'TypeScript',
   },
   {
-    name: 'intern-corner-scheduler',
+    name: 'vaehor',
     description:
-      'A web interface using OR-Tools CP-SAT to generate round-table seating across rounds with fixed hosts, balanced tables, and pair-wise constraints.',
-    html_url: 'https://github.com/dytsou/intern-corner-scheduler',
+      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
+    html_url: 'https://github.com/dytsou/vaehor',
     stargazers_count: 0,
-    language: 'Python',
-  },
-  {
-    name: 'resume',
-    description:
-      'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to Cloudflare Pages.',
-    html_url: 'https://github.com/dytsou/resume',
-    stargazers_count: 0,
-    language: 'JavaScript',
-  },
-  {
-    name: 'raycast-rsync-extension',
-    description:
-      'Transfer files between local and remote servers using rsync with SSH config integration',
-    html_url: 'https://github.com/dytsou/raycast-rsync-extension',
-    stargazers_count: 1,
     language: 'TypeScript',
   },
   {
@@ -46,10 +31,26 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     language: 'JavaScript',
   },
   {
-    name: 'st2025',
-    description: 'NYCU Software Testing Fall-2025 by S.K. Huang',
-    html_url: 'https://github.com/dytsou/st2025',
+    name: 'cal',
+    description:
+      'A simple calendar application that displays multiple calendar feeds using Open Web Calendar.',
+    html_url: 'https://github.com/dytsou/cal',
     stargazers_count: 0,
     language: 'JavaScript',
+  },
+  {
+    name: 'github-readme-stats',
+    description:
+      'Dynamically generated stats for GitHub READMEs with Cloudflare worker',
+    html_url: 'https://github.com/dytsou/github-readme-stats',
+    stargazers_count: 2,
+    language: 'JavaScript',
+  },
+  {
+    name: 'dytsou',
+    description: 'My public profile',
+    html_url: 'https://github.com/dytsou/dytsou',
+    stargazers_count: 0,
+    language: null,
   },
 ];
