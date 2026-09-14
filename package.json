@@ -34,17 +34,17 @@
     "@astrojs/react": "^6.0.5",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.2",
-    "lucide-react": "^1.40.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "lucide-react": "^1.45.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@babel/core": "8.0.1",
     "@eslint/js": "^10.0.1",
     "@tailwindcss/postcss": "^4.3.3",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.7",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.5.4",
     "eslint": "^10.9.1",
     "eslint-config-prettier": "^10.1.8",
