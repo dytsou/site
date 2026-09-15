@@ -16,12 +16,12 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     language: 'TypeScript',
   },
   {
-    name: 'vaehor',
+    name: 'resume',
     description:
-      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
-    html_url: 'https://github.com/dytsou/vaehor',
+      'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to Cloudflare Pages.',
+    html_url: 'https://github.com/dytsou/resume',
     stargazers_count: 0,
-    language: 'TypeScript',
+    language: 'JavaScript',
   },
   {
     name: 'shorten-url',
@@ -29,6 +29,14 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     html_url: 'https://github.com/dytsou/shorten-url',
     stargazers_count: 1,
     language: 'JavaScript',
+  },
+  {
+    name: 'vaehor',
+    description:
+      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
+    html_url: 'https://github.com/dytsou/vaehor',
+    stargazers_count: 0,
+    language: 'TypeScript',
   },
   {
     name: 'cal',
@@ -45,12 +53,5 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     html_url: 'https://github.com/dytsou/github-readme-stats',
     stargazers_count: 2,
     language: 'JavaScript',
-  },
-  {
-    name: 'dytsou',
-    description: 'My public profile',
-    html_url: 'https://github.com/dytsou/dytsou',
-    stargazers_count: 0,
-    language: null,
   },
 ];
