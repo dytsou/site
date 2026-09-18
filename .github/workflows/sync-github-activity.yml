@@ -2,15 +2,22 @@ name: Sync GitHub Activity
 
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  GITHUB_ACTIVITY_DATABASE_NAME: site-recent-github-activity
+
+concurrency:
+  group: recent-github-activity-release
+  cancel-in-progress: false
 
 jobs:
-  sync-github-activity:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -29,25 +36,32 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Sync GitHub activity
+      - name: Apply D1 migrations
+        run: pnpm exec wrangler d1 migrations apply site-recent-github-activity --remote --config wrangler.toml
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Sync GitHub activity snapshot
         run: pnpm sync:github-activity
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+      - name: Build site from the required snapshot
+        run: pnpm build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_ACTIVITY_SNAPSHOT_REQUIRED: '1'
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          token: ${{ github.token }}
-          commit-message: 'chore: sync GitHub activity data'
-          branch: automation/sync-github-activity
-          delete-branch: true
-          title: 'chore: sync GitHub activity data'
-          body: |
-            ## Summary
-            - refresh the generated GitHub activity feed from the GitHub API
-            - keep the Recent GitHub Activity fallback data current
-
-            ## Test plan
-            - [x] `pnpm sync:github-activity`
-          add-paths: |
-            src/data/GitHubActivity.generated.ts
+          name: dist
+          path: dist
+          include-hidden-files: true
+          retention-days: 1
+          if-no-files-found: error

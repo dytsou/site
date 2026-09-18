@@ -5,3 +5,9 @@ pages_build_output_dir = "./dist"
 
 [ai]
 binding = "AI"
+
+[[d1_databases]]
+binding = "GITHUB_ACTIVITY_DB"
+database_name = "site-recent-github-activity"
+database_id = "e70ce58d-6d10-4f92-bf2c-992d3705f609"
+migrations_dir = "migrations"
