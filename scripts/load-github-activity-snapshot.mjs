@@ -20,7 +20,7 @@ function isRequiredSnapshotMode(env = process.env) {
 
 async function formatGeneratedTypeScript(code, targetPath) {
   const config = await prettier.resolveConfig(targetPath);
-  return prettier.format(code, { ...(config ?? {}), filepath: targetPath });
+  return prettier.format(code, { ...config, filepath: targetPath });
 }
 
 export async function loadGitHubActivitySnapshot({

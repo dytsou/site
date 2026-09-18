@@ -43,7 +43,7 @@ export function createD1Client({
   }
 
   if (typeof fetchImpl !== 'function') {
-    throw new Error('Cloudflare D1 requires a fetch implementation');
+    throw new TypeError('Cloudflare D1 requires a fetch implementation');
   }
 
   async function request(path, { method = 'GET', body } = {}) {
@@ -128,7 +128,7 @@ export function createD1Client({
           method: 'POST',
           body: {
             sql,
-            params: params.map((param) => String(param)),
+            params: params.map(String),
           },
         }
       );

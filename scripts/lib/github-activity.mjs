@@ -21,7 +21,7 @@ function pickRepoFields(repo) {
 
 export function selectGitHubActivityRepositories(repositories) {
   if (!Array.isArray(repositories)) {
-    throw new Error('GitHub activity source must be an array');
+    throw new TypeError('GitHub activity source must be an array');
   }
 
   return repositories
@@ -32,7 +32,7 @@ export function selectGitHubActivityRepositories(repositories) {
 
 export function validateGitHubActivitySnapshot(repositories) {
   if (!Array.isArray(repositories)) {
-    throw new Error('GitHub activity snapshot must be an array');
+    throw new TypeError('GitHub activity snapshot must be an array');
   }
 
   if (repositories.length === 0) {
