@@ -1,50 +1,20 @@
-import { writeFile } from 'node:fs/promises';
-import path from 'node:path';
-import prettier from 'prettier';
-import { fetchOwnedPublicRepos } from './lib/github-api.mjs';
-import { runScript, withGithubSync } from './lib/github-sync.mjs';
+import { createD1ClientFromEnv } from './lib/cloudflare-d1.mjs';
+import { syncGitHubActivitySnapshot } from './lib/github-activity-sync.mjs';
+import { resolveGithubConfig } from './lib/github-api.mjs';
+import { runScript } from './lib/github-sync.mjs';
 
-const outputPath = path.join(
-  process.cwd(),
-  'src/data/GitHubActivity.generated.ts'
-);
-const username = 'dytsou';
+await runScript(async () => {
+  const client = createD1ClientFromEnv();
+  const { getToken, offlineMode } = resolveGithubConfig();
+  const result = await syncGitHubActivitySnapshot({
+    client,
+    getToken,
+    offlineMode,
+  });
 
-function pickRepoFields(repo) {
-  return {
-    name: repo.name ?? '',
-    description: repo.description ?? '',
-    html_url: repo.html_url ?? '',
-    stargazers_count: Number(repo.stargazers_count) || 0,
-    language: repo.language ?? null,
-  };
-}
-
-function renderOutput(repos) {
-  const body = JSON.stringify(repos, null, 2);
-  return `export type GitHubActivityRepo = {
-  name: string;
-  description: string;
-  html_url: string;
-  stargazers_count: number;
-  language: string | null;
-};
-
-export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = ${body};
-`;
-}
-
-async function formatGeneratedTypeScript(code) {
-  const config = await prettier.resolveConfig(outputPath);
-  return prettier.format(code, { ...config, filepath: outputPath });
-}
-
-await runScript(() =>
-  withGithubSync(outputPath, async ({ apiOptions }) => {
-    const ownedRepos = await fetchOwnedPublicRepos(username, apiOptions);
-    const repos = ownedRepos.slice(0, 6).map(pickRepoFields);
-    const output = renderOutput(repos);
-    const formatted = await formatGeneratedTypeScript(output);
-    await writeFile(outputPath, formatted);
-  })
-);
+  if (result.status === 'updated') {
+    console.log(`Stored GitHub activity snapshot at ${result.updatedAt}`);
+  } else {
+    console.log(`Kept GitHub activity snapshot from ${result.updatedAt}`);
+  }
+});

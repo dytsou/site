@@ -16,6 +16,13 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
     language: 'TypeScript',
   },
   {
+    name: 'shorten-url',
+    description: 'A modern, fast URL shortener built with Cloudflare Workers',
+    html_url: 'https://github.com/dytsou/shorten-url',
+    stargazers_count: 1,
+    language: 'JavaScript',
+  },
+  {
     name: 'vaehor',
     description:
       'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
@@ -29,13 +36,6 @@ export const GITHUB_ACTIVITY_REPOS: GitHubActivityRepo[] = [
       'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to Cloudflare Pages.',
     html_url: 'https://github.com/dytsou/resume',
     stargazers_count: 0,
-    language: 'JavaScript',
-  },
-  {
-    name: 'shorten-url',
-    description: 'A modern, fast URL shortener built with Cloudflare Workers',
-    html_url: 'https://github.com/dytsou/shorten-url',
-    stargazers_count: 1,
     language: 'JavaScript',
   },
   {

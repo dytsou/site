@@ -66,7 +66,7 @@ pnpm install
 # Start dev server (runs route/agent emit scripts first)
 pnpm dev
 
-# Production build (syncs GitHub data, then builds)
+# Production build (syncs repository metadata, loads the activity snapshot when configured, then builds)
 pnpm build
 
 # Preview production build
@@ -82,7 +82,9 @@ pnpm format
 
 ### GitHub Content Sync
 
-Build and `pnpm sync` pull live data from the GitHub API into generated TypeScript files (projects, about stats, languages, activity). For local work without API access:
+Build and `pnpm sync` pull live project metadata, about stats, and language data from the GitHub API into generated TypeScript files. Recent GitHub Activity is different: `pnpm sync:github-activity` validates the current feed and stores its last-success snapshot in the Cloudflare D1 database named `site-recent-github-activity`. A configured `pnpm build` materializes that snapshot into the static data module before Astro builds; local and pull-request builds may use the checked-in activity data when D1 is not configured, while main and manual deployment builds require a valid snapshot.
+
+For local work without API access:
 
 ```bash
 pnpm sync:projects:offline
@@ -91,7 +93,7 @@ pnpm sync:about-languages:offline
 pnpm sync:github-activity:offline
 ```
 
-Set `GITHUB_TOKEN` for authenticated API requests (higher rate limits). A scheduled GitHub Action also opens PRs to refresh project metadata.
+Set `GITHUB_TOKEN` for authenticated API requests (higher rate limits). The hourly `Sync GitHub Activity` workflow applies the D1 migration, stores a successful snapshot (or retains the previous valid snapshot when GitHub is unavailable), builds `dist` from that snapshot, and hands the artifact to the existing Pages deployment workflow. It does not create a data-only pull request. The scheduled job and main/manual deployment builds require `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`; the token must have D1 access.
 
 ### Deploy
 
