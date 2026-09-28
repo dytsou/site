@@ -146,7 +146,7 @@ function initCardReveal(): void {
   const updateDotStates = () => {
     if (!timeline || !line) return;
 
-    const lineHeight = parseFloat(line.style.height) || 0;
+    const lineHeight = Number.parseFloat(line.style.height) || 0;
 
     if (lineHeight === lastLineHeight) return;
     lastLineHeight = lineHeight;
@@ -196,7 +196,7 @@ function initCardReveal(): void {
     if (!ticking) {
       requestAnimationFrame(() => {
         updateCardVisibility();
-        const lineHeight = parseFloat(line?.style.height || '0') || 0;
+        const lineHeight = Number.parseFloat(line?.style.height || '0') || 0;
         if (lineHeight !== lastLineHeight) {
           lastLineHeight = lineHeight;
           updateDotStates();

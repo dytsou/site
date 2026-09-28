@@ -48,11 +48,8 @@ export function CarouselControls({
           {String(totalSlides).padStart(2, '0')}
         </span>
 
-        <div
-          className="carousel-indicators"
-          role="group"
-          aria-label="Choose a slide"
-        >
+        <fieldset className="carousel-indicators">
+          <legend className="sr-only">Choose a slide</legend>
           {Array.from({ length: totalSlides }, (_, index) => (
             <button
               key={index}
@@ -69,7 +66,7 @@ export function CarouselControls({
               aria-current={index === currentSlide ? 'page' : undefined}
             />
           ))}
-        </div>
+        </fieldset>
       </div>
 
       <button

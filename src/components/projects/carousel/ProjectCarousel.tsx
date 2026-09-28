@@ -102,11 +102,10 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
             style={{ transform: `translateX(-${currentSlideClamped * 100}%)` }}
           >
             {slides.map((slideProjects, slideIndex) => (
-              <div
+              <section
                 key={slideProjects.map((project) => project.id).join('/')}
                 id={`${carouselId}-slide-${slideIndex + 1}`}
                 className="carousel-slide"
-                role="group"
                 aria-roledescription="slide"
                 aria-label={`${slideIndex + 1} of ${slideCount}`}
                 aria-hidden={slideIndex !== currentSlideClamped}
@@ -138,7 +137,7 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
                     );
                   })}
                 </div>
-              </div>
+              </section>
             ))}
           </div>
         </div>
