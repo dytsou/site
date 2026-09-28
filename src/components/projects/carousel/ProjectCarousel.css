@@ -161,6 +161,10 @@
 
 .carousel-indicators {
   @apply flex items-center justify-center gap-1;
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
 }
 
 .carousel-indicator {
