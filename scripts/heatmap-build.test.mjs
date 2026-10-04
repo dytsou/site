@@ -49,6 +49,25 @@ test('missing private HTML or missing noindex fails the build check', async (t) 
   await assert.rejects(f.verify(), /noindex/);
 });
 
+test('quoted attributes preserve delimiters and reject misleading robots text', async (t) => {
+  const f = await fixture(t);
+  await f.put(
+    'insights/index.html',
+    `<meta title="name='robots' content='noindex'" name="robots" content="index">`
+  );
+  await assert.rejects(f.verify(), /noindex/);
+  await f.put(
+    'insights/index.html',
+    `<meta ${'x'.repeat(100_000)} name='ROBOTS' content='NOINDEX, nofollow'>`
+  );
+  await f.verify();
+  await f.put(
+    'index.html',
+    `<a title="owner's report" HREF='/insights/'>Report</a>`
+  );
+  await assert.rejects(f.verify(), /public HTML/);
+});
+
 test('public route manifest and public HTML navigation cannot advertise private paths', async (t) => {
   const f = await fixture(t);
   await assert.rejects(

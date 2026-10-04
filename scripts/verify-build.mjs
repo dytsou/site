@@ -117,6 +117,60 @@ async function assertNoSecretPatterns() {
   }
 }
 
+function quotedAttributes(html) {
+  return [
+    ...html.matchAll(/(?:^|\s)([\w-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g),
+  ].map((match) => [match[1].toLowerCase(), match[2] ?? match[3]]);
+}
+
+function assertPrivateNoindex(html) {
+  const noindex = (html.match(/<meta\b[^>]*>/gi) ?? []).some((meta) => {
+    const attrs = Object.fromEntries(quotedAttributes(meta));
+    return (
+      attrs.name?.toLowerCase() === 'robots' &&
+      attrs.content
+        ?.toLowerCase()
+        .split(/[\s,]+/)
+        .includes('noindex')
+    );
+  });
+  if (!noindex) throw new Error('Private heatmap artifact must be noindex');
+}
+
+function assertPublicHtmlLinks(content, file) {
+  for (const [name, value] of quotedAttributes(content)) {
+    if (name !== 'href') continue;
+    let link;
+    try {
+      link = new URL(value, 'https://dy.tsou.me');
+    } catch {
+      continue;
+    }
+    if (isPrivateHeatmapPath(link.pathname))
+      throw new Error(`Private path advertised in public HTML: ${file}`);
+  }
+}
+
+async function verifyHeatmapArtifact(outputDir, file, secrets) {
+  if (
+    !/\.(?:html|js|mjs|css|json|txt|md|xml)$/.test(file) &&
+    !file.startsWith('.well-known/')
+  )
+    return;
+  const content = await readFile(path.join(outputDir, file), 'utf8');
+  if (secrets.some((value) => content.includes(value)))
+    throw new Error(`Secret configuration found in dist/${file}`);
+  if (file.endsWith('.html')) {
+    if (!file.startsWith('insights/')) assertPublicHtmlLinks(content, file);
+    return;
+  }
+  if (
+    !file.startsWith('_astro/') &&
+    /(?:^|[/:])(?:api\/)?insights(?:[/?#"'\s<]|$)/i.test(content)
+  )
+    throw new Error(`Private path advertised in public discovery: ${file}`);
+}
+
 /** Private assets must be guarded at runtime; this check prevents accidental public discovery or secret bundling. */
 export async function verifyHeatmapBuild({
   outputDir = distDir,
@@ -129,20 +183,7 @@ export async function verifyHeatmapBuild({
   } catch {
     throw new Error('Missing private heatmap artifact');
   }
-  const metas = html.match(/<meta\b[^>]*>/gi) ?? [];
-  const noindex = metas.some((meta) => {
-    const attrs = Object.fromEntries(
-      [...meta.matchAll(/([\w-]+)\s*=\s*(["'])(.*?)\2/g)].map((match) => [
-        match[1].toLowerCase(),
-        match[3].toLowerCase(),
-      ])
-    );
-    return (
-      attrs.name === 'robots' &&
-      attrs.content?.split(/[\s,]+/).includes('noindex')
-    );
-  });
-  if (!noindex) throw new Error('Private heatmap artifact must be noindex');
+  assertPrivateNoindex(html);
   if (routes.some((route) => isPrivateHeatmapPath(route.path)))
     throw new Error('Private heatmap path in public route manifest');
   const secretNames = [
@@ -156,36 +197,12 @@ export async function verifyHeatmapBuild({
   const secretValues = secretNames
     .map((name) => env[name])
     .filter((value) => typeof value === 'string' && value.length > 0);
-  for (const file of await listDistFiles(outputDir)) {
-    if (
-      !/\.(?:html|js|mjs|css|json|txt|md|xml)$/.test(file) &&
-      !file.startsWith('.well-known/')
+  const files = await listDistFiles(outputDir);
+  await Promise.all(
+    files.map((file) =>
+      verifyHeatmapArtifact(outputDir, file, [...secretNames, ...secretValues])
     )
-      continue;
-    const content = await readFile(path.join(outputDir, file), 'utf8');
-    if (
-      [...secretNames, ...secretValues].some((value) => content.includes(value))
-    )
-      throw new Error(`Secret configuration found in dist/${file}`);
-    if (file.endsWith('.html') && !file.startsWith('insights/')) {
-      for (const match of content.matchAll(/\bhref\s*=\s*(["'])(.*?)\1/gi)) {
-        let link;
-        try {
-          link = new URL(match[2], 'https://dy.tsou.me');
-        } catch {
-          continue;
-        }
-        if (isPrivateHeatmapPath(link.pathname))
-          throw new Error(`Private path advertised in public HTML: ${file}`);
-      }
-    } else if (
-      !file.endsWith('.html') &&
-      !file.startsWith('_astro/') &&
-      /(?:^|[/:])(?:api\/)?insights(?:[/?#"'\s<]|$)/i.test(content)
-    ) {
-      throw new Error(`Private path advertised in public discovery: ${file}`);
-    }
-  }
+  );
 }
 
 async function main() {
