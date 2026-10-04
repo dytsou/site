@@ -6,7 +6,15 @@ const listeners = new Set<() => void>();
 
 function subscribe(listener: () => void) {
   listeners.add(listener);
-  return () => listeners.delete(listener);
+  const observer = new MutationObserver(listener);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
+  });
+  return () => {
+    listeners.delete(listener);
+    observer.disconnect();
+  };
 }
 
 function getThemeSnapshot(): Theme {

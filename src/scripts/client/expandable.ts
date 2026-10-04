@@ -1,7 +1,13 @@
 const MOBILE_QUERY = '(max-width: 767px)';
 
+const collapsedClasses = new WeakMap<HTMLElement, string>();
+
 function collapsedClass(root: HTMLElement): string | undefined {
-  return [...root.classList].find((c) => c.endsWith('-collapsed'));
+  const stored = collapsedClasses.get(root);
+  if (stored) return stored;
+  const collapsed = [...root.classList].find((c) => c.endsWith('-collapsed'));
+  if (collapsed) collapsedClasses.set(root, collapsed);
+  return collapsed;
 }
 
 function setExpanded(root: HTMLElement, expanded: boolean): void {
@@ -9,6 +15,8 @@ function setExpanded(root: HTMLElement, expanded: boolean): void {
   if (!collapsed) return;
 
   root.classList.toggle(collapsed, !expanded);
+  if (root.dataset.heatmapState !== undefined)
+    root.dataset.heatmapState = expanded ? 'expanded' : 'collapsed';
 
   const down = root.querySelector<SVGElement>('[data-expandable-icon="down"]');
   const up = root.querySelector<SVGElement>('[data-expandable-icon="up"]');

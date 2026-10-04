@@ -1,10 +1,14 @@
 import { Github } from '../../icons/brandSocialIcons';
 
 interface ProjectActionsProps {
+  heatmapTarget?: string;
   githubUrl?: string;
 }
 
-export function ProjectActions({ githubUrl }: Readonly<ProjectActionsProps>) {
+export function ProjectActions({
+  githubUrl,
+  heatmapTarget,
+}: Readonly<ProjectActionsProps>) {
   if (!githubUrl) return null;
 
   return (
@@ -12,6 +16,7 @@ export function ProjectActions({ githubUrl }: Readonly<ProjectActionsProps>) {
       {githubUrl && (
         <a
           href={githubUrl}
+          data-heatmap-target={heatmapTarget}
           target="_blank"
           rel="noopener noreferrer"
           className="project-action-button project-action-github"

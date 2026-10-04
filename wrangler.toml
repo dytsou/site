@@ -3,10 +3,39 @@ name = "dy-tsou-me"
 compatibility_date = "2026-06-23"
 pages_build_output_dir = "./dist"
 
+[vars]
+# Exact browser Origins; the front-door proxy preserves the canonical Origin.
+# Preview hostnames are deliberately absent. No wildcards or inferred hosts.
+HEATMAP_PUBLIC_ORIGINS = '["https://dy.tsou.me", "https://dy-tsou-me.pages.dev"]'
+HEATMAP_DATASET = "site_click_events"
+
+[[analytics_engine_datasets]]
+binding = "CLICK_EVENTS"
+dataset = "site_click_events"
+
 [ai]
 binding = "AI"
 
 [[d1_databases]]
+binding = "GITHUB_ACTIVITY_DB"
+database_name = "site-recent-github-activity"
+database_id = "e70ce58d-6d10-4f92-bf2c-992d3705f609"
+migrations_dir = "migrations"
+
+# Pages non-inheritable keys must all be repeated when preview overrides them.
+# Add exact authorized preview Origins only after its Access/read setup is ready.
+[env.preview.vars]
+HEATMAP_PUBLIC_ORIGINS = '[]'
+HEATMAP_DATASET = "site_click_events_preview"
+
+[[env.preview.analytics_engine_datasets]]
+binding = "CLICK_EVENTS"
+dataset = "site_click_events_preview"
+
+[env.preview.ai]
+binding = "AI"
+
+[[env.preview.d1_databases]]
 binding = "GITHUB_ACTIVITY_DB"
 database_name = "site-recent-github-activity"
 database_id = "e70ce58d-6d10-4f92-bf2c-992d3705f609"

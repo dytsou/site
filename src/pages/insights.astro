@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ClickInsights } from '../components/insights/ClickInsights';
+---
+
+<Layout
+  title="Click insights - Dong-You Tsou"
+  description="Private click analysis for the site owner."
+  privatePage={true}
+  showFooter={false}
+>
+  <main id="insights-content" class="insights-main">
+    <ClickInsights client:load />
+    <noscript>
+      This private report needs JavaScript to load click data.
+    </noscript>
+  </main>
+</Layout>

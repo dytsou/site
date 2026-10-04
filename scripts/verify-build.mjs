@@ -2,6 +2,8 @@ import { readFile, readdir } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 import process from 'node:process';
+import { pathToFileURL } from 'node:url';
+import { isPrivateHeatmapPath } from '../shared/heatmap-private.js';
 
 const repoRoot = process.cwd();
 const distDir = path.join(repoRoot, 'dist');
@@ -115,6 +117,94 @@ async function assertNoSecretPatterns() {
   }
 }
 
+function quotedAttributes(html) {
+  return [
+    ...html.matchAll(/(?:^|\s)([\w-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g),
+  ].map((match) => [match[1].toLowerCase(), match[2] ?? match[3]]);
+}
+
+function assertPrivateNoindex(html) {
+  const noindex = (html.match(/<meta\b[^>]*>/gi) ?? []).some((meta) => {
+    const attrs = Object.fromEntries(quotedAttributes(meta));
+    return (
+      attrs.name?.toLowerCase() === 'robots' &&
+      attrs.content
+        ?.toLowerCase()
+        .split(/[\s,]+/)
+        .includes('noindex')
+    );
+  });
+  if (!noindex) throw new Error('Private heatmap artifact must be noindex');
+}
+
+function assertPublicHtmlLinks(content, file) {
+  for (const [name, value] of quotedAttributes(content)) {
+    if (name !== 'href') continue;
+    let link;
+    try {
+      link = new URL(value, 'https://dy.tsou.me');
+    } catch {
+      continue;
+    }
+    if (isPrivateHeatmapPath(link.pathname))
+      throw new Error(`Private path advertised in public HTML: ${file}`);
+  }
+}
+
+async function verifyHeatmapArtifact(outputDir, file, secrets) {
+  if (
+    !/\.(?:html|js|mjs|css|json|txt|md|xml)$/.test(file) &&
+    !file.startsWith('.well-known/')
+  )
+    return;
+  const content = await readFile(path.join(outputDir, file), 'utf8');
+  if (secrets.some((value) => content.includes(value)))
+    throw new Error(`Secret configuration found in dist/${file}`);
+  if (file.endsWith('.html')) {
+    if (!file.startsWith('insights/')) assertPublicHtmlLinks(content, file);
+    return;
+  }
+  if (
+    !file.startsWith('_astro/') &&
+    /(?:^|[/:])(?:api\/)?insights(?:[/?#"'\s<]|$)/i.test(content)
+  )
+    throw new Error(`Private path advertised in public discovery: ${file}`);
+}
+
+/** Private assets must be guarded at runtime; this check prevents accidental public discovery or secret bundling. */
+export async function verifyHeatmapBuild({
+  outputDir = distDir,
+  routes,
+  env = process.env,
+}) {
+  let html;
+  try {
+    html = await readFile(path.join(outputDir, 'insights/index.html'), 'utf8');
+  } catch {
+    throw new Error('Missing private heatmap artifact');
+  }
+  assertPrivateNoindex(html);
+  if (routes.some((route) => isPrivateHeatmapPath(route.path)))
+    throw new Error('Private heatmap path in public route manifest');
+  const secretNames = [
+    'HEATMAP_READ_TOKEN',
+    'HEATMAP_WEB_ANALYTICS_TOKEN',
+    'HEATMAP_ACCESS_ISSUER',
+    'HEATMAP_ACCESS_AUD',
+    'HEATMAP_OWNER_EMAILS',
+    'HEATMAP_ACCOUNT_ID',
+  ];
+  const secretValues = secretNames
+    .map((name) => env[name])
+    .filter((value) => typeof value === 'string' && value.length > 0);
+  const files = await listDistFiles(outputDir);
+  await Promise.all(
+    files.map((file) =>
+      verifyHeatmapArtifact(outputDir, file, [...secretNames, ...secretValues])
+    )
+  );
+}
+
 async function main() {
   const routes = JSON.parse(await readFile(routesPath, 'utf8'));
 
@@ -128,13 +218,19 @@ async function main() {
   }
 
   await assertNoSecretPatterns();
+  await verifyHeatmapBuild({ routes });
 
   console.log('✓ verify-build passed');
 }
 
-try {
-  await main();
-} catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href
+) {
+  try {
+    await main();
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  }
 }

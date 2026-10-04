@@ -4,6 +4,7 @@ import { ProjectCard } from '../project-card/ProjectCard';
 import { getProjectIconAndColors } from '../ProjectIconUtils';
 import { CarouselControls } from './CarouselControls';
 import './ProjectCarousel.css';
+import { VIEWPORT_BANDS } from '../../../../shared/heatmap-contract.js';
 
 interface ProjectCarouselProps {
   projects: Project[];
@@ -16,10 +17,10 @@ const CARD_STYLES = [
 ];
 
 const getCardsPerSlideForWidth = (width: number) => {
-  if (width >= 1440) return 4;
-  if (width >= 1024) return 3;
-  if (width >= 640) return 2;
-  return 1;
+  return (
+    VIEWPORT_BANDS.findLast((band) => width >= band.minWidth)?.cardsPerSlide ??
+    1
+  );
 };
 
 export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
@@ -90,7 +91,11 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
   };
 
   return (
-    <div className="carousel-container">
+    <div
+      className="carousel-container"
+      data-heatmap-cards={cardsPerSlide}
+      data-heatmap-state={`slide-${currentSlideClamped}`}
+    >
       <section
         className="carousel-wrapper"
         aria-roledescription="carousel"
@@ -130,6 +135,7 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
                         key={project.id}
                         project={project}
                         projectIndex={globalIndex}
+                        heatmapSlide={slideIndex}
                         cardStyle={cardStyle}
                         isMobile={isSingleColumn}
                         getProjectIconAndColors={getProjectIconAndColors}

@@ -34,6 +34,8 @@ export function CarouselControls({
       <button
         type="button"
         onClick={onPrev}
+        data-heatmap-target="carousel.previous"
+        data-heatmap-preview-action="slide"
         onKeyDown={onKeyDown}
         className="carousel-control-button carousel-control-prev"
         aria-label="Previous slide"
@@ -55,6 +57,8 @@ export function CarouselControls({
               key={index}
               type="button"
               onClick={() => onGoToSlide(index)}
+              data-heatmap-target={`carousel.slide-${index}`}
+              data-heatmap-preview-action="slide"
               onKeyDown={onKeyDown}
               className={`carousel-indicator ${
                 index === currentSlide
@@ -72,6 +76,8 @@ export function CarouselControls({
       <button
         type="button"
         onClick={onNext}
+        data-heatmap-target="carousel.next"
+        data-heatmap-preview-action="slide"
         onKeyDown={onKeyDown}
         className="carousel-control-button carousel-control-next"
         aria-label="Next slide"

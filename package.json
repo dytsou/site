@@ -25,17 +25,26 @@
     "generate:favicons": "node scripts/generate-favicon-pngs.mjs",
     "test:favicons": "node --test scripts/generate-favicon-pngs.test.mjs",
     "test:github-activity": "node --test scripts/github-activity-snapshot.test.mjs",
+    "test:heatmap-contract": "node --test scripts/heatmap-contract.test.mjs",
+    "test:heatmap-collector": "node --test scripts/heatmap-collector.test.mjs",
+    "test:heatmap-ingestion": "node --test scripts/heatmap-ingestion.test.mjs workers/front-door/tests/ingestion.test.mjs",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,css,md,astro,mjs}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,json,css,md,astro,mjs}\"",
     "preview": "astro preview",
     "deploy": "pnpm build && wrangler pages deploy ./dist --project-name=dy-tsou-me",
     "typecheck": "astro check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:heatmap-report": "node --test scripts/heatmap-access.test.mjs scripts/heatmap-report.test.mjs",
+    "test:heatmap-preview": "node --test scripts/heatmap-preview.test.mjs scripts/heatmap-theme.test.mjs",
+    "test:heatmap-build": "node --test scripts/heatmap-build.test.mjs",
+    "test:heatmap": "node --test scripts/heatmap-contract.test.mjs scripts/heatmap-collector.test.mjs scripts/heatmap-ingestion.test.mjs scripts/heatmap-access.test.mjs scripts/heatmap-report.test.mjs scripts/heatmap-preview.test.mjs scripts/heatmap-theme.test.mjs scripts/heatmap-build.test.mjs workers/front-door/tests/ingestion.test.mjs",
+    "verify:functions": "wrangler pages functions build functions --outdir .wrangler/heatmap-functions --output-routes-path .wrangler/heatmap-routes.json"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.5",
+    "jose": "^6.2.12",
     "lucide-react": "^1.47.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

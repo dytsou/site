@@ -5,12 +5,14 @@ import { ExperienceMobile } from '../components/islands/ExperienceMobile';
 import Footer from '../components/footer/Footer.astro';
 import { SITE_URL, SITE_NAME } from '../data/site-routes';
 import '../styles/index.css';
+import { getHeatmapPage } from '../../shared/heatmap-contract.js';
 
 interface Props {
   title?: string;
   description?: string;
   canonical?: string;
   showFooter?: boolean;
+  privatePage?: boolean;
 }
 
 const {
@@ -18,13 +20,27 @@ const {
   description = 'Dong-You Tsou is a Computer Science student at NYCU, specializing in backend development, full-stack engineering, and leading developer communities. Experienced in Go, React.js, Python, and modern web technologies.',
   canonical = `${SITE_URL}${Astro.url.pathname}`,
   showFooter = true,
+  privatePage = false,
 } = Astro.props;
+
+const heatmapPage = getHeatmapPage(Astro.url.pathname);
+const commitSha =
+  import.meta.env.CF_PAGES_COMMIT_SHA ?? import.meta.env.GITHUB_SHA;
+const heatmapBuild =
+  typeof commitSha === 'string' && /^[a-f0-9]{7,40}$/.test(commitSha)
+    ? commitSha
+    : 'local';
 
 const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
 ---
 
 <!doctype html>
-<html lang="en">
+<html
+  lang="en"
+  data-heatmap-page={heatmapPage?.path}
+  data-heatmap-layout={heatmapPage?.layout}
+  data-heatmap-build={heatmapPage ? heatmapBuild : undefined}
+>
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/assets/favicon.png" />
@@ -45,7 +61,6 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
         } catch (e) {}
       })();
     </script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -59,6 +74,13 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
       name="keywords"
       content="backend developer Taiwan, NYCU computer science, React developer, full-stack developer, Dong-You Tsou, 鄒東祐, dytsou, software engineering, Go developer, Python developer"
     />
+    {privatePage && (
+      <meta name="robots" content="noindex, nofollow, noarchive" />
+    )}
+    <script>
+      import { installPreviewNavigation } from '../components/insights/heatmap-preview.js';
+      installPreviewNavigation(document, window);
+    </script>
     <meta name="author" content="Dong-You Tsou" />
 
     <meta property="og:title" content={`${title} - Full-Stack Developer`} />
@@ -116,6 +138,7 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
     </div>
     <script>
       import '../scripts/client/webmcp';
+      import '../scripts/client/click-heatmap';
     </script>
     <script>
       import '../scripts/client/expandable';
