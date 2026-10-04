@@ -1,6 +1,14 @@
 import { ExternalLink } from 'lucide-react';
 import type { NavLink } from './navLinksConfig';
 
+const targetByPath: Record<string, string> = {
+  '/about': 'nav.about',
+  '/experiences': 'nav.experiences',
+  '/projects': 'nav.projects',
+  '/contact': 'nav.contact',
+  'https://dy.tsou.me/resume': 'nav.resume',
+};
+
 interface NavLinkComponentProps {
   link: NavLink;
   currentPath: string;
@@ -33,6 +41,8 @@ export function NavLinkComponent({
     return (
       <a
         href={link.path}
+        data-heatmap-target={targetByPath[link.path]}
+        data-heatmap-state={variant === 'desktop' ? 'desktop' : 'mobile-open'}
         target="_blank"
         rel="noopener noreferrer"
         className={className}
@@ -45,7 +55,13 @@ export function NavLinkComponent({
   }
 
   return (
-    <a href={hrefFor(link.path)} className={className} onClick={onNavigate}>
+    <a
+      data-heatmap-target={targetByPath[link.path]}
+      data-heatmap-state={variant === 'desktop' ? 'desktop' : 'mobile-open'}
+      href={hrefFor(link.path)}
+      className={className}
+      onClick={onNavigate}
+    >
       {link.label}
     </a>
   );

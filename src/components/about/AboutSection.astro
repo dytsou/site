@@ -34,8 +34,8 @@ import '../about/About.css';
             <span class="about-highlight">
               National Yang Ming Chiao Tung University
             </span>{' '}
-            in Taiwan. I'm passionate about building scalable backend systems and
-            creating seamless full-stack applications.
+            in Taiwan. I'm passionate about building scalable backend systems
+            and creating seamless full-stack applications.
           </p>
           <p class="about-text" data-reveal>
             As Vice President of NYCU Software Development Club, I lead a
@@ -109,6 +109,7 @@ import '../about/About.css';
         class="language-grid-container language-grid-collapsed"
         data-expandable
         data-expandable-mobile
+        data-heatmap-state="collapsed"
       >
         <div class="language-grid-card">
           <h5 class="language-grid-title">
@@ -117,6 +118,8 @@ import '../about/About.css';
               type="button"
               class="language-grid-toggle"
               data-expandable-toggle
+              data-heatmap-target="about.languages"
+              data-heatmap-preview-action="toggle"
               data-expand-label="Expand languages"
               data-collapse-label="Collapse languages"
               aria-label="Expand languages"
@@ -157,58 +160,56 @@ import '../about/About.css';
           </h5>
           <div class="language-grid-list-wrapper" data-expandable-content>
             <div class="language-grid-list">
-              {
-                FALLBACK_LANGUAGES.map((lang) => {
-                  const icon = languageIcon(lang.name);
-                  return (
-                    <div class="language-item">
-                      {icon?.kind === 'img' ? (
-                        <img
-                          class="language-logo"
-                          src={icon.src}
-                          alt=""
-                          width="20"
-                          height="20"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      ) : icon?.kind === 'terminal' ? (
-                        <svg
-                          class="language-logo language-logo-terminal"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          aria-hidden="true"
-                        >
-                          <polyline points="4 17 10 11 4 5" />
-                          <line x1="12" x2="20" y1="19" y2="19" />
-                        </svg>
-                      ) : (
-                        <div
-                          class="language-dot"
-                          style={{ backgroundColor: lang.color || '#9ca3af' }}
-                        />
-                      )}
-                      <div
-                        class:list={[
-                          'language-name',
-                          lang.name.length > 10
-                            ? 'language-name-xs'
-                            : 'language-name-sm',
-                        ]}
+              {FALLBACK_LANGUAGES.map((lang) => {
+                const icon = languageIcon(lang.name);
+                return (
+                  <div class="language-item">
+                    {icon?.kind === 'img' ? (
+                      <img
+                        class="language-logo"
+                        src={icon.src}
+                        alt=""
+                        width="20"
+                        height="20"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : icon?.kind === 'terminal' ? (
+                      <svg
+                        class="language-logo language-logo-terminal"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
                       >
-                        {lang.name}
-                      </div>
+                        <polyline points="4 17 10 11 4 5" />
+                        <line x1="12" x2="20" y1="19" y2="19" />
+                      </svg>
+                    ) : (
+                      <div
+                        class="language-dot"
+                        style={{ backgroundColor: lang.color || '#9ca3af' }}
+                      />
+                    )}
+                    <div
+                      class:list={[
+                        'language-name',
+                        lang.name.length > 10
+                          ? 'language-name-xs'
+                          : 'language-name-sm',
+                      ]}
+                    >
+                      {lang.name}
                     </div>
-                  );
-                })
-              }
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

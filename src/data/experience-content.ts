@@ -1,4 +1,5 @@
 export interface ExperiencePost {
+  heatmapKey: string;
   title: string;
   subtitle?: string;
   url: string;
@@ -7,6 +8,7 @@ export interface ExperiencePost {
 }
 
 export interface ExperienceEntry {
+  heatmapKey: string;
   type: string;
   title?: string;
   organization?: string;
@@ -32,6 +34,7 @@ export const experiences: ExperienceEntry[] = [
     type: 'work',
     title: 'Software Engineer Intern',
     organization: 'LINE Taiwan Limited',
+    heatmapKey: 'line',
     orgUrl: 'https://www.line.me/',
     period: 'Mar 2026 - Present',
     location: 'Taipei, Taiwan',
@@ -45,6 +48,7 @@ export const experiences: ExperienceEntry[] = [
         title: 'Graduation Sharing Session at LINE Taiwan Limited | LinkedIn',
         subtitle: 'Sharing my journey at the LINE Graduation Sharing Session.',
         url: 'https://tsou.me/LINE-graduation-post',
+        heatmapKey: 'line.graduation',
         orgUrl: 'https://www.line.me',
         date: 'Jun 2026',
       },
@@ -53,6 +57,7 @@ export const experiences: ExperienceEntry[] = [
         subtitle:
           'From sitting in the audience two years ago to stepping onto the stage today.',
         url: 'https://tsou.me/LINE-company-visitation-speaker-post',
+        heatmapKey: 'line.speaker',
         orgUrl: 'https://www.line.me',
         date: 'Jul 2026',
       },
@@ -64,6 +69,7 @@ export const experiences: ExperienceEntry[] = [
     type: 'research',
     title: 'Undergraduate Researcher',
     organization: 'Software Quality Lab',
+    heatmapKey: 'software-quality',
     orgUrl: 'https://sqlab.web.nycu.edu.tw',
     period: 'Sep 2025 - Jan 2026',
     location: 'NYCU',
@@ -80,6 +86,7 @@ export const experiences: ExperienceEntry[] = [
     type: 'research',
     title: 'Undergraduate Researcher',
     organization: 'Applied Computing and Multimedia Lab',
+    heatmapKey: 'applied-computing',
     orgUrl: 'https://acm.cs.nycu.edu.tw/',
     period: 'Sep 2024 - Aug 2025',
     location: 'NYCU',
@@ -96,6 +103,7 @@ export const experiences: ExperienceEntry[] = [
     type: 'leadership',
     title: 'Vice President',
     organization: 'NYCU Software Development Club',
+    heatmapKey: 'sdc',
     orgUrl: 'https://www.sdc.nycu.club',
     period: 'Oct 2023 - Jul. 2026',
     location: 'Hsinchu, Taiwan',
@@ -111,6 +119,7 @@ export const experiences: ExperienceEntry[] = [
         subtitle:
           'Reflecting on my journey as a member of the Administration Committee of NYCU Software Development Club',
         url: 'https://tsou.me/SDC-post',
+        heatmapKey: 'sdc.post',
         orgUrl: 'https://www.sdc.nycu.club',
         date: 'Aug 2025',
       },
@@ -122,6 +131,7 @@ export const experiences: ExperienceEntry[] = [
     type: 'leadership',
     title: 'Agenda Committee',
     organization: "SITCON, Students' Information Technology Conference",
+    heatmapKey: 'sitcon',
     orgUrl: 'https://sitcon.org/2025',
     period: 'Oct 2024 - Mar 2025',
     location: 'Taiwan',
@@ -137,6 +147,7 @@ export const experiences: ExperienceEntry[] = [
         subtitle:
           "My experience curating content for Taiwan's largest student tech conference as an Agenda Committee member",
         url: 'https://tsou.me/SITCON-post',
+        heatmapKey: 'sitcon.post',
         orgUrl: 'https://sitcon.org/2025',
         date: 'May 2025',
       },

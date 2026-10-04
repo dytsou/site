@@ -26,6 +26,7 @@
     "test:favicons": "node --test scripts/generate-favicon-pngs.test.mjs",
     "test:github-activity": "node --test scripts/github-activity-snapshot.test.mjs",
     "test:heatmap-contract": "node --test scripts/heatmap-contract.test.mjs",
+    "test:heatmap-collector": "node --test scripts/heatmap-collector.test.mjs",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,css,md,astro,mjs}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,json,css,md,astro,mjs}\"",
     "preview": "astro preview",

@@ -12,6 +12,9 @@ export function ExperienceMobile() {
 
       const update = (expanded: boolean) => {
         panel.classList.toggle('collapsed', !expanded);
+        const root = button.closest<HTMLElement>('[data-heatmap-state]');
+        if (root)
+          root.dataset.heatmapState = expanded ? 'expanded' : 'collapsed';
         button.textContent = expanded ? 'Show less' : 'Show more';
         button.setAttribute(
           'aria-label',
@@ -27,14 +30,12 @@ export function ExperienceMobile() {
 
       const syncViewport = () => {
         if (!mq.matches) {
-          panel.classList.remove('collapsed');
+          update(true);
           button.hidden = true;
           return;
         }
         button.hidden = false;
-        button.textContent = panel.classList.contains('collapsed')
-          ? 'Show more'
-          : 'Show less';
+        update(!panel.classList.contains('collapsed'));
       };
 
       button.addEventListener('click', onClick);

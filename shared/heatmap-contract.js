@@ -97,6 +97,41 @@ export const HEATMAP_PROJECTS = Object.freeze([
     sourceId: 'dytsou/github-readme-stats',
     label: 'GitHub README Stats',
   }),
+  Object.freeze({
+    key: 'when2meet',
+    sourceId: 'dytsou/when2meet-to-gcal',
+    label: 'When2meet to Google Calendar',
+  }),
+  Object.freeze({
+    key: 'shorten-url',
+    sourceId: 'dytsou/shorten-url',
+    label: 'Shorten URL',
+  }),
+  Object.freeze({
+    key: 'raycast-rsync',
+    sourceId: 'dytsou/raycast-rsync-extension',
+    label: 'Raycast Rsync Extension',
+  }),
+  Object.freeze({
+    key: 'claude-notify',
+    sourceId: 'dytsou/claude-code-notify',
+    label: 'Claude Code Notify',
+  }),
+  Object.freeze({
+    key: 'dungeon',
+    sourceId: 'dytsou/Dungeon',
+    label: 'Dungeon',
+  }),
+  Object.freeze({
+    key: 'resume-builder',
+    sourceId: 'dytsou/resume',
+    label: 'Resume Builder',
+  }),
+  Object.freeze({
+    key: 'intern-scheduler',
+    sourceId: 'dytsou/intern-corner-scheduler',
+    label: 'Intern Corner Scheduler',
+  }),
 ]);
 
 const publicPaths = Object.freeze(HEATMAP_PAGES.map(({ path }) => path));
@@ -171,19 +206,35 @@ export const HEATMAP_TARGETS = Object.freeze([
       id: `footer.${key}`,
       label: `Footer: ${label}`,
       pages: publicPaths,
-      states: defaultStates,
+      states: ['default', ...expansionStates],
     })
   ),
   ...[
     ['projects', 'View my work'],
     ['contact', 'Get in touch'],
     ['resume', 'Resume'],
+    ['github', 'GitHub'],
+    ['linkedin', 'LinkedIn'],
+    ['email', 'Email'],
+    ['telegram', 'Telegram'],
+    ['calendar', 'Calendar'],
   ].map(([key, label]) =>
     freezeTarget({
       id: `home.${key}`,
       label,
       pages: ['/'],
       states: defaultStates,
+    })
+  ),
+  ...[
+    ['quick-links', 'Quick links'],
+    ['connect', 'Connect'],
+  ].map(([key, label]) =>
+    freezeTarget({
+      id: `footer.${key}`,
+      label: `Footer: toggle ${label}`,
+      pages: publicPaths,
+      states: expansionStates,
     })
   ),
   freezeTarget({

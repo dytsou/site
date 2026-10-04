@@ -5,11 +5,13 @@ import './ProjectCard.css';
 import { ProjectCardHeader } from './ProjectCardHeader';
 import { ProjectDescription } from './ProjectDescription';
 import { ProjectTechnologies } from './ProjectTechnologies';
+import { HEATMAP_PROJECTS } from '../../../../shared/heatmap-contract.js';
 import { ProjectActions } from './ProjectActions';
 
 interface ProjectCardProps {
   project: Project;
   projectIndex: number;
+  heatmapSlide?: number;
   cardStyle: string;
   isMobile: boolean;
   getProjectIconAndColors: (project: Project) => {
@@ -21,6 +23,7 @@ interface ProjectCardProps {
 export function ProjectCard({
   project,
   projectIndex,
+  heatmapSlide,
   cardStyle,
   isMobile,
   getProjectIconAndColors,
@@ -86,8 +89,18 @@ export function ProjectCard({
   const isDescriptionExpanded = expandedDescriptions.has(projectIndex);
   const isTagsExpanded = expandedTags.has(projectIndex);
 
+  const heatmapProject = HEATMAP_PROJECTS.find(
+    ({ sourceId }) => sourceId === project.id
+  );
+  const heatmapKey = heatmapProject?.key;
+
   return (
     <div
+      data-heatmap-state={
+        heatmapKey && heatmapSlide !== undefined
+          ? `slide-${heatmapSlide}.description-${isDescriptionExpanded ? 'open' : 'closed'}.tags-${isTagsExpanded ? 'open' : 'closed'}`
+          : undefined
+      }
       className={`project-card stroke-icon-host ${isMobile ? 'project-card-mobile' : ''} ${cardStyle}`}
     >
       <div className="project-card-content">
@@ -99,6 +112,9 @@ export function ProjectCard({
               title={project.title}
             />
             <ProjectDescription
+              heatmapTarget={
+                heatmapKey ? `project.${heatmapKey}.description` : undefined
+              }
               description={project.description}
               descriptionRef={descriptionRef}
               isExpanded={isDescriptionExpanded}
@@ -108,6 +124,9 @@ export function ProjectCard({
           </div>
 
           <ProjectTechnologies
+            heatmapTarget={
+              heatmapKey ? `project.${heatmapKey}.tags` : undefined
+            }
             technologies={project.technologies}
             tags={project.tags}
             isExpanded={isTagsExpanded}
@@ -115,7 +134,12 @@ export function ProjectCard({
           />
         </div>
 
-        <ProjectActions githubUrl={project.github_url} />
+        <ProjectActions
+          heatmapTarget={
+            heatmapKey ? `project.${heatmapKey}.github` : undefined
+          }
+          githubUrl={project.github_url}
+        />
       </div>
     </div>
   );

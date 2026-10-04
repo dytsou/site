@@ -56,7 +56,13 @@ export function Navigation({ currentPath }: Readonly<NavigationProps>) {
     >
       <div className="nav-container">
         <div className="nav-content">
-          <a href="/" className="nav-brand" aria-label="Home">
+          <a
+            data-heatmap-target="nav.home"
+            data-heatmap-state={isOpen ? 'mobile-open' : 'default'}
+            href="/"
+            className="nav-brand"
+            aria-label="Home"
+          >
             <span className="nav-brand-frame" aria-hidden="true">
               <img
                 src="/assets/favicon.png"
