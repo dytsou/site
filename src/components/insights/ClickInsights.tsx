@@ -346,6 +346,7 @@ export function ClickInsights() {
   const [previewBand, setPreviewBand] = useState<Band>('wide');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const pageHeading = useRef<HTMLHeadingElement>(null);
+  const pendingPageFocus = useRef(false);
   useEffect(() => {
     const loader = createReportLoader(
       window.fetch.bind(window),
@@ -354,14 +355,17 @@ export function ClickInsights() {
     void loader.load(filters);
     return () => loader.cancel();
   }, [filters, retry]);
-  useEffect(() => {
-    if (filters.mode === 'page') pageHeading.current?.focus();
-  }, [filters.mode, filters.page]);
   // The filter event renders before the effect; withhold old data in that render too.
   const applied = sameReportFilters(state.filters, filters)
     ? state
     : { status: 'loading' as const, filters };
   const report = applied.report;
+  useEffect(() => {
+    if (filters.mode === 'page' && report && pendingPageFocus.current) {
+      pageHeading.current?.focus();
+      pendingPageFocus.current = false;
+    }
+  }, [filters.mode, report]);
   const pageLabel = HEATMAP_PAGES.find(
     (item) => item.path === filters.page
   )?.label;
@@ -389,13 +393,14 @@ export function ClickInsights() {
           {filters.mode === 'page' ? (
             <>
               <button
-                onClick={() =>
+                onClick={() => {
+                  pendingPageFocus.current = false;
                   setFilters(({ range, viewport }) => ({
                     mode: 'overview',
                     range,
                     viewport,
-                  }))
-                }
+                  }));
+                }}
               >
                 ← All pages
               </button>
@@ -606,13 +611,14 @@ export function ClickInsights() {
                             <td>
                               <button
                                 aria-label={`Open ${item.label} heatmap`}
-                                onClick={() =>
+                                onClick={() => {
+                                  pendingPageFocus.current = true;
                                   setFilters((current) => ({
                                     ...current,
                                     mode: 'page',
                                     page: item.page,
-                                  }))
-                                }
+                                  }));
+                                }}
                               >
                                 Open heatmap <span aria-hidden="true">↗</span>
                               </button>
