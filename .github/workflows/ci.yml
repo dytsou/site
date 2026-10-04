@@ -43,6 +43,12 @@ jobs:
       - name: Run formatter
         run: pnpm format
 
+      - name: Verify click analytics contracts
+        run: pnpm test:heatmap
+
+      - name: Compile Pages Functions
+        run: pnpm verify:functions
+
       - name: Run linter
         run: pnpm lint
 
