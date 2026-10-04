@@ -33,12 +33,14 @@
     "preview": "astro preview",
     "deploy": "pnpm build && wrangler pages deploy ./dist --project-name=dy-tsou-me",
     "typecheck": "astro check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:heatmap-report": "node --test scripts/heatmap-access.test.mjs scripts/heatmap-report.test.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.5",
+    "jose": "^6.2.12",
     "lucide-react": "^1.47.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
