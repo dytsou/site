@@ -1,3 +1,7 @@
+import {
+  isPrivateHeatmapPath,
+  privateResponse,
+} from '../../../shared/heatmap-private.js';
 import manifest from '../../../src/data/route-manifest.json' with { type: 'json' };
 import {
   negotiateMarkdown,
@@ -52,6 +56,7 @@ export default {
       return new Response(null, {
         status: 308,
         headers: {
+          'CDN-Cache-Control': 'no-store',
           Location: url.toString(),
           'Cache-Control': 'no-store',
           'Cloudflare-CDN-Cache-Control': 'no-store',
@@ -61,7 +66,10 @@ export default {
 
     const route = matchRoute(url.pathname, manifest);
     if (!route) {
-      return new Response('Not Found', { status: 404 });
+      const response = new Response('Not Found', { status: 404 });
+      return isPrivateHeatmapPath(url.pathname)
+        ? privateResponse(response, request)
+        : response;
     }
 
     const target = buildTarget(request.url, route);
@@ -71,20 +79,31 @@ export default {
     } catch (error) {
       const status =
         error instanceof Error && error.name === 'AbortError' ? 504 : 502;
-      return new Response(status === 504 ? 'Gateway Timeout' : 'Bad Gateway', {
-        status,
-        headers: {
-          'Cache-Control': 'no-store',
-          'CDN-Cache-Control': 'no-store',
-          'Cloudflare-CDN-Cache-Control': 'no-store',
-        },
-      });
+      return new Response(
+        request.method === 'HEAD'
+          ? null
+          : status === 504
+            ? 'Gateway Timeout'
+            : 'Bad Gateway',
+        {
+          status,
+          headers: {
+            'Cache-Control': 'no-store',
+            'CDN-Cache-Control': 'no-store',
+            'Cloudflare-CDN-Cache-Control': 'no-store',
+          },
+        }
+      );
     }
 
     const errorStatus = upstreamErrorStatus(upstream.status);
     if (errorStatus) {
       return new Response(
-        errorStatus === 504 ? 'Gateway Timeout' : 'Bad Gateway',
+        request.method === 'HEAD'
+          ? null
+          : errorStatus === 504
+            ? 'Gateway Timeout'
+            : 'Bad Gateway',
         {
           status: errorStatus,
           headers: {
@@ -95,6 +114,9 @@ export default {
         }
       );
     }
+
+    if (isPrivateHeatmapPath(url.pathname))
+      return privateResponse(upstream, request);
 
     if (wantsMarkdown(request) && isHtmlPagePath(url.pathname)) {
       return negotiateMarkdown(request, upstream, env);
