@@ -4,6 +4,7 @@ import {
   HEATMAP_THEMES,
   VIEWPORT_BANDS,
   getHeatmapTarget,
+  getHeatmapPage,
   getReportWindow,
   validateReportFilters,
 } from '../../shared/heatmap-contract.js';
@@ -104,7 +105,7 @@ function exactRow(row, fields) {
 }
 function dimensions(kind, row, filters, window) {
   if (kind === 'pages') {
-    if (!HEATMAP_PAGES.some(({ path }) => path === row.page))
+    if (!getHeatmapPage(row.page))
       throw new TypeError('Invalid aggregate page');
     return { page: row.page };
   }
@@ -275,7 +276,7 @@ async function pageViewContext(filters, window, env, fetchImpl, timeoutMs) {
       exactRow(row.dimensions, ['requestPath', 'date']);
       const { requestPath: page, date } = row.dimensions;
       if (
-        !HEATMAP_PAGES.some(({ path }) => path === page) ||
+        !getHeatmapPage(page) ||
         (filters.mode === 'page' && page !== filters.page)
       )
         throw new TypeError('Invalid context page');

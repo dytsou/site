@@ -142,11 +142,20 @@ function readPreview(doc, win, page) {
     (band) => band.id === viewport
   ).cardsPerSlide;
   const root = doc.documentElement;
+  const measurements = new Map();
+  const measure = (element) => {
+    if (!measurements.has(element))
+      measurements.set(element, {
+        style: win.getComputedStyle(element),
+        bounds: element.getBoundingClientRect(),
+      });
+    return measurements.get(element);
+  };
   const targets = [...doc.querySelectorAll('[data-heatmap-target]')].map(
     (element) => {
       const target = element.dataset.heatmapTarget;
       const registered = getHeatmapTarget(page, target);
-      const rect = element.getBoundingClientRect();
+      const rect = measure(element).bounds;
       let visible =
         Boolean(registered) &&
         rect.width > 0 &&
@@ -163,7 +172,7 @@ function readPreview(doc, win, page) {
         ancestor;
         ancestor = ancestor.parentElement
       ) {
-        const style = win.getComputedStyle(ancestor);
+        const { style, bounds } = measure(ancestor);
         if (
           style.display === 'none' ||
           style.visibility === 'hidden' ||
@@ -171,7 +180,6 @@ function readPreview(doc, win, page) {
           Number(style.opacity) === 0
         )
           visible = false;
-        const bounds = ancestor.getBoundingClientRect();
         if (
           ancestor !== element &&
           /hidden|clip|auto|scroll/.test(style.overflowX)
@@ -241,11 +249,16 @@ export function attachHeatmapPreview(frame, page, cells, onSummary) {
   let pending = 0;
   let stopped = false;
   let previousSummary = '';
+  let previousPoints = '';
   const draw = () => {
     pending = 0;
     if (stopped) return;
     const result = matchHeatmapCells(cells, readPreview(doc, win, page), page);
-    renderHeatmapOverlay(doc, layer, result.points);
+    const projected = JSON.stringify(result.points);
+    if (projected !== previousPoints) {
+      previousPoints = projected;
+      renderHeatmapOverlay(doc, layer, result.points);
+    }
     // Transforms during a carousel transition change geometry without resizing.
     if (
       doc
