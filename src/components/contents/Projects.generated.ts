@@ -52,6 +52,16 @@ export const PROJECTS_CONTENTS: Project[] = [
     featured: true,
   },
   {
+    id: 'dytsou/wordcloud',
+    title: 'Wordcloud',
+    description:
+      'wordcloud.download, a local-first word-cloud generator for individual creators',
+    technologies: ['TypeScript', 'CSS', 'HTML', 'JavaScript'],
+    tags: [],
+    github_url: 'https://github.com/dytsou/wordcloud',
+    featured: true,
+  },
+  {
     id: 'MCHackathon2025/CAIender-frontend',
     title: 'CAIender',
     description:
