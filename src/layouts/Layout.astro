@@ -12,6 +12,7 @@ interface Props {
   description?: string;
   canonical?: string;
   showFooter?: boolean;
+  privatePage?: boolean;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   description = 'Dong-You Tsou is a Computer Science student at NYCU, specializing in backend development, full-stack engineering, and leading developer communities. Experienced in Go, React.js, Python, and modern web technologies.',
   canonical = `${SITE_URL}${Astro.url.pathname}`,
   showFooter = true,
+  privatePage = false,
 } = Astro.props;
 
 const heatmapPage = getHeatmapPage(Astro.url.pathname);
@@ -72,6 +74,13 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
       name="keywords"
       content="backend developer Taiwan, NYCU computer science, React developer, full-stack developer, Dong-You Tsou, 鄒東祐, dytsou, software engineering, Go developer, Python developer"
     />
+    {privatePage && (
+      <meta name="robots" content="noindex, nofollow, noarchive" />
+    )}
+    <script>
+      import { installPreviewNavigation } from '../components/insights/heatmap-preview.js';
+      installPreviewNavigation(document, window);
+    </script>
     <meta name="author" content="Dong-You Tsou" />
 
     <meta property="og:title" content={`${title} - Full-Stack Developer`} />

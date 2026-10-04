@@ -38,7 +38,14 @@ export function useSwipeNavigation({
   }, [normalizedCurrent]);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (
+      !enabled ||
+      new URLSearchParams(globalThis.location.search)
+        .getAll('heatmap-preview')
+        .includes('1') ||
+      normalizedCurrent === '/insights/'
+    )
+      return;
     if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches)
       return;
 
