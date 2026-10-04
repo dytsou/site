@@ -88,6 +88,11 @@ export const HEATMAP_PROJECTS = Object.freeze([
   }),
   Object.freeze({ key: 'vaehor', sourceId: 'dytsou/vaehor', label: 'Vaehor' }),
   Object.freeze({
+    key: 'wordcloud',
+    sourceId: 'dytsou/wordcloud',
+    label: 'Wordcloud',
+  }),
+  Object.freeze({
     key: 'caiender',
     sourceId: 'MCHackathon2025/CAIender-frontend',
     label: 'CAIender',
