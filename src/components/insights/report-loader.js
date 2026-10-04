@@ -11,6 +11,12 @@ export function sameReportFilters(a, b) {
   );
 }
 
+function failureStatus(status) {
+  if (status === 403) return 'denied';
+  if (status === 400) return 'invalid';
+  return 'unavailable';
+}
+
 /** Clear data before every request; abort is an optimization, sequence + applied filters are the correctness boundary. */
 export function createReportLoader(fetchImpl, publish) {
   let sequence = 0;
@@ -35,12 +41,7 @@ export function createReportLoader(fetchImpl, publish) {
         if (current !== sequence) return;
         if (!response.ok) {
           publish({
-            status:
-              response.status === 403
-                ? 'denied'
-                : response.status === 400
-                  ? 'invalid'
-                  : 'unavailable',
+            status: failureStatus(response.status),
             filters,
           });
           return;

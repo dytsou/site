@@ -6,6 +6,40 @@ import {
   getViewportBand,
 } from '../../../shared/heatmap-contract.js';
 
+function resolveCellTarget(cell, current, page) {
+  if (current.page !== page || current.layout !== cell.layout)
+    return { reason: 'layout' };
+  if (current.viewport !== cell.viewport) return { reason: 'viewport' };
+  if (current.theme !== cell.theme) return { reason: 'theme' };
+  const targets = current.targets.filter(
+    (target) => target.target === cell.target
+  );
+  if (!targets.length) return { reason: 'target' };
+  const visible = targets.filter((target) => target.visible);
+  if (!visible.length) return { reason: 'hidden' };
+  const matching = visible.filter((target) => target.state === cell.state);
+  if (!matching.length) return { reason: 'state' };
+  const target = matching.find((target) => target.cardsMatch);
+  return target ? { target } : { reason: 'viewport' };
+}
+
+function projectCell(cell, target) {
+  const left =
+    target.rect.left + ((cell.x + 0.5) / GRID_SIZE) * target.rect.width;
+  const top =
+    target.rect.top + ((cell.y + 0.5) / GRID_SIZE) * target.rect.height;
+  const clip = target.clip;
+  if (
+    clip &&
+    (left < clip.left ||
+      left > clip.right ||
+      top < clip.top ||
+      top > clip.bottom)
+  )
+    return null;
+  return { left, top, count: cell.count, target: cell.target, clip };
+}
+
 /** Select only geometrically compatible, visible target-local cells. Build is diagnostic; authored layout defines compatibility. */
 export function matchHeatmapCells(cells, current, page) {
   const compatible = new Map();
@@ -19,53 +53,26 @@ export function matchHeatmapCells(cells, current, page) {
   };
   let plotted = 0;
   for (const cell of cells) {
-    let reason;
-    const targets = current.targets.filter(
-      (target) => target.target === cell.target
-    );
-    if (current.page !== page || current.layout !== cell.layout)
-      reason = 'layout';
-    else if (current.viewport !== cell.viewport) reason = 'viewport';
-    else if (current.theme !== cell.theme) reason = 'theme';
-    else if (!targets.length) reason = 'target';
-    else {
-      const visible = targets.filter((target) => target.visible);
-      const matching = visible.filter((target) => target.state === cell.state);
-      const target = matching.find((target) => target.cardsMatch);
-      if (!visible.length) reason = 'hidden';
-      else if (!matching.length) reason = 'state';
-      else if (!target) reason = 'viewport';
-      else {
-        const left =
-          target.rect.left + ((cell.x + 0.5) / GRID_SIZE) * target.rect.width;
-        const top =
-          target.rect.top + ((cell.y + 0.5) / GRID_SIZE) * target.rect.height;
-        const clip = target.clip;
-        if (
-          clip &&
-          (left < clip.left ||
-            left > clip.right ||
-            top < clip.top ||
-            top > clip.bottom)
-        )
-          reason = 'hidden';
-        else {
-          const key = JSON.stringify([cell.target, left, top, clip]);
-          const existing = compatible.get(key);
-          if (existing) existing.count += cell.count;
-          else
-            compatible.set(key, {
-              left,
-              top,
-              count: cell.count,
-              target: cell.target,
-              clip,
-            });
-          plotted += cell.count;
-        }
-      }
+    const match = resolveCellTarget(cell, current, page);
+    if (match.reason) {
+      omitted[match.reason] += cell.count;
+      continue;
     }
-    if (reason) omitted[reason] += cell.count;
+    const point = projectCell(cell, match.target);
+    if (!point) {
+      omitted.hidden += cell.count;
+      continue;
+    }
+    const key = JSON.stringify([
+      cell.target,
+      point.left,
+      point.top,
+      point.clip,
+    ]);
+    const existing = compatible.get(key);
+    if (existing) existing.count += cell.count;
+    else compatible.set(key, point);
+    plotted += cell.count;
   }
   return { points: [...compatible.values()], plotted, omitted };
 }
@@ -227,8 +234,7 @@ export function attachHeatmapPreview(frame, page, cells, onSummary) {
   if (
     !getHeatmapPage(page) ||
     !doc ||
-    !win ||
-    win.location.origin !== globalThis.location.origin ||
+    win?.location.origin !== globalThis.location.origin ||
     win.location.pathname !== page ||
     !new URLSearchParams(win.location.search)
       .getAll('heatmap-preview')
