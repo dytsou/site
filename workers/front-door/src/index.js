@@ -43,6 +43,24 @@ function upstreamErrorStatus(status) {
   return null;
 }
 
+function upstreamFailureResponse(request, status) {
+  return new Response(
+    request.method === 'HEAD'
+      ? null
+      : status === 504
+        ? 'Gateway Timeout'
+        : 'Bad Gateway',
+    {
+      status,
+      headers: {
+        'Cache-Control': 'no-store',
+        'CDN-Cache-Control': 'no-store',
+        'Cloudflare-CDN-Cache-Control': 'no-store',
+      },
+    }
+  );
+}
+
 export default {
   /**
    * @param {Request} request
@@ -79,40 +97,12 @@ export default {
     } catch (error) {
       const status =
         error instanceof Error && error.name === 'AbortError' ? 504 : 502;
-      return new Response(
-        request.method === 'HEAD'
-          ? null
-          : status === 504
-            ? 'Gateway Timeout'
-            : 'Bad Gateway',
-        {
-          status,
-          headers: {
-            'Cache-Control': 'no-store',
-            'CDN-Cache-Control': 'no-store',
-            'Cloudflare-CDN-Cache-Control': 'no-store',
-          },
-        }
-      );
+      return upstreamFailureResponse(request, status);
     }
 
     const errorStatus = upstreamErrorStatus(upstream.status);
     if (errorStatus) {
-      return new Response(
-        request.method === 'HEAD'
-          ? null
-          : errorStatus === 504
-            ? 'Gateway Timeout'
-            : 'Bad Gateway',
-        {
-          status: errorStatus,
-          headers: {
-            'Cache-Control': 'no-store',
-            'CDN-Cache-Control': 'no-store',
-            'Cloudflare-CDN-Cache-Control': 'no-store',
-          },
-        }
-      );
+      return upstreamFailureResponse(request, errorStatus);
     }
 
     if (isPrivateHeatmapPath(url.pathname))
