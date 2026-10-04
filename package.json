@@ -27,6 +27,7 @@
     "test:github-activity": "node --test scripts/github-activity-snapshot.test.mjs",
     "test:heatmap-contract": "node --test scripts/heatmap-contract.test.mjs",
     "test:heatmap-collector": "node --test scripts/heatmap-collector.test.mjs",
+    "test:heatmap-ingestion": "node --test scripts/heatmap-ingestion.test.mjs workers/front-door/tests/ingestion.test.mjs",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,css,md,astro,mjs}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,json,css,md,astro,mjs}\"",
     "preview": "astro preview",

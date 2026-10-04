@@ -1,4 +1,4 @@
-import manifest from '../../../src/data/route-manifest.json';
+import manifest from '../../../src/data/route-manifest.json' with { type: 'json' };
 import {
   negotiateMarkdown,
   wantsMarkdown,
@@ -23,8 +23,7 @@ async function fetchUpstream(request, target) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
-    return await fetch(target, {
-      method: request.method,
+    return await fetch(new Request(target, request), {
       headers,
       redirect: 'follow',
       signal: controller.signal,
@@ -74,6 +73,11 @@ export default {
         error instanceof Error && error.name === 'AbortError' ? 504 : 502;
       return new Response(status === 504 ? 'Gateway Timeout' : 'Bad Gateway', {
         status,
+        headers: {
+          'Cache-Control': 'no-store',
+          'CDN-Cache-Control': 'no-store',
+          'Cloudflare-CDN-Cache-Control': 'no-store',
+        },
       });
     }
 
@@ -83,6 +87,11 @@ export default {
         errorStatus === 504 ? 'Gateway Timeout' : 'Bad Gateway',
         {
           status: errorStatus,
+          headers: {
+            'Cache-Control': 'no-store',
+            'CDN-Cache-Control': 'no-store',
+            'Cloudflare-CDN-Cache-Control': 'no-store',
+          },
         }
       );
     }
