@@ -207,7 +207,7 @@ test('project and carousel state agrees with the viewport grouping', () => {
           ...event,
           target: 'carousel.next',
           viewport: 'extra-wide',
-          state: 'slide-2',
+          state: 'slide-4',
         },
         { now }
       ),

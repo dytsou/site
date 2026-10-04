@@ -1,6 +1,7 @@
 import { TechTag } from '../../ui/TechTag';
 
 interface ProjectTechnologiesProps {
+  heatmapTarget?: string;
   technologies?: string[];
   tags?: string[];
   isExpanded: boolean;
@@ -8,6 +9,7 @@ interface ProjectTechnologiesProps {
 }
 
 export function ProjectTechnologies({
+  heatmapTarget,
   technologies = [],
   tags = [],
   isExpanded,
@@ -38,6 +40,8 @@ export function ProjectTechnologies({
           {showToggleInTechRow && showExpand && (
             <button
               type="button"
+              data-heatmap-target={heatmapTarget}
+              data-heatmap-preview-action="toggle"
               onClick={onToggle}
               className="project-tech-more-button"
               aria-label={`Show ${hiddenCount} more technologies and tags`}
@@ -49,6 +53,8 @@ export function ProjectTechnologies({
           {showToggleInTechRow && showCollapse && (
             <button
               type="button"
+              data-heatmap-target={heatmapTarget}
+              data-heatmap-preview-action="toggle"
               onClick={onToggle}
               className="project-tech-less-button"
               aria-label="Collapse technologies and tags"
@@ -72,6 +78,8 @@ export function ProjectTechnologies({
           {showToggleInTagsRow && showExpand && (
             <button
               type="button"
+              data-heatmap-target={heatmapTarget}
+              data-heatmap-preview-action="toggle"
               onClick={onToggle}
               className="project-tech-more-button"
               aria-label={`Show ${hiddenCount} more technologies and tags`}
@@ -83,6 +91,8 @@ export function ProjectTechnologies({
           {showToggleInTagsRow && showCollapse && (
             <button
               type="button"
+              data-heatmap-target={heatmapTarget}
+              data-heatmap-preview-action="toggle"
               onClick={onToggle}
               className="project-tech-less-button"
               aria-label="Collapse technologies and tags"

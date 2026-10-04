@@ -90,7 +90,11 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
   };
 
   return (
-    <div className="carousel-container">
+    <div
+      className="carousel-container"
+      data-heatmap-cards={cardsPerSlide}
+      data-heatmap-state={`slide-${currentSlideClamped}`}
+    >
       <section
         className="carousel-wrapper"
         aria-roledescription="carousel"
@@ -130,6 +134,7 @@ export function ProjectCarousel({ projects }: Readonly<ProjectCarouselProps>) {
                         key={project.id}
                         project={project}
                         projectIndex={globalIndex}
+                        heatmapSlide={slideIndex}
                         cardStyle={cardStyle}
                         isMobile={isSingleColumn}
                         getProjectIconAndColors={getProjectIconAndColors}

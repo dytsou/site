@@ -19,6 +19,9 @@ export function ThemeToggleButton({
   return (
     <button
       type="button"
+      data-heatmap-target="nav.theme"
+      data-heatmap-state="default"
+      data-heatmap-preview-action="toggle"
       onClick={toggleTheme}
       className={className}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}

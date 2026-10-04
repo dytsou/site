@@ -13,6 +13,9 @@ export function MobileMenuToggleButton({
   return (
     <button
       type="button"
+      data-heatmap-target="nav.menu"
+      data-heatmap-state={isOpen ? 'open' : 'closed'}
+      data-heatmap-preview-action="toggle"
       onClick={onClick}
       className="nav-mobile-toggle"
       aria-label="Toggle menu"
