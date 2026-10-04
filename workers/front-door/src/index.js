@@ -44,21 +44,15 @@ function upstreamErrorStatus(status) {
 }
 
 function upstreamFailureResponse(request, status) {
-  return new Response(
-    request.method === 'HEAD'
-      ? null
-      : status === 504
-        ? 'Gateway Timeout'
-        : 'Bad Gateway',
-    {
-      status,
-      headers: {
-        'Cache-Control': 'no-store',
-        'CDN-Cache-Control': 'no-store',
-        'Cloudflare-CDN-Cache-Control': 'no-store',
-      },
-    }
-  );
+  const message = status === 504 ? 'Gateway Timeout' : 'Bad Gateway';
+  return new Response(request.method === 'HEAD' ? null : message, {
+    status,
+    headers: {
+      'Cache-Control': 'no-store',
+      'CDN-Cache-Control': 'no-store',
+      'Cloudflare-CDN-Cache-Control': 'no-store',
+    },
+  });
 }
 
 export default {

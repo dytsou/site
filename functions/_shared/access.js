@@ -46,6 +46,16 @@ export async function readBoundedJson(response, { maxBytes, signal }) {
   }
 }
 
+function validOwnerEmail(email) {
+  if (typeof email !== 'string' || email.length > 254 || /\s/.test(email))
+    return false;
+  const separator = email.indexOf('@');
+  if (separator <= 0 || separator !== email.lastIndexOf('@')) return false;
+  const domain = email.slice(separator + 1);
+  const dot = domain.lastIndexOf('.', domain.length - 2);
+  return dot > 0 && dot < domain.length - 1;
+}
+
 function accessConfiguration(env) {
   const issuer = env.HEATMAP_ACCESS_ISSUER;
   const audience = env.HEATMAP_ACCESS_AUD;
@@ -64,12 +74,7 @@ function accessConfiguration(env) {
     !Array.isArray(owners) ||
     !owners.length ||
     owners.length > 10 ||
-    !owners.every(
-      (email) =>
-        typeof email === 'string' &&
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
-        email.length <= 254
-    )
+    !owners.every(validOwnerEmail)
   )
     throw new Error('Access configuration unavailable');
   return { issuer, audience, owners };

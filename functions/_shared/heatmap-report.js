@@ -21,7 +21,7 @@ const unavailableContext = () => ({
 
 function datasetName(env) {
   const name = env.HEATMAP_DATASET ?? HEATMAP_DATASET;
-  if (typeof name !== 'string' || !/^[a-zA-Z][a-zA-Z0-9_]{0,63}$/.test(name))
+  if (typeof name !== 'string' || !/^[a-zA-Z]\w{0,63}$/.test(name))
     throw new TypeError('Invalid dataset');
   return name;
 }
@@ -31,11 +31,12 @@ export function buildHeatmapQueries(input, env, now = Date.now()) {
   const filters = validateReportFilters(input);
   const window = getReportWindow(filters.range, now);
   const dataset = datasetName(env);
+  const pageList = HEATMAP_PAGES.map(({ path }) => `'${path}'`).join(', ');
   const conditions = [
     `timestamp >= toDateTime(${Date.parse(window.start) / 1000})`,
     `timestamp <= toDateTime(${Math.floor(Date.parse(window.end) / 1000)})`,
     `${C.version} = 1`,
-    `${C.page} IN (${HEATMAP_PAGES.map(({ path }) => `'${path}'`).join(', ')})`,
+    `${C.page} IN (${pageList})`,
   ];
   if (filters.mode === 'page') conditions.push(`${C.page} = '${filters.page}'`);
   if (filters.viewport !== 'all')
@@ -76,7 +77,7 @@ export function buildHeatmapQueries(input, env, now = Date.now()) {
 function integer(value, min = 0, max = MAX_COUNT) {
   if (
     typeof value !== 'number' &&
-    (typeof value !== 'string' || !/^(0|[1-9][0-9]*)$/.test(value))
+    (typeof value !== 'string' || !/^(0|[1-9]\d*)$/.test(value))
   )
     throw new TypeError('Invalid aggregate number');
   const number = Number(value);
@@ -321,7 +322,8 @@ export async function readHeatmapReport(
   const aggregates = {};
   // At most three bounded queries. Sequential requests avoid exceeding the
   // runtime's connection limit and release each response before the next one.
-  for (const [kind, sql] of Object.entries(queries)) {
+  await Object.entries(queries).reduce(async (previous, [kind, sql]) => {
+    await previous;
     const payload = await fetchJson(
       `https://api.cloudflare.com/client/v4/accounts/${env.HEATMAP_ACCOUNT_ID}/analytics_engine/sql`,
       {
@@ -336,7 +338,7 @@ export async function readHeatmapReport(
       timeoutMs
     );
     aggregates[kind] = validateRows(payload, kind, filters, window);
-  }
+  }, Promise.resolve());
   const primary = aggregates.pages ?? aggregates.targets;
   const total = primary.reduce((sum, row) => integer(sum + row.count), 0);
   const sampled = Object.values(aggregates).some((rows) =>
@@ -345,7 +347,8 @@ export async function readHeatmapReport(
   if (!total && (aggregates.days.length || aggregates.cells?.length))
     throw new TypeError('Inconsistent empty aggregate');
   const counts = (row) => {
-    const { sampled: _sampled, ...values } = row;
+    const values = { ...row };
+    delete values.sampled;
     return values;
   };
   const pages =

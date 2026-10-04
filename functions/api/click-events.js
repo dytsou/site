@@ -57,14 +57,18 @@ async function readEvent(request) {
       if (done) break;
       bytes += value.byteLength;
       if (bytes > MAX_EVENT_BYTES) {
-        // Stop consuming oversized uploads. Cancellation failures do not change
-        // rejection or expose stream errors to the caller.
-        await reader.cancel().catch(() => {});
         throw new RequestTooLargeError();
       }
       json += decoder.decode(value, { stream: true });
     }
     json += decoder.decode();
+  } catch (error) {
+    if (error instanceof RequestTooLargeError) {
+      // Stop consuming oversized uploads. Cancellation failures do not change
+      // rejection or expose stream errors to the caller.
+      await reader.cancel().catch(() => {});
+    }
+    throw error;
   } finally {
     reader.releaseLock();
   }
