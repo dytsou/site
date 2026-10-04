@@ -231,7 +231,7 @@ function Preview({
       </div>
       <div className="insights-preview-toolbar">
         <label>
-          Preview size
+          <span>Preview size</span>
           <select
             value={band}
             disabled={report.filters.viewport !== 'all'}
@@ -245,7 +245,7 @@ function Preview({
           </select>
         </label>
         <label>
-          Preview theme
+          <span>Preview theme</span>
           <select
             value={observed?.band === band ? observed.theme : theme}
             onChange={(event) => {
@@ -270,12 +270,11 @@ function Preview({
         {preview.width} px preview. Scroll inside the page to inspect more
         targets; scroll this frame horizontally on smaller screens.
       </p>
-      <div
+      <section
         className="insights-preview-scroll"
-        role="region"
         aria-label={`${definition.label} page preview at ${preview.width} pixels`}
         aria-describedby="preview-scroll-help"
-        tabIndex={0}
+        tabIndex={0} // NOSONAR: Keyboard focus enables scrolling this overflow region.
       >
         <iframe
           key={previewKey}
@@ -291,7 +290,7 @@ function Preview({
             setLoaded(previewKey);
           }}
         />
-      </div>
+      </section>
       <div className="insights-overlay-status" aria-live="polite">
         {failed && loaded === previewKey ? (
           <p>
@@ -335,6 +334,23 @@ function Preview({
   );
 }
 
+function reportFailureTitle(status: LoadState['status']): string {
+  if (status === 'denied') return 'This report is private.';
+  if (status === 'invalid') return 'These filters could not be applied.';
+  return 'Click data is unavailable.';
+}
+
+function focusRequestedPage(
+  mode: Filters['mode'],
+  report: Report | undefined,
+  pending: { current: boolean },
+  heading: { current: HTMLHeadingElement | null }
+): void {
+  if (mode !== 'page' || !report || !pending.current) return;
+  heading.current?.focus();
+  pending.current = false;
+}
+
 export function ClickInsights() {
   const [filters, setFilters] = useState<Filters>({
     mode: 'overview',
@@ -361,10 +377,7 @@ export function ClickInsights() {
     : { status: 'loading' as const, filters };
   const report = applied.report;
   useEffect(() => {
-    if (filters.mode === 'page' && report && pendingPageFocus.current) {
-      pageHeading.current?.focus();
-      pendingPageFocus.current = false;
-    }
+    focusRequestedPage(filters.mode, report, pendingPageFocus, pageHeading);
   }, [filters.mode, report]);
   const pageLabel = HEATMAP_PAGES.find(
     (item) => item.path === filters.page
@@ -413,7 +426,7 @@ export function ClickInsights() {
         </div>
         <div className="insights-filter-fields">
           <label>
-            Date range
+            <span>Date range</span>
             <select
               value={filters.range}
               onChange={(event) =>
@@ -426,7 +439,7 @@ export function ClickInsights() {
             </select>
           </label>
           <label>
-            Visitor screen size
+            <span>Visitor screen size</span>
             <select
               value={filters.viewport}
               onChange={(event) =>
@@ -448,22 +461,22 @@ export function ClickInsights() {
         aria-busy={applied.status === 'loading'}
       >
         {applied.status === 'loading' && (
-          <div className="insights-state" role="status">
+          <div className="insights-state">
             <span className="insights-loading" aria-hidden="true" />
-            <h2>Loading click data</h2>
-            <p>Updating the report for your selected filters.</p>
+            <h2>
+              <output aria-describedby="insights-loading-detail">
+                Loading click data
+              </output>
+            </h2>
+            <p id="insights-loading-detail">
+              Updating the report for your selected filters.
+            </p>
           </div>
         )}
         {['unavailable', 'denied', 'invalid'].includes(applied.status) && (
           <div className="insights-state" role="alert">
             <p className="insights-eyebrow">Report unavailable</p>
-            <h2>
-              {applied.status === 'denied'
-                ? 'This report is private.'
-                : applied.status === 'invalid'
-                  ? 'These filters could not be applied.'
-                  : 'Click data is unavailable.'}
-            </h2>
+            <h2>{reportFailureTitle(applied.status)}</h2>
             <p>
               {applied.status === 'denied'
                 ? 'Sign in with the authorized owner account, then reload this page.'
@@ -490,10 +503,10 @@ export function ClickInsights() {
               </span>
             </div>
             {report.sampled && (
-              <p className="insights-notice" role="status">
+              <output className="insights-notice">
                 Estimated totals · Cloudflare sampled this data. Counts and
                 shares use sampling weights.
-              </p>
+              </output>
             )}
             <div className="insights-metrics">
               <section className="insights-metric">
@@ -551,9 +564,13 @@ export function ClickInsights() {
                 'Page-view context is not available for these filters.'}
             </p>
             {report.status === 'empty' && (
-              <div className="insights-state insights-empty" role="status">
-                <h2>No recorded clicks in this range.</h2>
-                <p>
+              <div className="insights-state insights-empty">
+                <h2>
+                  <output aria-describedby="insights-empty-detail">
+                    No recorded clicks in this range.
+                  </output>
+                </h2>
+                <p id="insights-empty-detail">
                   Choose another date range or screen size to look for activity.
                 </p>
               </div>

@@ -94,13 +94,16 @@ export function ProjectCard({
   );
   const heatmapKey = heatmapProject?.key;
 
+  const descriptionState = isDescriptionExpanded ? 'open' : 'closed';
+  const tagsState = isTagsExpanded ? 'open' : 'closed';
+  const heatmapState =
+    heatmapKey && heatmapSlide !== undefined
+      ? `slide-${heatmapSlide}.description-${descriptionState}.tags-${tagsState}`
+      : undefined;
+
   return (
     <div
-      data-heatmap-state={
-        heatmapKey && heatmapSlide !== undefined
-          ? `slide-${heatmapSlide}.description-${isDescriptionExpanded ? 'open' : 'closed'}.tags-${isTagsExpanded ? 'open' : 'closed'}`
-          : undefined
-      }
+      data-heatmap-state={heatmapState}
       className={`project-card stroke-icon-host ${isMobile ? 'project-card-mobile' : ''} ${cardStyle}`}
     >
       <div className="project-card-content">

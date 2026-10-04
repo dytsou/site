@@ -15,7 +15,7 @@ function setExpanded(root: HTMLElement, expanded: boolean): void {
   if (!collapsed) return;
 
   root.classList.toggle(collapsed, !expanded);
-  if (root.hasAttribute('data-heatmap-state'))
+  if (root.dataset.heatmapState !== undefined)
     root.dataset.heatmapState = expanded ? 'expanded' : 'collapsed';
 
   const down = root.querySelector<SVGElement>('[data-expandable-icon="down"]');
