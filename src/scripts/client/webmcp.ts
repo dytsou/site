@@ -47,6 +47,15 @@ function applyTheme(theme: Theme): void {
   localStorage.setItem('theme', theme);
 }
 
+// Preserve async-handler rejection behavior without async wrappers on sync work.
+function executeTool<T>(operation: () => T): Promise<T> {
+  try {
+    return Promise.resolve(operation());
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 function normalizePath(path: string): string | null {
   const trimmed = path.trim();
   if (trimmed === '/') return '/';
@@ -98,16 +107,17 @@ const tools: ModelContextTool[] = [
       },
       required: ['path'],
     },
-    execute: async (input) => {
-      const path = normalizePath(
-        typeof input.path === 'string' ? input.path : ''
-      );
-      if (!path) {
-        throw new Error(`Invalid path. Use one of: ${SITE_PATHS.join(', ')}`);
-      }
-      globalThis.location.assign(path);
-      return { navigatedTo: path };
-    },
+    execute: (input) =>
+      executeTool(() => {
+        const path = normalizePath(
+          typeof input.path === 'string' ? input.path : ''
+        );
+        if (!path) {
+          throw new Error(`Invalid path. Use one of: ${SITE_PATHS.join(', ')}`);
+        }
+        globalThis.location.assign(path);
+        return { navigatedTo: path };
+      }),
   },
   {
     name: 'get_site_info',
@@ -116,14 +126,15 @@ const tools: ModelContextTool[] = [
       'Get metadata about Dong-You Tsou personal site, including available pages and external links.',
     inputSchema: { type: 'object', properties: {} },
     annotations: { readOnlyHint: true },
-    execute: async () => ({
-      name: SITE_NAME,
-      url: SITE_URL,
-      description:
-        'Personal portfolio for Dong-You Tsou, a full-stack developer and NYCU CS student.',
-      pages: SITE_PATHS,
-      navigation: NAV_LINKS,
-    }),
+    execute: () =>
+      executeTool(() => ({
+        name: SITE_NAME,
+        url: SITE_URL,
+        description:
+          'Personal portfolio for Dong-You Tsou, a full-stack developer and NYCU CS student.',
+        pages: SITE_PATHS,
+        navigation: NAV_LINKS,
+      })),
   },
   {
     name: 'search_projects',
@@ -145,12 +156,13 @@ const tools: ModelContextTool[] = [
       },
     },
     annotations: { readOnlyHint: true },
-    execute: async (input) => {
-      const query = typeof input.query === 'string' ? input.query : '';
-      const featuredOnly = input.featuredOnly === true;
-      const results = searchProjects(query, featuredOnly);
-      return { count: results.length, projects: results };
-    },
+    execute: (input) =>
+      executeTool(() => {
+        const query = typeof input.query === 'string' ? input.query : '';
+        const featuredOnly = input.featuredOnly === true;
+        const results = searchProjects(query, featuredOnly);
+        return { count: results.length, projects: results };
+      }),
   },
   {
     name: 'get_experiences',
@@ -159,7 +171,7 @@ const tools: ModelContextTool[] = [
       'Get work, leadership, research experience entries and education details.',
     inputSchema: { type: 'object', properties: {} },
     annotations: { readOnlyHint: true },
-    execute: async () => ({ experiences, education }),
+    execute: () => executeTool(() => ({ experiences, education })),
   },
   {
     name: 'get_contact_info',
@@ -167,12 +179,13 @@ const tools: ModelContextTool[] = [
     description: 'Get contact links for email, GitHub, LinkedIn, and Telegram.',
     inputSchema: { type: 'object', properties: {} },
     annotations: { readOnlyHint: true },
-    execute: async () => ({
-      email: 'contact@dy.tsou.me',
-      social: FOOTER_SOCIAL_LINKS,
-      resume: 'https://dy.tsou.me/resume',
-      calendar: 'https://dy.tsou.me/cal',
-    }),
+    execute: () =>
+      executeTool(() => ({
+        email: 'contact@dy.tsou.me',
+        social: FOOTER_SOCIAL_LINKS,
+        resume: 'https://dy.tsou.me/resume',
+        calendar: 'https://dy.tsou.me/cal',
+      })),
   },
   {
     name: 'get_theme',
@@ -180,7 +193,7 @@ const tools: ModelContextTool[] = [
     description: 'Get the current color theme for the site.',
     inputSchema: { type: 'object', properties: {} },
     annotations: { readOnlyHint: true },
-    execute: async () => ({ theme: readTheme() }),
+    execute: () => executeTool(() => ({ theme: readTheme() })),
   },
   {
     name: 'set_theme',
@@ -197,11 +210,12 @@ const tools: ModelContextTool[] = [
       },
       required: ['theme'],
     },
-    execute: async (input) => {
-      const theme = input.theme === 'dark' ? 'dark' : 'light';
-      applyTheme(theme);
-      return { theme };
-    },
+    execute: (input) =>
+      executeTool(() => {
+        const theme = input.theme === 'dark' ? 'dark' : 'light';
+        applyTheme(theme);
+        return { theme };
+      }),
   },
 ];
 

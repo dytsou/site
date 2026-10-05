@@ -16,24 +16,23 @@ const SECRET_PATTERNS = [
   /Bearer /,
 ];
 
-async function readDist(relativePath) {
+function readDist(relativePath) {
   return readFile(path.join(distDir, relativePath), 'utf8');
 }
 
 async function listDistFiles(dir = distDir, prefix = '') {
   const entries = await readdir(dir, { withFileTypes: true });
-  const files = [];
-  for (const entry of entries) {
-    const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
-    if (entry.isDirectory()) {
-      files.push(
-        ...(await listDistFiles(path.join(dir, entry.name), relative))
+  const filesByEntry = await Promise.all(
+    entries.map((entry) => {
+      const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
+      return Promise.resolve(
+        entry.isDirectory()
+          ? listDistFiles(path.join(dir, entry.name), relative)
+          : [relative]
       );
-    } else {
-      files.push(relative);
-    }
-  }
-  return files;
+    })
+  );
+  return filesByEntry.flat();
 }
 
 async function assertExists(relativePath) {
@@ -50,9 +49,9 @@ function routeToHtmlPath(routePath) {
 }
 
 async function assertAllRoutesExist(routes) {
-  for (const route of routes) {
-    await assertExists(routeToHtmlPath(route.path));
-  }
+  await Promise.all(
+    routes.map((route) => assertExists(routeToHtmlPath(route.path)))
+  );
 }
 
 async function assertRequiredArtifacts() {
@@ -70,9 +69,7 @@ async function assertRequiredArtifacts() {
     '.well-known/agent-skills/portfolio-webmcp/SKILL.md',
   ];
 
-  for (const artifact of requiredArtifacts) {
-    await assertExists(artifact);
-  }
+  await Promise.all(requiredArtifacts.map(assertExists));
 
   await new Promise((resolve, reject) => {
     const child = spawn(
@@ -90,9 +87,12 @@ async function assertRequiredArtifacts() {
 }
 
 async function assertRouteTitlesAndScripts(routes) {
+  const pages = await Promise.all(
+    routes.map((route) => readDist(routeToHtmlPath(route.path)))
+  );
   const titles = new Set();
-  for (const route of routes) {
-    const html = await readDist(routeToHtmlPath(route.path));
+  for (const [index, html] of pages.entries()) {
+    const route = routes[index];
     const titleMatch = html.match(/<title>([^<]+)<\/title>/);
     if (!titleMatch) {
       throw new Error(`No <title> in ${route.path}`);
@@ -107,14 +107,16 @@ async function assertRouteTitlesAndScripts(routes) {
 
 async function assertNoSecretPatterns() {
   const files = await listDistFiles();
-  for (const file of files) {
-    const content = await readDist(file);
-    for (const pattern of SECRET_PATTERNS) {
-      if (pattern.test(content)) {
-        throw new Error(`Secret pattern ${pattern} found in dist/${file}`);
+  await Promise.all(
+    files.map(async (file) => {
+      const content = await readDist(file);
+      for (const pattern of SECRET_PATTERNS) {
+        if (pattern.test(content)) {
+          throw new Error(`Secret pattern ${pattern} found in dist/${file}`);
+        }
       }
-    }
-  }
+    })
+  );
 }
 
 function quotedAttributes(html) {

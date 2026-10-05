@@ -23,33 +23,34 @@ async function writeJson(relativePath, value) {
 
 async function collectSkills() {
   const entries = await readdir(skillsDir, { withFileTypes: true });
-  const skills = [];
+  const skills = await Promise.all(
+    entries
+      .filter((entry) => entry.isDirectory())
+      .map(async (entry) => {
+        const skillPath = path.join(skillsDir, entry.name, 'SKILL.md');
+        let content;
+        try {
+          content = await readFile(skillPath, 'utf8');
+        } catch {
+          throw new Error(`Missing skill file: ${skillPath}`);
+        }
 
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    const skillPath = path.join(skillsDir, entry.name, 'SKILL.md');
-    let content;
-    try {
-      content = await readFile(skillPath, 'utf8');
-    } catch {
-      throw new Error(`Missing skill file: ${skillPath}`);
-    }
+        const firstParagraph = content
+          .split('\n\n')
+          .find((block) => block.trim() && !block.startsWith('#'));
+        const description =
+          firstParagraph?.replace(/^#+\s.*\n?/m, '').trim() ||
+          `Agent skill: ${entry.name}`;
 
-    const firstParagraph = content
-      .split('\n\n')
-      .find((block) => block.trim() && !block.startsWith('#'));
-    const description =
-      firstParagraph?.replace(/^#+\s.*\n?/m, '').trim() ||
-      `Agent skill: ${entry.name}`;
-
-    skills.push({
-      name: entry.name,
-      type: 'skill-md',
-      description,
-      url: `${SITE_URL}/.well-known/agent-skills/${entry.name}/SKILL.md`,
-      digest: sha256Digest(content),
-    });
-  }
+        return {
+          name: entry.name,
+          type: 'skill-md',
+          description,
+          url: `${SITE_URL}/.well-known/agent-skills/${entry.name}/SKILL.md`,
+          digest: sha256Digest(content),
+        };
+      })
+  );
 
   skills.sort((a, b) => a.name.localeCompare(b.name));
   return skills;

@@ -233,12 +233,11 @@ async function fetchJson(
   }
 }
 
-async function fetchWithSafeRedirects(url, init, fetchImpl, signal, label) {
+function fetchWithSafeRedirects(url, init, fetchImpl, signal, label) {
   const source = new URL(url);
-  let currentUrl = source.href;
-  const visited = new Set([currentUrl]);
+  const visited = new Set([source.href]);
 
-  for (let count = 0; count <= MAX_UPSTREAM_REDIRECTS; count += 1) {
+  async function fetchRedirectHop(currentUrl, count) {
     // Workers forwards every header when redirect mode is "follow". Inspect
     // redirects manually so the bearer token stays on the Cloudflare API host.
     const response = await fetchImpl(currentUrl, {
@@ -270,14 +269,16 @@ async function fetchWithSafeRedirects(url, init, fetchImpl, signal, label) {
     }
 
     visited.add(target.url.href);
-    currentUrl = target.url.href;
     try {
+      // Redirect hops stay ordered so each response is discarded before the next fetch.
       await response.body?.cancel();
     } catch {
       // Discarding the redirect body is best-effort.
     }
+    return fetchRedirectHop(target.url.href, count + 1);
   }
-  throw new Error('Upstream unavailable');
+
+  return fetchRedirectHop(source.href, 0);
 }
 
 function inspectRedirect(source, currentUrl, location) {

@@ -75,38 +75,42 @@ function validateDocument(endpoint, doc) {
 }
 
 async function verifyLocal() {
-  for (const endpoint of ENDPOINTS) {
-    const relative = endpoint.path.replace(/^\//, '');
-    const body = await readFile(path.join(distDir, relative), 'utf8');
-    if (body.trimStart().startsWith('<!DOCTYPE')) {
-      throw new Error(`dist/${relative} is HTML, expected JSON`);
-    }
-    validateDocument(endpoint, JSON.parse(body));
-  }
+  await Promise.all(
+    ENDPOINTS.map(async (endpoint) => {
+      const relative = endpoint.path.replace(/^\//, '');
+      const body = await readFile(path.join(distDir, relative), 'utf8');
+      if (body.trimStart().startsWith('<!DOCTYPE')) {
+        throw new Error(`dist/${relative} is HTML, expected JSON`);
+      }
+      validateDocument(endpoint, JSON.parse(body));
+    })
+  );
 }
 
 async function verifyRemote(baseUrl) {
   const origin = new URL(baseUrl).origin;
 
-  for (const endpoint of ENDPOINTS) {
-    const res = await fetch(`${origin}${endpoint.path}`);
-    const contentType = res.headers.get('content-type') ?? '';
-    const body = await res.text();
+  await Promise.all(
+    ENDPOINTS.map(async (endpoint) => {
+      const res = await fetch(`${origin}${endpoint.path}`);
+      const contentType = res.headers.get('content-type') ?? '';
+      const body = await res.text();
 
-    if (!res.ok) {
-      throw new Error(`${endpoint.path} returned ${res.status}`);
-    }
-    if (body.trimStart().startsWith('<!DOCTYPE')) {
-      throw new Error(`${endpoint.path} returned HTML instead of JSON`);
-    }
-    if (!contentType.includes('application/json')) {
-      throw new Error(
-        `${endpoint.path} expected application/json, got ${contentType || '(none)'}`
-      );
-    }
+      if (!res.ok) {
+        throw new Error(`${endpoint.path} returned ${res.status}`);
+      }
+      if (body.trimStart().startsWith('<!DOCTYPE')) {
+        throw new Error(`${endpoint.path} returned HTML instead of JSON`);
+      }
+      if (!contentType.includes('application/json')) {
+        throw new Error(
+          `${endpoint.path} expected application/json, got ${contentType || '(none)'}`
+        );
+      }
 
-    validateDocument(endpoint, JSON.parse(body));
-  }
+      validateDocument(endpoint, JSON.parse(body));
+    })
+  );
 
   const authRes = await fetch(`${origin}/auth.md`);
   const authType = authRes.headers.get('content-type') ?? '';
@@ -131,18 +135,20 @@ async function main() {
     return;
   }
 
-  let lastError;
-  for (const siteUrl of new Set(siteUrls)) {
-    try {
-      await verifyRemote(siteUrl);
-      console.log(`✓ agent discovery OK (${new URL(siteUrl).origin})`);
-      return;
-    } catch (error) {
-      lastError = error;
-    }
+  const [firstSiteUrl, ...fallbackSiteUrls] = [...new Set(siteUrls)];
+  if (!firstSiteUrl) {
+    throw new Error('No site URLs configured for agent discovery');
   }
 
-  throw lastError ?? new Error('No site URLs configured for agent discovery');
+  const verifySite = async (siteUrl) => {
+    await verifyRemote(siteUrl);
+    console.log(`✓ agent discovery OK (${new URL(siteUrl).origin})`);
+  };
+
+  await fallbackSiteUrls.reduce(
+    (previous, siteUrl) => previous.catch(() => verifySite(siteUrl)),
+    verifySite(firstSiteUrl)
+  );
 }
 
 try {

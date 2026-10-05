@@ -9,31 +9,32 @@ const siteUrls = [
   'https://dy-tsou-me.pages.dev/',
 ].filter(Boolean);
 
-let lastError;
-
-for (const siteUrl of new Set(siteUrls)) {
-  try {
-    const res = await fetch(siteUrl, {
-      headers: { Accept: 'text/markdown' },
+function verifyMarkdownNegotiation(siteUrl) {
+  return fetch(siteUrl, {
+    headers: { Accept: 'text/markdown' },
+  })
+    .then((res) => {
+      const contentType = res.headers.get('content-type') ?? '';
+      if (!contentType.includes('text/markdown')) {
+        throw new Error(`Expected Content-Type text/markdown for ${siteUrl}`);
+      }
+      return res.text();
+    })
+    .then((body) => {
+      if (!body.trim()) {
+        throw new Error(`Markdown response body was empty for ${siteUrl}`);
+      }
+      console.log(`✓ markdown negotiation OK (${siteUrl})`);
     });
-
-    const contentType = res.headers.get('content-type') ?? '';
-    if (!contentType.includes('text/markdown')) {
-      throw new Error(`Expected Content-Type text/markdown for ${siteUrl}`);
-    }
-
-    const body = await res.text();
-    if (!body.trim()) {
-      throw new Error(`Markdown response body was empty for ${siteUrl}`);
-    }
-
-    console.log(`✓ markdown negotiation OK (${siteUrl})`);
-    process.exit(0);
-  } catch (error) {
-    lastError = error;
-  }
 }
 
-throw (
-  lastError ?? new Error('No site URLs configured for markdown verification')
+const [firstSiteUrl, ...fallbackSiteUrls] = [...new Set(siteUrls)];
+if (!firstSiteUrl) {
+  throw new Error('No site URLs configured for markdown verification');
+}
+
+await fallbackSiteUrls.reduce(
+  (previous, siteUrl) =>
+    previous.catch(() => verifyMarkdownNegotiation(siteUrl)),
+  verifyMarkdownNegotiation(firstSiteUrl)
 );
