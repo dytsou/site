@@ -81,7 +81,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     id: 'dytsou/when2meet-to-gcal',
     title: 'When2meet to Google Calendar',
     description:
-      'Tampermonkey userscript: on a when2meet, see the best continuous full-attendance windows and open a prefilled Google Calendar event.',
+      'Chrome extension on when2meet: To see the best continuous full-attendance windows and open a prefilled Google Calendar event.',
     technologies: ['JavaScript'],
     tags: [],
     github_url: 'https://github.com/dytsou/when2meet-to-gcal',
@@ -91,7 +91,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     id: 'dytsou/shorten-url',
     title: 'Shorten URL',
     description: 'A modern, fast URL shortener built with Cloudflare Workers',
-    technologies: ['JavaScript'],
+    technologies: ['JavaScript', 'CSS', 'HTML'],
     tags: ['cloudflare-workers', 'shorten-urls'],
     github_url: 'https://github.com/dytsou/shorten-url',
     featured: false,
@@ -141,7 +141,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     title: 'Intern Corner Scheduler',
     description:
       'A web interface using OR-Tools CP-SAT to generate round-table seating across rounds with fixed hosts, balanced tables, and pair-wise constraints.',
-    technologies: ['Python', 'JavaScript', 'CSS', 'Makefile'],
+    technologies: ['JavaScript', 'Python', 'CSS', 'Makefile'],
     tags: ['round-table', 'scheduler'],
     github_url: 'https://github.com/dytsou/intern-corner-scheduler',
     featured: false,
