@@ -45,7 +45,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.5",
     "jose": "^6.2.12",
-    "lucide-react": "^1.47.0",
+    "lucide-react": "^1.51.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
