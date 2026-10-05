@@ -24,6 +24,11 @@
     "tags": ["google-drive", "media-streaming", "nextjs", "self-hosted"]
   },
   {
+    "url": "https://github.com/dytsou/wordcloud",
+    "title": "Wordcloud",
+    "featured": true
+  },
+  {
     "url": "https://github.com/MCHackathon2025/CAIender-frontend",
     "title": "CAIender",
     "featured": true,
