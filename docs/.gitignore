@@ -1,6 +1,0 @@
-*
-!.gitignore
-!plans/
-plans/*
-!plans/2026-10-04-001-feat-click-heatmap-plan.md
-!cloudflare-click-heatmap.md
