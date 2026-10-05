@@ -14,6 +14,7 @@ import { readBoundedJson } from './access.js';
 const LIMITS = Object.freeze({ pages: 5, targets: 500, days: 90, cells: 5000 });
 const MAX_BYTES = 524_288;
 const MAX_COUNT = 1_000_000_000_000;
+const MAX_UPSTREAM_REDIRECTS = 2;
 const unavailableContext = () => ({
   status: 'unavailable',
   source: 'Cloudflare Web Analytics',
@@ -200,15 +201,29 @@ function validateRows(payload, kind, filters, window) {
   });
 }
 
-async function fetchJson(url, init, fetchImpl, timeoutMs) {
+async function fetchJson(
+  url,
+  init,
+  fetchImpl,
+  timeoutMs,
+  { onStage = () => {}, label = 'upstream' } = {}
+) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetchImpl(url, {
-      ...init,
-      redirect: 'error',
-      signal: controller.signal,
-    });
+    onStage(`${label}: fetch request`);
+    const response = await fetchWithSafeRedirects(
+      url,
+      init,
+      fetchImpl,
+      controller.signal,
+      label
+    );
+    if (!response.ok)
+      console.error('heatmap_upstream_http_failure', {
+        status: response.status,
+      });
+    onStage(`${label}: read response body`);
     return await readBoundedJson(response, {
       maxBytes: MAX_BYTES,
       signal: controller.signal,
@@ -218,7 +233,83 @@ async function fetchJson(url, init, fetchImpl, timeoutMs) {
   }
 }
 
-async function pageViewContext(filters, window, env, fetchImpl, timeoutMs) {
+async function fetchWithSafeRedirects(url, init, fetchImpl, signal, label) {
+  const source = new URL(url);
+  let currentUrl = source.href;
+  const visited = new Set([currentUrl]);
+
+  for (let count = 0; count <= MAX_UPSTREAM_REDIRECTS; count += 1) {
+    // Workers forwards every header when redirect mode is "follow". Inspect
+    // redirects manually so the bearer token stays on the Cloudflare API host.
+    const response = await fetchImpl(currentUrl, {
+      ...init,
+      redirect: 'manual',
+      signal,
+    });
+    if (response.status < 300 || response.status >= 400) return response;
+
+    const location = response.headers.get('location');
+    const target = inspectRedirect(source, currentUrl, location);
+    const canFollow =
+      (response.status === 307 || response.status === 308) &&
+      target.url &&
+      count < MAX_UPSTREAM_REDIRECTS &&
+      !visited.has(target.url.href);
+    if (!canFollow) {
+      let reason = 'method_change_not_allowed';
+      if (!target.url) reason = target.kind;
+      else if (visited.has(target.url.href)) reason = 'redirect_loop';
+      else if (count >= MAX_UPSTREAM_REDIRECTS) reason = 'too_many_redirects';
+      console.error('heatmap_upstream_redirect_rejected', {
+        target: label,
+        status: response.status,
+        destination: target.kind,
+        reason,
+      });
+      throw new Error('Upstream unavailable');
+    }
+
+    visited.add(target.url.href);
+    currentUrl = target.url.href;
+    try {
+      await response.body?.cancel();
+    } catch {
+      // Discarding the redirect body is best-effort.
+    }
+  }
+  throw new Error('Upstream unavailable');
+}
+
+function inspectRedirect(source, currentUrl, location) {
+  if (!location) return { kind: 'missing_location', url: null };
+  if (source.origin !== 'https://api.cloudflare.com')
+    return { kind: 'untrusted_source', url: null };
+  try {
+    const url = new URL(location, currentUrl);
+    if (url.username || url.password)
+      return { kind: 'credentials_in_location', url: null };
+    if (url.protocol !== 'https:' || url.origin !== source.origin)
+      return { kind: 'cross_origin', url: null };
+    return {
+      kind:
+        url.pathname === source.pathname
+          ? 'same_path'
+          : 'same_origin_other_path',
+      url,
+    };
+  } catch {
+    return { kind: 'invalid_location', url: null };
+  }
+}
+
+async function pageViewContext(
+  filters,
+  window,
+  env,
+  fetchImpl,
+  timeoutMs,
+  onStage = () => {}
+) {
   const token = env.HEATMAP_WEB_ANALYTICS_TOKEN;
   const site = env.HEATMAP_WEB_ANALYTICS_SITE_TAG;
   const host = env.HEATMAP_WEB_ANALYTICS_HOST;
@@ -258,7 +349,8 @@ async function pageViewContext(filters, window, env, fetchImpl, timeoutMs) {
         }),
       },
       fetchImpl,
-      timeoutMs
+      timeoutMs,
+      { onStage, label: 'fetch page-view context' }
     );
     const accounts = payload?.data?.viewer?.accounts;
     if (
@@ -306,8 +398,14 @@ async function pageViewContext(filters, window, env, fetchImpl, timeoutMs) {
 export async function readHeatmapReport(
   input,
   env,
-  { fetchImpl = fetch, now = Date.now(), timeoutMs = 5000 } = {}
+  {
+    fetchImpl = fetch,
+    now = Date.now(),
+    timeoutMs = 5000,
+    onStage = () => {},
+  } = {}
 ) {
+  onStage('validate report filters');
   const filters = validateReportFilters(input);
   const window = getReportWindow(filters.range, now);
   if (
@@ -318,12 +416,20 @@ export async function readHeatmapReport(
     env.HEATMAP_READ_TOKEN.length > 4096
   )
     throw new Error('Report configuration unavailable');
+  onStage('build Analytics Engine queries');
   const queries = buildHeatmapQueries(filters, env, now);
   const aggregates = {};
+  const queryStages = {
+    pages: 'fetch page aggregate',
+    days: 'fetch daily aggregate',
+    targets: 'fetch target aggregate',
+    cells: 'fetch heatmap cell aggregate',
+  };
   // At most three bounded queries. Sequential requests avoid exceeding the
   // runtime's connection limit and release each response before the next one.
   await Object.entries(queries).reduce(async (previous, [kind, sql]) => {
     await previous;
+    onStage(queryStages[kind]);
     const payload = await fetchJson(
       `https://api.cloudflare.com/client/v4/accounts/${env.HEATMAP_ACCOUNT_ID}/analytics_engine/sql`,
       {
@@ -335,10 +441,13 @@ export async function readHeatmapReport(
         body: sql,
       },
       fetchImpl,
-      timeoutMs
+      timeoutMs,
+      { onStage, label: queryStages[kind] }
     );
+    onStage('validate Analytics Engine response');
     aggregates[kind] = validateRows(payload, kind, filters, window);
   }, Promise.resolve());
+  onStage('aggregate report rows');
   const primary = aggregates.pages ?? aggregates.targets;
   const total = primary.reduce((sum, row) => integer(sum + row.count), 0);
   const sampled = Object.values(aggregates).some((rows) =>
@@ -371,6 +480,7 @@ export async function readHeatmapReport(
           }))
           .sort((a, b) => b.count - a.count || a.target.localeCompare(b.target))
       : [];
+  onStage('load page view context');
   const result = {
     status: total ? 'ready' : 'empty',
     filters,
@@ -388,9 +498,11 @@ export async function readHeatmapReport(
       window,
       env,
       fetchImpl,
-      timeoutMs
+      timeoutMs,
+      onStage
     ),
   };
+  onStage('check report response size');
   if (new TextEncoder().encode(JSON.stringify(result)).byteLength > MAX_BYTES)
     throw new TypeError('Report too large');
   return result;

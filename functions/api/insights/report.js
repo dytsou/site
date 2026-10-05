@@ -6,6 +6,40 @@ import {
 import { readHeatmapReport } from '../../_shared/heatmap-report.js';
 import { validateReportFilters } from '../../../shared/heatmap-contract.js';
 
+// Only fixed application messages may reach logs. Provider errors can contain
+// response bodies, URLs or credentials, so never log the original exception.
+const REPORT_FAILURE_MESSAGES = new Set([
+  'Report configuration unavailable',
+  'Invalid dataset',
+  'Upstream unavailable',
+  'Upstream timeout',
+  'Upstream too large',
+  'Invalid aggregate number',
+  'Invalid aggregate dimension',
+  'Invalid aggregate row',
+  'Invalid aggregate page',
+  'Invalid aggregate date',
+  'Invalid aggregate layout',
+  'Invalid or truncated aggregate result',
+  'Truncated aggregate result',
+  'Duplicate aggregate row',
+  'Invalid weighted aggregate',
+  'Inconsistent empty aggregate',
+  'Report too large',
+]);
+
+function reportFailureReason(error) {
+  if (!(error instanceof Error)) return 'Unexpected report failure';
+  if (REPORT_FAILURE_MESSAGES.has(error.message)) return error.message;
+  if (error instanceof SyntaxError) return 'Invalid upstream JSON';
+  if (error.name === 'AbortError') return 'Upstream timeout';
+  if (error instanceof TypeError) return 'Unexpected TypeError';
+  if (error instanceof RangeError) return 'Unexpected RangeError';
+  if (error instanceof ReferenceError) return 'Unexpected ReferenceError';
+  if (error instanceof Error) return 'Unexpected Error';
+  return 'Unexpected non-Error failure';
+}
+
 export async function onRequest({ request, env }) {
   const denied = await requireHeatmapOwner(request, env);
   if (denied) return denied;
@@ -32,13 +66,23 @@ export async function onRequest({ request, env }) {
       new Response(null, { headers: { 'Content-Type': 'application/json' } }),
       request
     );
+  let reportStage = 'read report';
   try {
-    return privateResponse(
-      Response.json(await readHeatmapReport(filters, env)),
-      request
-    );
-  } catch {
-    console.error('heatmap_report_unavailable');
+    const report = await readHeatmapReport(filters, env, {
+      onStage(stage) {
+        reportStage = stage;
+      },
+    });
+    reportStage = 'serialize report';
+    const response = Response.json(report);
+    reportStage = 'apply private response headers';
+    return privateResponse(response, request);
+  } catch (error) {
+    console.error('heatmap_report_unavailable', {
+      diagnostic: 'report-stage-v8',
+      reason: reportFailureReason(error),
+      stage: reportStage,
+    });
     return privateResponse(
       Response.json({ status: 'unavailable' }, { status: 503 }),
       request
