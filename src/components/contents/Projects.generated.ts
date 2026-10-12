@@ -45,7 +45,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     id: 'dytsou/vaehor',
     title: 'Vaehor',
     description:
-      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with Next.js 14 & TypeScript.',
+      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with vinext & TypeScript.',
     technologies: ['TypeScript', 'CSS', 'JavaScript', 'Shell'],
     tags: ['google-drive', 'media-streaming', 'nextjs', 'self-hosted'],
     github_url: 'https://github.com/dytsou/vaehor',
