@@ -29,7 +29,7 @@ jobs:
 
       - name: Bump patch version and open PR
 <<<<<<< Updated upstream
-        uses: dytsou/release/bump-patch-version@d014b4fca23a5e039407e5bb8f168b0b46de6cdd # v1.3.2 (@v1)
+        uses: dytsou/release/bump-patch-version@59a16d0198e0d0014572e65ed47a52814574c945 # v1.3.3 (@v1)
 =======
         uses: dytsou/bump-patch-version@2e33168f7243c56c99aab840c76f9b6771fc4292 # v0.1.0
 >>>>>>> Stashed changes
