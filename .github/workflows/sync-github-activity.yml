@@ -9,7 +9,6 @@ permissions:
   contents: read
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   GITHUB_ACTIVITY_DATABASE_NAME: site-recent-github-activity
 
 concurrency:

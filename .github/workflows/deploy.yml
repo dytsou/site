@@ -12,7 +12,6 @@ permissions:
   contents: read
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   CLOUDFLARE_PAGES_PROJECT_NAME: dy-tsou-me
 
 jobs:
