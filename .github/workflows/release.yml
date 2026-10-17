@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
 
       - name: GitHub Release from package.json
-        uses: dytsou/release/github@2096b0a3163d8d77127c0e276fc1cda7da3c63e2 # v1.2.0 (@v1)
+        uses: dytsou/release/github@1bc9897f277fb68b136ff1f0fdd0191be56568ea # v1.3.0 (@v1)
         with:
           from-package-json: "true"
           move-major-tag: "false"
