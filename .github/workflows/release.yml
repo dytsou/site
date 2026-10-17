@@ -11,19 +11,26 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
+        with:
+          egress-policy: audit
+
       - name: Checkout source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24
 
@@ -33,13 +40,6 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Current package version: $VERSION"
-
-      - name: Get package name
-        id: package-name
-        run: |
-          PACKAGE_NAME=$(node -p "require('./package.json').name")
-          echo "name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
-          echo "Current package name: $PACKAGE_NAME"
 
       - name: Extract version from tag (if triggered by tag)
         id: tag-version
@@ -117,7 +117,7 @@ jobs:
 
           if [ -z "$PREVIOUS_TAG" ]; then
             NOTES="## Release $VERSION
-            
+
           Initial release.
 
           ---
@@ -125,7 +125,7 @@ jobs:
           else
             COMMITS=$(git log $PREVIOUS_TAG..HEAD --pretty=format:'- %s' --no-merges)
             NOTES="## Release $VERSION
-            
+
           ### Changes since $PREVIOUS_TAG
 
           $COMMITS
@@ -140,12 +140,9 @@ jobs:
             echo 'EOF'
           } >> $GITHUB_OUTPUT
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+      - name: GitHub Release
+        uses: dytsou/release/github@8c32d921b66effa90e2e6ab662b6419183bacacf # v1.0.1 (@v1)
         with:
-          tag_name: ${{ steps.check-tag.outputs.tag_name }}
-          name: v${{ steps.release-version.outputs.version }}
+          tag: ${{ steps.check-tag.outputs.tag_name }}
           body: ${{ steps.notes.outputs.notes }}
-          generate_release_notes: true
-          prerelease: ${{ contains(steps.package-version.outputs.version, 'beta') || contains(steps.package-version.outputs.version, 'alpha') || contains(steps.package-version.outputs.version, 'rc') }}
-          draft: false
+          move-major-tag: "false"
