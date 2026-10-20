@@ -30,6 +30,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     tags: [
       'calendar',
       'google-meet',
+      'mac',
       'macos',
       'meeting',
       'menu-bar-app',
@@ -56,7 +57,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     title: 'Wordcloud',
     description:
       'wordcloud.download, a local-first word-cloud generator for individual creators',
-    technologies: ['TypeScript', 'CSS', 'HTML', 'JavaScript'],
+    technologies: ['TypeScript', 'CSS', 'JavaScript', 'HTML'],
     tags: [],
     github_url: 'https://github.com/dytsou/wordcloud',
     featured: true,
