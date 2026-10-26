@@ -143,7 +143,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     description:
       'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to Cloudflare Pages.',
     technologies: ['JavaScript', 'TeX', 'CSS', 'HTML'],
-    tags: ['html-converter', 'node-js', 'resume-builder'],
+    tags: ['html-converter', 'mathjax', 'node-js', 'resume-builder'],
     github_url: 'https://github.com/dytsou/resume',
     featured: false,
   },
