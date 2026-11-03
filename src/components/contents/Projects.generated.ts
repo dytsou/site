@@ -2,6 +2,36 @@ import type { Project } from '../../types/projects';
 
 export const PROJECTS_CONTENTS: Project[] = [
   {
+    id: 'dytsou/BEVNeXt-SAM2',
+    title: 'BEVNeXt-SAM2',
+    description:
+      'Monocular-video 3D object detection integrating SAM 2 with a BEV baseline; LoRA / depth-context fusion; multi-GPU train/val on nuScenes.',
+    technologies: ['Python', 'Shell', 'Cuda', 'C++'],
+    tags: ['computer-vision', '3d-detection', 'sam2', 'nuscenes'],
+    github_url: 'https://github.com/dytsou/BEVNeXt-SAM2',
+    featured: true,
+  },
+  {
+    id: 'dytsou/sodets',
+    title: 'SODETS',
+    description:
+      'Synthesises observability traces into executable error reproductions with LLMs (course project; QA).',
+    technologies: ['Go', 'JavaScript', 'Python', 'Shell'],
+    tags: ['observability', 'llm', 'qa', 'testing'],
+    github_url: 'https://github.com/dytsou/sodets',
+    featured: true,
+  },
+  {
+    id: 'NYCU-SDC/core-system-backend',
+    title: 'SDC Core System',
+    description:
+      'Club operations backend (REST APIs, auth, Docker CI/CD, PostgreSQL); top contributor with 752 commits on the public backend.',
+    technologies: ['Go', 'Shell', 'Makefile', 'Dockerfile'],
+    tags: ['erp', 'golang-system', 'rest-api', 'docker', 'postgresql'],
+    github_url: 'https://github.com/NYCU-SDC/core-system-backend',
+    featured: true,
+  },
+  {
     id: 'kore-ji/koreji-frontend',
     title: 'Koreji',
     description:
@@ -9,16 +39,6 @@ export const PROJECTS_CONTENTS: Project[] = [
     technologies: ['TypeScript', 'JavaScript'],
     tags: ['time-management', 'productivity', 'mobile-app'],
     github_url: 'https://github.com/kore-ji/koreji-frontend',
-    featured: true,
-  },
-  {
-    id: 'NYCU-SDC/core-system-backend',
-    title: 'SDC Core System',
-    description:
-      'Backend infrastructure for NYCU Software Development Club. Built a robust RESTful API system with Go, featuring Docker containerization and PostgreSQL database management.',
-    technologies: ['Go', 'Shell', 'Makefile', 'Dockerfile'],
-    tags: ['erp', 'golang-system', 'rest-api', 'docker', 'postgresql'],
-    github_url: 'https://github.com/NYCU-SDC/core-system-backend',
     featured: true,
   },
   {
@@ -40,6 +60,16 @@ export const PROJECTS_CONTENTS: Project[] = [
       'zoom',
     ],
     github_url: 'https://github.com/dytsou/ProxiMeeting',
+    featured: true,
+  },
+  {
+    id: 'dytsou/when2meet-to-gcal',
+    title: 'when2meet-to-gcal',
+    description:
+      'Chrome extension on when2meet: To see the best continuous full-attendance windows and open a prefilled Google Calendar event.',
+    technologies: ['JavaScript'],
+    tags: [],
+    github_url: 'https://github.com/dytsou/when2meet-to-gcal',
     featured: true,
   },
   {
@@ -87,16 +117,6 @@ export const PROJECTS_CONTENTS: Project[] = [
     ],
     github_url: 'https://github.com/dytsou/github-readme-stats',
     featured: true,
-  },
-  {
-    id: 'dytsou/when2meet-to-gcal',
-    title: 'When2meet to Google Calendar',
-    description:
-      'Chrome extension on when2meet: To see the best continuous full-attendance windows and open a prefilled Google Calendar event.',
-    technologies: ['JavaScript'],
-    tags: [],
-    github_url: 'https://github.com/dytsou/when2meet-to-gcal',
-    featured: false,
   },
   {
     id: 'dytsou/shorten-url',
