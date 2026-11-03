@@ -40,7 +40,7 @@ export const experiences: ExperienceEntry[] = [
     location: 'Taipei, Taiwan',
     description: [
       'Protected LINE Login authorization codes from premature consumption by adding merchant-configurable callback exclusions to product metadata crawling.',
-      'Automated LINE Gift banner cropping using image analysis, Redis caching, and object storage, with fallbacks to original images when processing fails.',
+      'Automated LINE Giftshop banner cropping using image analysis, Redis caching, and object storage, with fallbacks to original images when processing fails.',
       "Migrated Commerce Tab's Beta CI from Jenkins to GitHub Actions, with reusable workflows for Java 21 builds, automated tests, static analysis, and container images.",
       'Added Brave distributed tracing to Native and Flex content providers, preserving parent trace context and recording module-level latency and asynchronous failures.',
       'Contributed to Commerce Tab personalization, implementing 2 REST APIs and birthday and voting digest cards with asynchronous aggregation, batch reads, and graceful fallbacks.',
