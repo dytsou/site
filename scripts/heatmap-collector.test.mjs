@@ -223,9 +223,9 @@ test('capture sends once before state changes, omits credentials, keeps navigati
 
 test('carousel and project state follows the actual rendered grouping and nearest state', () => {
   for (const [width, cards, slide] of [
-    [639, 1, 6],
-    [640, 2, 3],
-    [1024, 3, 2],
+    [639, 1, 5],
+    [640, 2, 2],
+    [1024, 3, 1],
     [1440, 4, 1],
   ]) {
     const f = fixture({

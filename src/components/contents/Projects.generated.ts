@@ -2,21 +2,11 @@ import type { Project } from '../../types/projects';
 
 export const PROJECTS_CONTENTS: Project[] = [
   {
-    id: 'dytsou/BEVNeXt-SAM2',
-    title: 'BEVNeXt-SAM2',
-    description:
-      'Monocular-video 3D object detection integrating SAM 2 with a BEV baseline; LoRA / depth-context fusion; multi-GPU train/val on nuScenes.',
-    technologies: ['Python', 'Shell', 'Cuda', 'C++'],
-    tags: ['computer-vision', '3d-detection', 'sam2', 'nuscenes'],
-    github_url: 'https://github.com/dytsou/BEVNeXt-SAM2',
-    featured: true,
-  },
-  {
     id: 'dytsou/sodets',
     title: 'SODETS',
     description:
       'Synthesises observability traces into executable error reproductions with LLMs (course project; QA).',
-    technologies: ['Go', 'JavaScript', 'Python', 'Shell'],
+    technologies: [],
     tags: ['observability', 'llm', 'qa', 'testing'],
     github_url: 'https://github.com/dytsou/sodets',
     featured: true,
@@ -26,7 +16,7 @@ export const PROJECTS_CONTENTS: Project[] = [
     title: 'SDC Core System',
     description:
       'Club operations backend (REST APIs, auth, Docker CI/CD, PostgreSQL); top contributor with 752 commits on the public backend.',
-    technologies: ['Go', 'Shell', 'Makefile', 'Dockerfile'],
+    technologies: [],
     tags: ['erp', 'golang-system', 'rest-api', 'docker', 'postgresql'],
     github_url: 'https://github.com/NYCU-SDC/core-system-backend',
     featured: true,
@@ -34,9 +24,8 @@ export const PROJECTS_CONTENTS: Project[] = [
   {
     id: 'kore-ji/koreji-frontend',
     title: 'Koreji',
-    description:
-      "Koreji helps you efficiently collect and accumulate spare time. Easily transform time spent commuting, waiting, or in between tasks into tangible steps forward—whether that's work, learning, or personal projects.",
-    technologies: ['TypeScript', 'JavaScript'],
+    description: '',
+    technologies: [],
     tags: ['time-management', 'productivity', 'mobile-app'],
     github_url: 'https://github.com/kore-ji/koreji-frontend',
     featured: true,
@@ -44,30 +33,17 @@ export const PROJECTS_CONTENTS: Project[] = [
   {
     id: 'dytsou/ProxiMeeting',
     title: 'ProxiMeeting',
-    description:
-      'A macOS menu bar app that shows your next meeting at a glance.',
-    technologies: ['Swift', 'Shell', 'Makefile'],
-    tags: [
-      'calendar',
-      'google-meet',
-      'mac',
-      'macos',
-      'meeting',
-      'menu-bar-app',
-      'microsoft-teams',
-      'webex',
-      'whereby',
-      'zoom',
-    ],
+    description: '',
+    technologies: [],
+    tags: [],
     github_url: 'https://github.com/dytsou/ProxiMeeting',
     featured: true,
   },
   {
     id: 'dytsou/when2meet-to-gcal',
     title: 'when2meet-to-gcal',
-    description:
-      'Chrome extension on when2meet: To see the best continuous full-attendance windows and open a prefilled Google Calendar event.',
-    technologies: ['JavaScript'],
+    description: '',
+    technologies: [],
     tags: [],
     github_url: 'https://github.com/dytsou/when2meet-to-gcal',
     featured: true,
@@ -75,9 +51,8 @@ export const PROJECTS_CONTENTS: Project[] = [
   {
     id: 'dytsou/vaehor',
     title: 'Vaehor',
-    description:
-      'Self-hosted Google Drive explorer & media streaming platform with video player, 2FA, multi-language support, and modern UI. Built with vinext & TypeScript.',
-    technologies: ['TypeScript', 'CSS', 'JavaScript', 'Shell'],
+    description: '',
+    technologies: [],
     tags: ['google-drive', 'media-streaming', 'nextjs', 'self-hosted'],
     github_url: 'https://github.com/dytsou/vaehor',
     featured: true,
@@ -85,9 +60,8 @@ export const PROJECTS_CONTENTS: Project[] = [
   {
     id: 'dytsou/wordcloud',
     title: 'Wordcloud',
-    description:
-      'wordcloud.download, a local-first word-cloud generator for individual creators',
-    technologies: ['TypeScript', 'CSS', 'JavaScript', 'HTML'],
+    description: '',
+    technologies: [],
     tags: [],
     github_url: 'https://github.com/dytsou/wordcloud',
     featured: true,
@@ -95,9 +69,8 @@ export const PROJECTS_CONTENTS: Project[] = [
   {
     id: 'MCHackathon2025/CAIender-frontend',
     title: 'CAIender',
-    description:
-      'The project, called CAIendar, is designed as an AI Calendar × Life Designer to enhance workplace experience by providing personalized scheduling and activity recommendations',
-    technologies: ['JavaScript', 'CSS', 'HTML'],
+    description: '',
+    technologies: [],
     tags: ['ai', 'helper', 'hackathon'],
     github_url: 'https://github.com/MCHackathon2025/CAIender-frontend',
     featured: true,
@@ -105,54 +78,44 @@ export const PROJECTS_CONTENTS: Project[] = [
   {
     id: 'dytsou/github-readme-stats',
     title: 'GitHub README Stats',
-    description:
-      'Dynamically generated stats for GitHub READMEs with Cloudflare worker',
-    technologies: ['JavaScript', 'TypeScript', 'Shell'],
-    tags: [
-      'cloudflare-workers',
-      'github-readme-stats',
-      'profile',
-      'readme',
-      'readme-profile-badge',
-    ],
+    description: '',
+    technologies: [],
+    tags: [],
     github_url: 'https://github.com/dytsou/github-readme-stats',
     featured: true,
   },
   {
     id: 'dytsou/shorten-url',
     title: 'Shorten URL',
-    description: 'A modern, fast URL shortener built with Cloudflare Workers',
-    technologies: ['JavaScript', 'CSS', 'HTML'],
-    tags: ['cloudflare-workers', 'shorten-urls'],
+    description: '',
+    technologies: [],
+    tags: [],
     github_url: 'https://github.com/dytsou/shorten-url',
     featured: false,
   },
   {
     id: 'dytsou/raycast-rsync-extension',
     title: 'Raycast Rsync Extension',
-    description:
-      'Transfer files between local and remote servers using rsync with SSH config integration',
-    technologies: ['TypeScript', 'JavaScript'],
-    tags: ['raycast-extension', 'rsync', 'transfer-files'],
+    description: '',
+    technologies: [],
+    tags: [],
     github_url: 'https://github.com/dytsou/raycast-rsync-extension',
     featured: false,
   },
   {
     id: 'dytsou/claude-code-notify',
     title: 'Claude Code Notify',
-    description:
-      'Interactive approval notifications for Claude Code permission requests',
-    technologies: ['Python', 'Shell', 'Makefile'],
-    tags: ['claude-code', 'notification-service'],
+    description: '',
+    technologies: [],
+    tags: [],
     github_url: 'https://github.com/dytsou/claude-code-notify',
     featured: false,
   },
   {
     id: 'dytsou/Dungeon',
     title: 'Dungeon',
-    description:
-      'A text-based dungeon adventure game where players explore rooms, fight monsters, and manage resources to reach the boss room.',
-    technologies: ['C++', 'Makefile'],
+    description: '',
+    technologies: [],
     tags: ['dungeons-and-dragons', 'text-based', 'game'],
     github_url: 'https://github.com/dytsou/Dungeon',
     featured: false,
@@ -160,20 +123,18 @@ export const PROJECTS_CONTENTS: Project[] = [
   {
     id: 'dytsou/resume',
     title: 'Resume Builder',
-    description:
-      'A specialized web application that converts LaTeX resume documents to clean, professional HTML and deploys them to Cloudflare Pages.',
-    technologies: ['JavaScript', 'TeX', 'CSS', 'HTML'],
-    tags: ['html-converter', 'mathjax', 'node-js', 'resume-builder'],
+    description: '',
+    technologies: [],
+    tags: [],
     github_url: 'https://github.com/dytsou/resume',
     featured: false,
   },
   {
     id: 'dytsou/intern-corner-scheduler',
     title: 'Intern Corner Scheduler',
-    description:
-      'A web interface using OR-Tools CP-SAT to generate round-table seating across rounds with fixed hosts, balanced tables, and pair-wise constraints.',
-    technologies: ['JavaScript', 'Python', 'CSS', 'Makefile'],
-    tags: ['round-table', 'scheduler'],
+    description: '',
+    technologies: [],
+    tags: [],
     github_url: 'https://github.com/dytsou/intern-corner-scheduler',
     featured: false,
   },

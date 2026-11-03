@@ -17,7 +17,7 @@ interface Props {
 
 const {
   title = SITE_NAME,
-  description = 'Dong-You Tsou is a Computer Science student at NYCU, specializing in backend development, full-stack engineering, and leading developer communities. Experienced in Go, React.js, Python, and modern web technologies.',
+  description = 'Dong-You Tsou is a Software Engineer specializing in backend development, full-stack engineering, and leading developer communities. Experienced in Go, React.js, Python, and modern web technologies.',
   canonical = `${SITE_URL}${Astro.url.pathname}`,
   showFooter = true,
   privatePage = false,
@@ -83,17 +83,14 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
     </script>
     <meta name="author" content="Dong-You Tsou" />
 
-    <meta property="og:title" content={`${title} - Computer Science Student`} />
+    <meta property="og:title" content={`${title} - Software Engineer`} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content={`${title} - Computer Science Student`}
-    />
+    <meta name="twitter:title" content={`${title} - Software Engineer`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
@@ -111,7 +108,7 @@ const ogImage = 'https://dy.tsou.me/assets/profile.jpeg';
           "https://www.linkedin.com/in/dytsou/",
           "https://resume.tsou.me"
         ],
-        "jobTitle": "Computer Science Student",
+        "jobTitle": "Software Engineer",
         "worksFor": {
           "@type": "Organization",
           "name": "NYCU Software Development Club"

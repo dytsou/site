@@ -72,11 +72,6 @@ export const HEATMAP_THEMES = Object.freeze(['light', 'dark']);
 // Explicit mapping to existing project source IDs, independent of title/URL.
 export const HEATMAP_PROJECTS = Object.freeze([
   Object.freeze({
-    key: 'bevnext-sam2',
-    sourceId: 'dytsou/BEVNeXt-SAM2',
-    label: 'BEVNeXt-SAM2',
-  }),
-  Object.freeze({
     key: 'sodets',
     sourceId: 'dytsou/sodets',
     label: 'SODETS',

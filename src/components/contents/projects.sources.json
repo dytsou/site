@@ -1,12 +1,5 @@
 [
   {
-    "url": "https://github.com/dytsou/BEVNeXt-SAM2",
-    "title": "BEVNeXt-SAM2",
-    "featured": true,
-    "description": "Monocular-video 3D object detection integrating SAM 2 with a BEV baseline; LoRA / depth-context fusion; multi-GPU train/val on nuScenes.",
-    "tags": ["computer-vision", "3d-detection", "sam2", "nuscenes"]
-  },
-  {
     "url": "https://github.com/dytsou/sodets",
     "title": "SODETS",
     "featured": true,

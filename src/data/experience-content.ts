@@ -93,7 +93,7 @@ export const experiences: ExperienceEntry[] = [
     period: 'Sept. 2024 – Aug. 2025',
     location: 'NYCU',
     description: [
-      'Developed BEVNeXt-SAM2 (https://github.com/dytsou/BEVNeXt-SAM2), a monocular-video 3D object detection framework that integrates SAM 2 for temporally consistent segmentation with depth-aware object localisation; evaluated on nuScenes.',
+      'Built a monocular-video 3D object detection framework that integrates SAM 2 for temporally consistent segmentation with depth-aware object localisation; evaluated on nuScenes.',
       'Extended a BEV detection baseline (BEVNeXt) with LoRA-based fine-tuning and BEVDepth-inspired depth-context fusion, aiming to reduce training cost under limited compute and to refine bounding boxes across frames.',
       'Implemented integration modules fusing 2D segmentation with 3D detection, plus a containerised multi-GPU training and validation pipeline on nuScenes.',
       'Advisor: Prof. Ching-Chun Huang',
@@ -161,9 +161,5 @@ export const education: EducationEntry = {
   institution: 'National Yang Ming Chiao Tung University',
   period: 'Sept. 2022 – Jan. 2027 (expected)',
   location: 'Hsinchu, Taiwan',
-  highlights: [
-    'GPA: 3.5/4.3',
-    'Core CS & Mathematics: Linear Algebra; Discrete Mathematics; Probability; Numerical Methods; Intro. to Algorithms; Elementary Graph Theory; Data Structures and OOP; Intro. to OS; Formal Languages (in progress)',
-    'AI & Computer Vision: Intro. to AI; Intro. to ML; AI Capstone; Computer Vision for UAV Autopilot; Selected Topics in Visual Recognition using Deep Learning; Software Testing; Cryptography Engineering',
-  ],
+  highlights: [],
 };
