@@ -1,20 +1,32 @@
 [
   {
+    "url": "https://github.com/dytsou/sodets",
+    "title": "SODETS",
+    "featured": true,
+    "description": "Synthesises observability traces into executable error reproductions with LLMs (course project; QA).",
+    "tags": ["observability", "llm", "qa", "testing"]
+  },
+  {
+    "url": "https://github.com/NYCU-SDC/core-system-backend",
+    "title": "SDC Core System",
+    "featured": true,
+    "description": "Club operations backend (REST APIs, auth, Docker CI/CD, PostgreSQL); top contributor with 752 commits on the public backend.",
+    "tags": ["erp", "golang-system", "rest-api", "docker", "postgresql"]
+  },
+  {
     "url": "https://github.com/kore-ji/koreji-frontend",
     "title": "Koreji",
     "featured": true,
     "tags": ["time-management", "productivity", "mobile-app"]
   },
   {
-    "url": "https://github.com/NYCU-SDC/core-system-backend",
-    "title": "SDC Core System",
-    "featured": true,
-    "description": "Backend infrastructure for NYCU Software Development Club. Built a robust RESTful API system with Go, featuring Docker containerization and PostgreSQL database management.",
-    "tags": ["erp", "golang-system", "rest-api", "docker", "postgresql"]
-  },
-  {
     "url": "https://github.com/dytsou/ProxiMeeting",
     "title": "ProxiMeeting",
+    "featured": true
+  },
+  {
+    "url": "https://github.com/dytsou/when2meet-to-gcal",
+    "title": "when2meet-to-gcal",
     "featured": true
   },
   {
@@ -38,11 +50,6 @@
     "url": "https://github.com/dytsou/github-readme-stats",
     "title": "GitHub README Stats",
     "featured": true
-  },
-  {
-    "url": "https://github.com/dytsou/when2meet-to-gcal",
-    "title": "When2meet to Google Calendar",
-    "featured": false
   },
   {
     "url": "https://github.com/dytsou/shorten-url",

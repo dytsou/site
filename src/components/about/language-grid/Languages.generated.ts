@@ -8,12 +8,16 @@ export const FALLBACK_LANGUAGES: { name: string; color: string }[] = [
     color: '#3572A5',
   },
   {
-    name: 'Shell',
-    color: '#89e051',
+    name: 'TypeScript',
+    color: '#3178c6',
   },
   {
     name: 'CSS',
     color: '#663399',
+  },
+  {
+    name: 'Shell',
+    color: '#89e051',
   },
   {
     name: 'C',
@@ -24,11 +28,7 @@ export const FALLBACK_LANGUAGES: { name: string; color: string }[] = [
     color: '#f34b7d',
   },
   {
-    name: 'TypeScript',
-    color: '#3178c6',
-  },
-  {
-    name: 'Go',
-    color: '#00ADD8',
+    name: 'HTML',
+    color: '#e34c26',
   },
 ];

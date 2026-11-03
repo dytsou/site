@@ -173,7 +173,7 @@ test('project and carousel state agrees with the viewport grouping', () => {
     page: '/projects/',
     target: 'project.vaehor.github',
     layout: 'projects-v1',
-    state: 'slide-3.description-closed.tags-closed',
+    state: 'slide-5.description-closed.tags-closed',
   };
   assert.ok(validateHeatmapEvent(event, { now }));
   assert.ok(
@@ -181,7 +181,7 @@ test('project and carousel state agrees with the viewport grouping', () => {
       {
         ...event,
         viewport: 'medium',
-        state: 'slide-1.description-open.tags-closed',
+        state: 'slide-2.description-open.tags-closed',
       },
       { now }
     )
@@ -191,7 +191,7 @@ test('project and carousel state agrees with the viewport grouping', () => {
       {
         ...event,
         viewport: 'extra-wide',
-        state: 'slide-0.description-closed.tags-open',
+        state: 'slide-1.description-closed.tags-open',
       },
       { now }
     )

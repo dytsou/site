@@ -72,9 +72,9 @@ export const HEATMAP_THEMES = Object.freeze(['light', 'dark']);
 // Explicit mapping to existing project source IDs, independent of title/URL.
 export const HEATMAP_PROJECTS = Object.freeze([
   Object.freeze({
-    key: 'koreji',
-    sourceId: 'kore-ji/koreji-frontend',
-    label: 'Koreji',
+    key: 'sodets',
+    sourceId: 'dytsou/sodets',
+    label: 'SODETS',
   }),
   Object.freeze({
     key: 'sdc-core',
@@ -82,9 +82,19 @@ export const HEATMAP_PROJECTS = Object.freeze([
     label: 'SDC Core System',
   }),
   Object.freeze({
+    key: 'koreji',
+    sourceId: 'kore-ji/koreji-frontend',
+    label: 'Koreji',
+  }),
+  Object.freeze({
     key: 'proximeeting',
     sourceId: 'dytsou/ProxiMeeting',
     label: 'ProxiMeeting',
+  }),
+  Object.freeze({
+    key: 'when2meet',
+    sourceId: 'dytsou/when2meet-to-gcal',
+    label: 'when2meet-to-gcal',
   }),
   Object.freeze({ key: 'vaehor', sourceId: 'dytsou/vaehor', label: 'Vaehor' }),
   Object.freeze({
@@ -101,11 +111,6 @@ export const HEATMAP_PROJECTS = Object.freeze([
     key: 'readme-stats',
     sourceId: 'dytsou/github-readme-stats',
     label: 'GitHub README Stats',
-  }),
-  Object.freeze({
-    key: 'when2meet',
-    sourceId: 'dytsou/when2meet-to-gcal',
-    label: 'When2meet to Google Calendar',
   }),
   Object.freeze({
     key: 'shorten-url',
