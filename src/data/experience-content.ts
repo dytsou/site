@@ -79,7 +79,6 @@ export const experiences: ExperienceEntry[] = [
     description: [
       'Integrated AI-assisted test generation into development workflows and measured test coverage and developer effort against a baseline manual-testing workflow.',
       'Compared AI-generated and manually written tests on coverage and review effort; summarised the findings in a research poster.',
-      'Advisor: Prof. Shih-Kun Huang',
     ],
     icon: 'graduation-cap',
     color: 'yellow',
@@ -96,7 +95,6 @@ export const experiences: ExperienceEntry[] = [
       'Built a monocular-video 3D object detection framework that integrates SAM 2 for temporally consistent segmentation with depth-aware object localisation; evaluated on nuScenes.',
       'Extended a BEV detection baseline (BEVNeXt) with LoRA-based fine-tuning and BEVDepth-inspired depth-context fusion, aiming to reduce training cost under limited compute and to refine bounding boxes across frames.',
       'Implemented integration modules fusing 2D segmentation with 3D detection, plus a containerised multi-GPU training and validation pipeline on nuScenes.',
-      'Advisor: Prof. Ching-Chun Huang',
     ],
     icon: 'graduation-cap',
     color: 'purple',
