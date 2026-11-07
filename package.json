@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^7.1.2",
-    "@tailwindcss/vite": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.4",
     "astro": "^7.4.5",
     "jose": "^6.2.13",
     "lucide-react": "^1.68.0",
@@ -53,7 +53,7 @@
     "@astrojs/check": "^0.9.12",
     "@babel/core": "8.0.9",
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/postcss": "^4.3.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.6.2",
@@ -68,7 +68,7 @@
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.2",
     "sharp": "^0.35.5",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.1",
     "wrangler": "4.155.0"
