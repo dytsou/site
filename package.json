@@ -41,9 +41,9 @@
     "verify:functions": "wrangler pages functions build functions --outdir .wrangler/heatmap-functions --output-routes-path .wrangler/heatmap-routes.json"
   },
   "dependencies": {
-    "@astrojs/react": "^7.1.2",
+    "@astrojs/react": "^7.1.8",
     "@tailwindcss/vite": "^4.3.5",
-    "astro": "^7.4.5",
+    "astro": "^7.4.11",
     "jose": "^6.2.15",
     "lucide-react": "^1.68.0",
     "react": "^19.3.1",
